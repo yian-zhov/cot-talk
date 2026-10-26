@@ -1,0 +1,85 @@
+:root {
+  --bg: #07090e;
+  --bg-2: #0e121b;
+  --panel: #121826;
+  --line: #243045;
+  --text: #e9edf5;
+  --muted: #8b94a8;
+  --faint: #4a5468;
+  --read: #5ee6d0;      /* what the text shows */
+  --hidden: #ffb454;    /* what happens inside */
+  --alarm: #ff6b7a;     /* misbehaviour */
+  --violet: #a78bfa;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-serif: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --ease: cubic-bezier(.2, .7, .1, 1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; background: var(--bg); color: var(--text); overflow: hidden; }
+body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; }
+
+/* 1600 x 900 stage, scaled to fit the window by deck.js */
+.viewport { position: fixed; inset: 0; display: grid; place-items: center; }
+.stage {
+  position: relative; width: 1600px; height: 900px; flex: none;
+  background: radial-gradient(1200px 700px at 80% -10%, #142036 0%, transparent 60%), var(--bg);
+  overflow: hidden; transform-origin: center center;
+}
+
+.slide {
+  position: absolute; inset: 0; padding: 88px 112px 96px;
+  display: flex; flex-direction: column; opacity: 0; visibility: hidden;
+  transition: opacity .5s var(--ease), visibility 0s linear .5s;
+}
+.slide.active { opacity: 1; visibility: visible; transition: opacity .5s var(--ease); }
+.slide .notes { display: none; }
+
+/* typography */
+.kicker { font: 600 18px/1 var(--font-mono); letter-spacing: .18em; text-transform: uppercase; color: var(--read); margin-bottom: 24px; }
+.kicker.warm { color: var(--hidden); }
+.kicker.alarm { color: var(--alarm); }
+h1 { font: 600 92px/1.02 var(--font-serif); letter-spacing: -.02em; }
+h2 { font: 600 56px/1.08 var(--font-serif); letter-spacing: -.015em; max-width: 1300px; }
+h3 { font: 600 28px/1.2 var(--font-sans); }
+p, li { font-size: 26px; line-height: 1.45; color: var(--muted); }
+p strong, li strong { color: var(--text); font-weight: 600; }
+.read { color: var(--read); }
+.hidden-c { color: var(--hidden); }
+.alarm-c { color: var(--alarm); }
+.mono { font-family: var(--font-mono); }
+.cite { position: absolute; left: 112px; bottom: 44px; font: 15px/1.4 var(--font-mono); color: var(--faint); max-width: 1200px; }
+.tag { display: inline-block; font: 600 14px/1 var(--font-mono); letter-spacing: .08em; text-transform: uppercase;
+  padding: 7px 10px; border: 1px solid var(--line); border-radius: 6px; color: var(--muted); }
+
+.row { display: flex; gap: 48px; align-items: stretch; }
+.col { flex: 1; min-width: 0; }
+.grow { flex: 1; }
+.mt-16 { margin-top: 16px; } .mt-24 { margin-top: 24px; } .mt-32 { margin-top: 32px; } .mt-48 { margin-top: 48px; }
+
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; padding: 28px 32px; }
+.quote { font: italic 400 30px/1.4 var(--font-serif); color: var(--text); border-left: 3px solid var(--read); padding-left: 24px; }
+
+/* entrance: children with .rise animate in when the slide gets .in */
+.rise { opacity: 0; transform: translateY(18px); transition: opacity .7s var(--ease), transform .7s var(--ease); transition-delay: var(--d, 0s); }
+.slide.in .rise { opacity: 1; transform: none; }
+
+/* click-through steps */
+.step { opacity: 0; transform: translateY(12px); transition: opacity .5s var(--ease), transform .5s var(--ease); }
+.step.shown { opacity: 1; transform: none; }
+
+/* chrome */
+.progress { position: fixed; left: 0; bottom: 0; height: 3px; background: var(--read); transition: width .4s var(--ease); z-index: 5; }
+.counter { position: absolute; right: 48px; bottom: 40px; font: 15px var(--font-mono); color: var(--faint); }
+.notes-pane {
+  position: fixed; left: 0; right: 0; bottom: 0; max-height: 34vh; overflow: auto; z-index: 6;
+  background: rgba(10, 13, 20, .96); border-top: 1px solid var(--line); padding: 18px 28px;
+  font: 17px/1.5 var(--font-sans); color: var(--text); display: none;
+}
+.notes-pane.open { display: block; }
+.help { position: fixed; top: 14px; right: 18px; font: 13px var(--font-mono); color: var(--faint); z-index: 5; transition: opacity 1s; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0s !important; animation-iteration-count: 1 !important; transition-duration: 0s !important; transition-delay: 0s !important; }
+}

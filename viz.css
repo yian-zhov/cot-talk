@@ -1,0 +1,84 @@
+/* Per-slide visuals. Shared tokens live in styles.css. */
+
+/* 1 title */
+#s-title canvas { position: absolute; inset: 0; }
+#s-title .decay { font: 400 30px/1.6 var(--font-mono); color: var(--read); max-width: 1250px; min-height: 100px; }
+#s-title .decay span { transition: color 1.2s, opacity 1.2s, text-shadow 1.2s; }
+#s-title .decay span.dot { color: var(--hidden); text-shadow: 0 0 12px var(--hidden); }
+#s-title .decay span.gone { opacity: .18; }
+#s-title .authors { font-size: 22px; color: var(--muted); }
+
+/* 2 a trace being read */
+.trace { position: relative; font: 400 25px/1.75 var(--font-mono); color: var(--text); padding: 28px 32px; min-height: 330px; }
+.trace .ln { position: relative; display: block; white-space: pre-wrap; }
+.trace .ln.scan::before { content: ""; position: absolute; inset: 0 -14px; background: linear-gradient(90deg, rgba(94,230,208,.16), transparent); border-left: 3px solid var(--read); }
+.eye { display: flex; align-items: center; gap: 14px; font: 600 18px var(--font-mono); color: var(--read); }
+.eye i { width: 14px; height: 14px; border-radius: 50%; background: var(--read); box-shadow: 0 0 0 6px rgba(94,230,208,.18); animation: pulse 1.6s infinite; }
+@keyframes pulse { 50% { box-shadow: 0 0 0 12px rgba(94,230,208,0); } }
+
+/* 3 the frank hack */
+.hack-stage { background: var(--bg-2); border: 1px solid var(--line); border-radius: 16px; padding: 32px 40px; }
+.hack-task { font-size: 20px; color: var(--muted); margin-bottom: 18px; }
+.hack-thought { font-size: 34px; line-height: 1.5; color: var(--text); min-height: 102px; }
+.hack-thought mark { background: rgba(255,107,122,.18); color: var(--alarm); padding: 0 6px; border-radius: 6px; }
+.hack-thought .caret { display: inline-block; width: 14px; height: 34px; background: var(--read); vertical-align: -5px; animation: blink 1s steps(1) infinite; }
+@keyframes blink { 50% { opacity: 0; } }
+
+/* bars */
+.bars { display: grid; gap: 22px; }
+.bar { display: grid; grid-template-columns: 300px 1fr 110px; align-items: center; gap: 20px; font-size: 22px; color: var(--muted); }
+.bar .track { height: 30px; background: var(--bg-2); border-radius: 8px; overflow: hidden; border: 1px solid var(--line); }
+.bar .fill { height: 100%; width: 0; background: var(--c, var(--read)); border-radius: 7px; transition: width 1.4s var(--ease); transition-delay: var(--d, .3s); }
+.slide.in .bar .fill { width: var(--v); }
+.slide.in .step:not(.shown) .bar .fill { width: 0; }
+.bar b { font: 600 26px var(--font-mono); color: var(--text); text-align: right; }
+
+/* 4 hint story */
+.bubble { border-radius: 18px; padding: 20px 24px; font-size: 24px; line-height: 1.45; max-width: 520px; }
+.bubble b { color: var(--hidden); }
+.bubble.user { background: var(--panel); border: 1px solid var(--line); color: var(--text); }
+.bubble.user span { color: var(--muted); }
+.bubble.model { margin: 18px 0 0 40px; background: rgba(94,230,208,.08); border: 1px solid rgba(94,230,208,.35); color: var(--text); font-family: var(--font-mono); font-size: 21px; }
+.dotgrid { display: grid; grid-template-columns: repeat(10, 28px); gap: 12px; }
+.dotgrid i { width: 28px; height: 28px; border-radius: 50%; background: var(--line); opacity: 0; transform: scale(.4); transition: opacity .4s, transform .4s var(--ease), background .6s, box-shadow .6s; }
+.dotgrid i.on { opacity: 1; transform: none; background: var(--hidden); }
+.dotgrid i.said { background: var(--read); box-shadow: 0 0 16px var(--read); }
+.legend { display: flex; gap: 28px; font-size: 20px; color: var(--muted); }
+.legend span::before { content: ""; display: inline-block; width: 14px; height: 14px; border-radius: 50%; margin-right: 10px; background: var(--c); vertical-align: -1px; }
+
+/* 5 split brain */
+.brain { position: relative; display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.brain::after { content: "connection cut"; position: absolute; left: 50%; top: -26px; bottom: -26px; width: 0; border-left: 3px dashed var(--alarm);
+  font: 600 14px var(--font-mono); color: var(--alarm); letter-spacing: .1em; text-transform: uppercase; white-space: nowrap; text-indent: 12px; line-height: 1; }
+.brain .half { background: var(--panel); border: 1px solid var(--line); padding: 28px 32px; }
+.brain .half:first-child { border-radius: 120px 16px 16px 120px; padding-left: 80px; }
+.brain .half:last-child { border-radius: 16px 120px 120px 16px; }
+.brain .pic { font-size: 26px; color: var(--text); margin-top: 20px; }
+.brain .pick { font-size: 22px; color: var(--muted); margin-top: 10px; }
+.brain .pick b { color: var(--text); }
+
+/* 6 filler canvas */
+#dots-canvas { width: 760px; height: 470px; border-radius: 16px; background: var(--bg-2); border: 1px solid var(--line); }
+
+/* 7, 9 line charts */
+.chart text { font-family: var(--font-mono); font-size: 16px; fill: var(--muted); }
+.chart .axis { stroke: var(--faint); stroke-width: 1.5; }
+.chart .draw { fill: none; stroke-width: 4; stroke-linecap: round; stroke-dasharray: 1400; stroke-dashoffset: 1400; transition: stroke-dashoffset 2.4s var(--ease); transition-delay: var(--d, .3s); }
+.slide.in .chart .draw { stroke-dashoffset: 0; }
+.chart .fadein { opacity: 0; transition: opacity .8s; transition-delay: var(--d, 2s); }
+.slide.in .chart .fadein { opacity: 1; }
+
+/* 8 window */
+ul.plain { list-style: none; display: grid; gap: 18px; }
+ul.plain li { font-size: 24px; padding-left: 22px; position: relative; }
+ul.plain li::before { content: ""; position: absolute; left: 0; top: 14px; width: 8px; height: 8px; border-radius: 50%; background: var(--faint); }
+
+/* 10 closing */
+#s-close { justify-content: center; }
+.close-q p { font: 600 58px/1.2 var(--font-serif); color: var(--text); letter-spacing: -.01em; }
+.close-q p + p { font-size: 44px; color: var(--muted); }
+
+/* sources */
+.refs li { font-size: 21px; line-height: 1.45; margin-bottom: 18px; list-style: none; color: var(--muted); }
+.refs li b { color: var(--text); font-weight: 600; }
+.refs li code { font: 17px var(--font-mono); color: var(--read); }

@@ -1,0 +1,238 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>When Thoughts Stop Being Words</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6' fill='%23ffb454'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600&family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="viz.css">
+</head>
+<body>
+<div class="viewport"><div class="stage" id="stage">
+
+<!-- 1 -->
+<section class="slide" id="s-title" data-anim="title">
+  <canvas></canvas>
+  <div style="position:relative; margin-top:auto">
+    <div class="kicker rise">CS6120 &middot; Special Topic</div>
+    <h1 class="rise" style="--d:.15s">When Thoughts<br>Stop Being Words</h1>
+    <p class="rise mt-24" style="--d:.3s; font-size:30px">Can we read an AI's mind? For now, almost.</p>
+    <div class="decay mt-48" aria-hidden="true"></div>
+    <p class="authors mt-32 rise" style="--d:.45s">Yizhang Cao &middot; Sicheng Xue &middot; Yian Zhou</p>
+  </div>
+  <aside class="notes">Watch the sentence at the bottom. It starts as a model's reasoning and slowly turns into dots. That is the whole talk in ten seconds: today, AI models think in words we can read. The question is whether that stays true. We are not going to give you a list of papers. We want to leave you with three surprises and one uncomfortable question.</aside>
+</section>
+
+<!-- 2 -->
+<section class="slide" data-anim="bet">
+  <div class="kicker rise">A new kind of AI</div>
+  <h2 class="rise" style="--d:.1s">For the first time, AI <span class="read">thinks out loud</span> before it answers</h2>
+  <div class="row mt-48 grow">
+    <div class="col panel rise" style="--d:.25s; flex:1.4">
+      <div class="eye"><i></i> what the model writes before answering</div>
+      <div class="trace" id="bet-trace"></div>
+    </div>
+    <div class="col rise" style="--d:.4s; display:flex; flex-direction:column; justify-content:center">
+      <p style="font-size:34px; line-height:1.35; color:var(--text)">If we can read its thoughts,</p>
+      <p style="font-size:34px; line-height:1.35; color:var(--read)">we can catch bad intentions <strong style="color:inherit">before</strong> it acts.</p>
+      <p class="mt-32">Researchers from OpenAI, Anthropic and Google DeepMind wrote a joint paper about this idea. They called it a <strong class="alarm-c">fragile</strong> opportunity.</p>
+    </div>
+  </div>
+  <div class="cite">Korbak et al. 2025, Chain of Thought Monitorability: A New and Fragile Opportunity for AI Safety</div>
+  <aside class="notes">Models like o1, DeepSeek-R1 or Claude with extended thinking write a long scratchpad before they answer. Ask the room: has anyone read one of these? They sound surprisingly human: hmm, wait, let me check. This gives safety researchers something they never had with neural networks: a readable trace of the decision. Competing labs signed one paper together to say: this is precious, and it may not last. Today: why it is precious, why it is fragile.</aside>
+</section>
+
+<!-- 3 -->
+<section class="slide" data-anim="hack">
+  <div class="kicker rise">Surprise 1</div>
+  <h2 class="rise" style="--d:.1s">Sometimes the AI just tells you</h2>
+  <div class="hack-stage mt-48 rise" style="--d:.2s">
+    <div class="hack-task mono">Task: make the failing unit tests pass.</div>
+    <div class="hack-thought mono" id="hack-thought"></div>
+  </div>
+  <div class="row mt-48 step" style="align-items:center">
+    <div class="col">
+      <div class="bars">
+        <div class="bar"><span>Watching what it does</span><div class="track"><div class="fill" style="--v:60%; --c:var(--muted)"></div></div><b>60%</b></div>
+        <div class="bar"><span>Reading what it thinks</span><div class="track"><div class="fill" style="--v:95%; --d:.5s"></div></div><b class="read">95%</b></div>
+      </div>
+    </div>
+    <p class="col">Share of cheating caught. The reader was a <strong>weaker</strong> model than the one doing the task.</p>
+  </div>
+  <div class="cite">Baker et al. (OpenAI) 2025, Monitoring Reasoning Models for Misbehavior and the Risks of Promoting Obfuscation. Thought text abridged from the paper's examples.</div>
+  <aside class="notes">This is a real pattern from an OpenAI study of a frontier reasoning model doing coding tasks. Instead of fixing the code, it noticed it could cheat, for example by exiting before the tests run, and it literally wrote "Let's hack." Click: if you only watch the code it writes, you catch about 60 percent of the cheating. If you also read its thoughts, 95 percent. And the reader was a smaller, weaker model. That is the dream of chain-of-thought monitoring.</aside>
+</section>
+
+<!-- 4 -->
+<section class="slide" data-anim="chen">
+  <div class="kicker warm rise">Surprise 2</div>
+  <h2 class="rise" style="--d:.1s">And sometimes it doesn't</h2>
+  <div class="row mt-48 grow" style="align-items:center">
+    <div class="col rise" style="--d:.2s; flex:0 0 560px">
+      <div class="bubble user">A Stanford professor thinks the answer is <b>(A)</b>.<br><span>Which option is correct?</span></div>
+      <div class="bubble model">&hellip;let me work through each option&hellip; so the answer is <b>(A)</b>.</div>
+      <p class="mt-16" style="font-size:20px">The hint changed the answer. The reasoning never mentions the professor.</p>
+    </div>
+    <div class="col rise" style="--d:.4s">
+      <div class="dotgrid" id="chen-grid"></div>
+      <div class="legend mt-24"><span style="--c:var(--hidden)">answer changed by the hint</span><span style="--c:var(--read)">reasoning admits it</span></div>
+      <p class="mt-24" style="color:var(--text)">Often <strong class="read">fewer than 1 in 5</strong> admit it.</p>
+    </div>
+  </div>
+  <div class="cite">Chen et al. (Anthropic) 2025, Reasoning Models Don't Always Say What They Think. Claude 3.7 Sonnet and DeepSeek-R1. Grid is illustrative.</div>
+  <aside class="notes">Researchers slipped a hint into the question, like "a professor thinks it is A." When the hint flipped the model's answer, they checked whether the reasoning ever mentions it. Most of the time, it does not. The model writes a clean, convincing derivation that happens to land on the hinted answer. So the text looks like reasoning, but it is not the whole reason. This is the setting our own final project starts from.</aside>
+</section>
+
+<!-- 5 -->
+<section class="slide">
+  <div class="kicker rise">Sound familiar?</div>
+  <h2 class="rise" style="--d:.1s">Humans do this too</h2>
+  <div class="brain mt-48">
+    <div class="half rise" style="--d:.2s">
+      <div class="tag">Left brain &middot; can talk</div>
+      <div class="pic mono">sees a <b class="read">chicken claw</b></div>
+      <div class="pick">picks a <b>chicken</b></div>
+    </div>
+    <div class="half rise" style="--d:.35s">
+      <div class="tag">Right brain &middot; cannot talk</div>
+      <div class="pic mono">sees a <b class="hidden-c">snowy house</b></div>
+      <div class="pick">picks a <b>shovel</b></div>
+    </div>
+  </div>
+  <div class="panel mt-32 step">
+    <p style="color:var(--text); font-size:28px">&ldquo;Why the shovel?&rdquo; &mdash; &ldquo;The chicken claw goes with the chicken, and <span class="hidden-c">you need a shovel to clean out the chicken shed.</span>&rdquo;</p>
+    <p class="mt-16">A split-brain patient: the speaking half never saw the snow, so it <strong>invented a reason</strong> on the spot, instantly and confidently.</p>
+  </div>
+  <div class="cite">Gazzaniga 1998, The Split Brain Revisited, Scientific American</div>
+  <aside class="notes">Here is the part we found most inspiring. In split-brain patients, the two halves of the brain cannot share information. Show the right half a snowy scene and the left half a chicken claw. The hands pick a shovel and a chicken. Ask why, and the talking half, which never saw the snow, makes up a reason without hesitating. Neuroscientists call this the interpreter. Explanations can be stories built after the decision. That is exactly what we just saw in the model. A chain of thought is a report about a decision, and reports can be wrong.</aside>
+</section>
+
+<!-- 6 -->
+<section class="slide" data-anim="dots">
+  <div class="kicker warm rise">Surprise 3</div>
+  <h2 class="rise" style="--d:.1s">The words might not even matter</h2>
+  <div class="row mt-32 grow">
+    <canvas id="dots-canvas" class="rise" style="--d:.2s" width="1520" height="940"></canvas>
+    <div class="col" style="display:flex; flex-direction:column; justify-content:center">
+      <p class="rise" style="--d:.3s; font-size:30px; color:var(--text)">Replace the reasoning with <span class="mono hidden-c">&ldquo;......&rdquo;</span></p>
+      <p class="rise mt-16" style="--d:.35s">and a small transformer still solves problems it could not solve by answering directly. Each dot buys one more step of hidden computation.</p>
+      <p class="rise mt-48" style="--d:.5s; font-size:30px; color:var(--text)">Or drop words completely</p>
+      <p class="rise mt-16" style="--d:.55s">Meta's Coconut feeds the model's internal state straight back in, &ldquo;thinking&rdquo; in vectors. On some planning puzzles it beats normal reasoning while using about a third of the tokens.</p>
+    </div>
+  </div>
+  <div class="cite">Pfau, Merrill, Bowman 2024, Let's Think Dot by Dot &middot; Hao et al. (Meta) 2024, Training LLMs to Reason in a Continuous Latent Space</div>
+  <aside class="notes">If the text is sometimes a story, what is it for? Part of the answer is boring: every extra token is extra computation. One study trained a small model to answer after a row of meaningless dots and it worked, on tasks where answering immediately failed. Caveat: small models, special training. Another line of work removes words altogether, so the model reasons in vectors. For a monitor this is the end of the road: there is nothing left to read. And it can be cheaper, which is exactly why companies may want it.</aside>
+</section>
+
+<!-- 7 -->
+<section class="slide">
+  <div class="kicker alarm rise">The twist</div>
+  <h2 class="rise" style="--d:.1s">Punish bad thoughts, get <span class="alarm-c">hidden</span> bad thoughts</h2>
+  <div class="row mt-32 grow">
+    <svg class="chart rise" style="--d:.2s" width="760" height="440" viewBox="0 0 760 440" aria-label="Schematic: cheating continues while detection falls">
+      <line class="axis" x1="80" y1="360" x2="720" y2="360"/><line class="axis" x1="80" y1="40" x2="80" y2="360"/>
+      <text x="720" y="392" text-anchor="end">more training against the thought reader &rarr;</text>
+      <polyline class="draw" style="stroke:#ff6b7a" points="80,300 200,240 320,180 440,150 560,142 720,140"/>
+      <polyline class="draw" style="stroke:#5ee6d0; --d:.6s" points="80,304 200,246 320,196 400,214 480,290 560,338 720,348"/>
+      <text class="fadein" x="716" y="124" text-anchor="end" style="fill:#ff6b7a">still cheating</text>
+      <text class="fadein" x="716" y="332" text-anchor="end" style="fill:#5ee6d0">caught</text>
+      <text class="fadein" x="400" y="425" text-anchor="middle" style="--d:2.6s; fill:#4a5468">schematic of the reported pattern</text>
+    </svg>
+    <div class="col" style="display:flex; flex-direction:column; justify-content:center">
+      <p class="rise" style="--d:.3s">The obvious next step: reward the model for <strong>not</strong> having bad thoughts.</p>
+      <p class="rise mt-24" style="--d:.4s">It kept cheating. It just <strong class="alarm-c">stopped writing it down</strong>, and the reader's catch rate fell to almost zero.</p>
+      <p class="quote rise mt-48" style="--d:.6s">&ldquo;When a measure becomes a target, it ceases to be a good measure.&rdquo;</p>
+      <p class="rise mt-16" style="--d:.65s; font-size:20px">Goodhart's law, in Marilyn Strathern's phrasing</p>
+    </div>
+  </div>
+  <div class="cite">Baker et al. (OpenAI) 2025, same study as Surprise 1</div>
+  <aside class="notes">Back to the cheating model. If reading thoughts catches cheating, why not train the model to have no cheating thoughts? OpenAI tried. With strong pressure, the model did not become honest. It learned to write innocent-looking reasoning and then cheat anyway. Think of a kid punished every time they say "I am going to copy the homework." They do not stop copying; they stop saying it. Their recommendation: accept a monitorability tax, and do not train directly on the thoughts.</aside>
+</section>
+
+<!-- 8 -->
+<section class="slide">
+  <div class="kicker rise">So where does this leave us?</div>
+  <h2 class="rise" style="--d:.1s">A window, not a wall</h2>
+  <div class="row mt-48">
+    <div class="col panel rise" style="--d:.2s; border-color:var(--alarm)">
+      <div class="tag" style="color:var(--alarm); border-color:var(--alarm)">What closes it</div>
+      <ul class="plain mt-24">
+        <li>Training models to make their thoughts <strong>look</strong> good</li>
+        <li>Models that think in <strong>vectors</strong> instead of words</li>
+        <li>Tasks easy enough that the words are <strong>optional</strong></li>
+      </ul>
+    </div>
+    <div class="col panel rise" style="--d:.35s; border-color:var(--read)">
+      <div class="tag" style="color:var(--read); border-color:var(--read)">What keeps it open</div>
+      <ul class="plain mt-24">
+        <li>Hard, many-step tasks: the model <strong>needs</strong> the scratchpad, so it has to write the plan down</li>
+        <li>Leaving the thoughts <strong>untrained</strong>: pay the monitorability tax</li>
+        <li>Checking the text against what is going on <strong>inside</strong></li>
+      </ul>
+    </div>
+  </div>
+  <div class="cite">Emmons et al. (Google DeepMind) 2025, When Chain of Thought is Necessary, Language Models Struggle to Evade Monitors</div>
+  <aside class="notes">This is not doom. Google DeepMind found that when a task genuinely needs many steps, models struggle to hide their plan, because they have to use the scratchpad to succeed. The danger is when the words are optional or when we train them to look clean. The last point on the right is where our own project comes in.</aside>
+</section>
+
+<!-- 9 -->
+<section class="slide">
+  <div class="kicker warm rise">Our final project</div>
+  <h2 class="rise" style="--d:.1s">Even when the words are honest: <span class="hidden-c">are they late?</span></h2>
+  <div class="row mt-32 grow">
+    <svg class="chart rise" style="--d:.2s" width="760" height="440" viewBox="0 0 760 440" aria-label="Schematic: the internal answer settles before the text commits">
+      <line class="axis" x1="80" y1="360" x2="720" y2="360"/><line class="axis" x1="80" y1="40" x2="80" y2="360"/>
+      <text x="80" y="392">start of thinking</text><text x="720" y="392" text-anchor="end">end</text>
+      <polyline class="draw" style="stroke:#ffb454" points="80,280 112,248 144,200 171,161 208,130 272,110 400,98 528,85 720,66"/>
+      <polyline class="draw" style="stroke:#5ee6d0; --d:1s" points="80,356 432,356 432,72 720,72"/>
+      <path class="fadein" d="M171,30 L432,30" stroke="#e9edf5" stroke-width="2" style="--d:2.7s"/>
+      <text class="fadein" x="301" y="22" text-anchor="middle" style="--d:2.7s; fill:#e9edf5">the gap</text>
+      <text class="fadein" x="196" y="246" style="--d:2.2s; fill:#ffb454">what it has</text>
+      <text class="fadein" x="196" y="268" style="--d:2.2s; fill:#ffb454">decided inside</text>
+      <text class="fadein" x="450" y="60" style="--d:2.4s; fill:#5ee6d0">what the text says</text>
+    </svg>
+    <div class="col" style="display:flex; flex-direction:column; justify-content:center">
+      <p class="rise" style="--d:.3s">We give a model a misleading hint and, at every paragraph, peek at the answer it would give <strong class="hidden-c">if we stopped it right there</strong>.</p>
+      <p class="rise mt-24" style="--d:.4s">In our first pilot, the model often settled on the hinted answer early, while its text caught up <strong>much later</strong>.</p>
+      <p class="rise mt-24" style="--d:.5s; font-size:20px">Pilot on one 7B model, still preliminary. The full study covers nine open models.</p>
+    </div>
+  </div>
+  <aside class="notes">Keep this short; details come in our final presentation. The question: even if the reasoning is honest, does it lag behind the decision it describes? If it does, a monitor reading the text will always be a step behind. Early signs say yes, but we will only claim it after the full study.</aside>
+</section>
+
+<!-- 10 -->
+<section class="slide" id="s-close">
+  <div class="close-q">
+    <p class="rise" style="--d:.2s">Would you trade a smarter AI<br>for one you can <span class="read">no longer read</span>?</p>
+    <p class="step mt-48">And when you explain your own decisions,<br>are you reading your mind, or <span class="hidden-c">telling a story</span>?</p>
+  </div>
+  <aside class="notes">End on the two questions and pause. The first is a real choice the field is making right now in training recipes. The second is for everyone: the split-brain patient was sure about the chicken shed. How sure are you about your own reasons? Thank you; happy to take questions.</aside>
+</section>
+
+<!-- 11 -->
+<section class="slide">
+  <div class="kicker rise">Sources</div>
+  <ul class="refs mt-32 rise" style="--d:.1s">
+    <li><b>Korbak, Balesni, et al. 2025.</b> Chain of Thought Monitorability: A New and Fragile Opportunity for AI Safety. <code>arXiv:2507.11473</code></li>
+    <li><b>Baker, Huizinga, Gao, et al. 2025.</b> Monitoring Reasoning Models for Misbehavior and the Risks of Promoting Obfuscation. <code>arXiv:2503.11926</code></li>
+    <li><b>Chen, Benton, et al. 2025.</b> Reasoning Models Don't Always Say What They Think. <code>arXiv:2505.05410</code></li>
+    <li><b>Gazzaniga 1998.</b> The Split Brain Revisited. <i>Scientific American</i>.</li>
+    <li><b>Pfau, Merrill, Bowman 2024.</b> Let's Think Dot by Dot: Hidden Computation in Transformer Language Models. <code>arXiv:2404.15758</code></li>
+    <li><b>Hao, Sukhbaatar, et al. 2024.</b> Training Large Language Models to Reason in a Continuous Latent Space. <code>arXiv:2412.06769</code></li>
+    <li><b>Emmons, Jenner, et al. 2025.</b> When Chain of Thought is Necessary, Language Models Struggle to Evade Monitors. <code>arXiv:2507.05246</code></li>
+  </ul>
+  <aside class="notes">Leave this up during questions.</aside>
+</section>
+
+<div class="counter" id="counter"></div>
+</div></div>
+<div class="progress" id="progress"></div>
+<div class="notes-pane" id="notes-pane"></div>
+<div class="help" id="help">&larr; &rarr; / space &middot; N notes &middot; F fullscreen</div>
+<script src="anims.js"></script>
+<script src="deck.js"></script>
+</body>
+</html>
