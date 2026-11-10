@@ -21,6 +21,8 @@
   display: grid; row-gap: var(--sp-1); padding-left: var(--sp-6);
   border-left: var(--stroke-2) solid var(--tone, var(--c-line));
 }
+/* The label looks as it does in the corner of every slide (.dk-speaker), where it stands alone. */
+.p1-title__label { font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
 .p1-title__speaker { font: 600 var(--fs-2)/var(--lh-2) var(--font-sans); color: var(--c-text); }
 .p1-title__part {
   font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase;

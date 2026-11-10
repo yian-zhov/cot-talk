@@ -3,7 +3,8 @@
 // Shared file, loaded after shared/facts.js. SPEC.md section 2 lists where each one returns.
 Deck.motifs = Object.freeze({
   // The illustrative thought of the title slide: the arithmetic that slide 2 types into its
-  // terminal. Slide 1 lets it decay into dots; slide 11 gathers the dots back into it once
+  // terminal. Slide 1 lets it decay into dots; slide 10 shows it once per checkpoint of a
+  // training run, in words and then in dots; slide 11 gathers the dots back into it once
   // more before they turn into the closing question.
   thought: '17 × 20 = 340. 17 × 4 = 58. Hmm, wait: 68. So 340 + 68 = 408.',
 

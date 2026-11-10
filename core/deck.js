@@ -51,8 +51,16 @@
 
   const words = (html) => String(html).replace(/<[^>]*>/g, ' ').trim().split(/\s+/).filter(Boolean);
 
+  // What every part gives: `name` for the kicker, `speaker` (the real name) for the title
+  // slide, `label` for the corner and the hand-off chip, which show it in place of the name.
+  const PART_FIELDS = Object.freeze(['name', 'speaker', 'label']);
+
   const configure = (config) => {
     if (!config || !config.title || !config.parts) throw fail('Deck.configure needs { title, parts }');
+    Object.entries(config.parts).forEach(([n, part]) => {
+      const missing = PART_FIELDS.filter((field) => !part || typeof part[field] !== 'string' || !part[field].trim());
+      if (missing.length) throw fail(`Deck.configure: part ${n} has ${missing.map((field) => `no ${field}`).join(', ')}`);
+    });
     meta = Object.freeze({ ...config, parts: Object.freeze({ ...config.parts }) });
   };
 

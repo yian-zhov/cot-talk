@@ -1,4 +1,4 @@
-// Part 2: The cracks (Sicheng Xue). Slides 5-7.
+// Part 2: The cracks (Speaker 2). Slides 5-7.
 // SPEC.md section 4 describes the slides; parts/sample.js shows the API.
 // Every number and quote is read from the fact table (shared/facts.js, and the facts below).
 (() => {
@@ -25,21 +25,34 @@
     },
   });
 
-  // Facts that only slide 7 needs: the sentences behind "no token is sampled" (vectors) and
+  // Facts that only slide 7 needs: the sentences behind "nothing written" (vectors) and
   // "trained for this" (vectors; for dots it is 'pfau.supervision'). Each was searched for
   // as a whole string in the arXiv HTML full text (2412.06769v4, the copy downloaded on
-  // 2026-11-09). 'p1.korbak_sampling', registered in parts/part1.js, is behind "models
-  // sample tokens" in the line that returns to slide 3.
+  // 2026-11-09). The last three are behind the few words that explain a name on screen:
+  // Coconut (the caption of click 2), ProsQA ("Logic questions") and 3SUM ("a synthetic
+  // puzzle"); they were searched for the same way on 2026-11-10, in the copies of
+  // 2412.06769 and 2404.15758 downloaded on 2026-11-09.
   Deck.addFacts({
     'p2.hao_not_decoded': { text: 'Rather than decoding this into a word token', src: 'hao2024', where: 'abstract' },
     'p2.hao_paradigm': { text: 'a simple modification to the traditional CoT process', src: 'hao2024', where: 'Sec. 1' },
     'p2.hao_training': { text: 'a multi-stage training curriculum', src: 'hao2024', where: 'Sec. 3' },
+    'p2.hao_last_state': {
+      text: 'Coconut directly feeds the last hidden state (a continuous thought) as the input embedding for the next token',
+      src: 'hao2024', where: 'Sec. 1',
+    },
+    'p2.hao_prosqa': { text: 'a new logical reasoning dataset', src: 'hao2024', where: 'Sec. 4.1' },
+    'p2.pfau_synthetic': { text: 'We construct two synthetic datasets, 3SUM', src: 'pfau2024', where: 'Sec. 1' },
+    'p2.pfau_filler': { text: 'meaningless filler tokens (e.g., ‘……’) in place of a chain of thought', src: 'pfau2024', where: 'abstract' },
   });
-  // Facts that only slide 7's main line needs: why the dots do not take slide 3 back. A
-  // chain in which a later step uses an earlier result cannot run on dots, which add
-  // computation in parallel only. Each was searched for as a whole string in the arXiv HTML
-  // full text (2404.15758v1, the copy downloaded on 2026-11-09); 'pfau.parallel' and
-  // 'pfau.current_llms' in shared/facts.js say the same from two more sides.
+  // Facts behind slide 7's main line, which says how the slide squares with slide 3: the
+  // models of this slide are small and trained for it ('pfau.model', 'pfau.supervision',
+  // 'hao.base', 'p2.hao_training'), and slide 3's claim is about today's large models
+  // ('korbak.externalized', 'korbak.today'; 'pfau.current_llms' says of them that they "are
+  // unlikely to benefit from filler tokens"). The two below say why dots do not take slide 3
+  // back: a chain in which a later step uses an earlier result cannot run on dots, which add
+  // computation in parallel only. They were the main line's reason at click 1 until
+  // 2026-11-10 and are kept for questions. Each was searched for as a whole string in the
+  // arXiv HTML full text (2404.15758v1, the copy downloaded on 2026-11-09).
   Deck.addFacts({
     'p2.pfau_serial': {
       text: 'These serial chains of thought require caching of intermediate results (dimension-wise 3SUMs) and as such cannot be parallelized across filler tokens.',
@@ -607,18 +620,15 @@
   // serial steps ('p2.pfau_serial'). With vectors there is a chain again, but its way back
   // down is the last state itself ('hao.feedback'): no token is sampled
   // ('p2.hao_not_decoded'; the paper calls it "a simple modification to the traditional CoT
-  // process", not a new architecture), and nothing is written. Both models were trained for
-  // it ('pfau.supervision', 'p2.hao_training'). Each step leaves one conclusion (its cue),
-  // each task one pair of bars, and under the picture, in the size of body text, stands the
-  // slide's main line: slide 3 still holds for today's models. What follows its colon is the
-  // reason for the picture on screen: the dots' at click 1, the vectors' at click 2. The
-  // two reasons share one place after the opening words, which stay as they are.
-  const HOLDS = Object.freeze({
-    dots: 'dots add parallel computation, not serial steps.',
-    vectors: `even a ${said('hao.base')} trained for vectors loses at math.`,
-  });
-  const holdsHtml = () => `<p class="p2-dots__holds"><b>Slide 3</b> still holds for today’s models:
-          <span class="p2-dots__why">${Object.entries(HOLDS).map(([way, why]) => `<span data-why="${way}">${why}</span>`).join('')}</span></p>`;
+  // process", not a new architecture), and nothing is written: this is Coconut, named in the
+  // caption ('p2.hao_last_state'). Both models were trained for it ('pfau.supervision',
+  // 'p2.hao_training'). Each step leaves one conclusion (its cue), each task one pair of
+  // bars, and under the picture, in the size of body text, stands the slide's main line: how
+  // the title squares with slide 3. The title is about small models trained for it; slide 3
+  // is about today's large models, which still need the words for hard problems. The line
+  // says both, in that order, from click 1 on, and does not infer the one from the other.
+  const holdsHtml = () => `<p class="p2-dots__holds">These are small models trained for it.
+          Today’s large models still need words for hard problems (<b>slide 3</b>).</p>`;
   const DOTS = Object.freeze({
     shape: Object.freeze({ cols: 8, rows: 4 }),
     tokens: Object.freeze(['Q', 'first', 'sum', 'each', 'pair', 'then', 'check', 'so']),
@@ -696,8 +706,8 @@
       <div class="p2-dots__machine">
         <div class="p2-dots__ways">
           <span data-way="words" data-tone="read"><i></i>slide 3: every step comes back down through a written token</span>
-          <span data-way="dots" data-tone="hidden"><i></i>a dot carries nothing down: the columns work in parallel</span>
-          <span data-way="vectors" data-tone="hidden"><i></i>no token is sampled: the last state is fed straight back in</span>
+          <span data-way="dots" data-tone="hidden"><i></i>filler dots in place of words carry nothing down: columns work in parallel</span>
+          <span data-way="vectors" data-tone="hidden"><i></i>Coconut: nothing written; the last hidden state is the next input</span>
         </div>
         <div class="p2-label p2-dots__answer-label">Answer</div>
         <div class="p2-dots__answer">
@@ -730,16 +740,16 @@
       </div>
       <div class="p2-dots__cards">
         <div class="p2-dots__card" data-card="dots">
-          <div class="p2-label">Dots instead of words</div>
-          <div class="p2-dots__task">3SUM: do any three inputs sum to zero (mod 10)?</div>
+          <div class="p2-label">Filler dots instead of words</div>
+          <div class="p2-dots__task">A synthetic puzzle (3SUM)</div>
           ${barsHtml('puzzle')}
           ${kit.legend({ key: 'dots-model', text: `${said('pfau.model').replace('-parameter', ' parameters')}, trained for this` })}
         </div>
         <div class="p2-dots__card" data-card="vectors">
           <div class="p2-label">Vectors instead of words</div>
-          <div class="p2-dots__task">Logic (${said('hao.task')}): <b data-tone="hidden">vectors win</b></div>
+          <div class="p2-dots__task">Logic questions (${said('hao.task')}): <b data-tone="hidden">vectors win</b></div>
           ${barsHtml('logic')}
-          <div class="p2-dots__task">Math (GSM8k): <b data-tone="read">written steps win</b></div>
+          <div class="p2-dots__task">School math (GSM8k): <b data-tone="read">written steps win</b></div>
           ${barsHtml('math')}
           ${kit.legend({ key: 'vectors-model', text: `${said('hao.base')}, trained for this` })}
         </div>
@@ -854,8 +864,8 @@
     fill.tween('[data-verdict="dots"]', { opacity: [0, 1], scale: [1.4, 1] }, { at: reread + 1500, dur: dur.enter, ease: 'back' });
     fill.tween('[data-card="dots"]', { opacity: [0, 1], y: [cardDrop + 16, cardDrop] }, { at: again + 900, dur: dur.enter });
     grow(fill, 'puzzle', again + 1200, whole);
-    // Last, with the monitor's verdict: how this squares with slide 3. The line stays, and
-    // the next click changes its reason.
+    // Last, with the monitor's verdict: how this squares with slide 3. The line stays as it
+    // is through the next click.
     fill.tween('.p2-dots__holds', { opacity: [0, 1] }, { at: reread + 1500, dur: dur.enter });
 
     // Click 2: no text row at all. Each column hands its last state to the next one as a
@@ -884,11 +894,6 @@
     latent.show('[data-card="vectors"]', { at: solved + 600 });
     grow(latent, 'logic', solved + 1000, oneDecimal);
     grow(latent, 'math', solved + 1500, oneDecimal);
-    // With the monitor's verdict, as at click 1: the main line keeps its place and its
-    // opening words, and the reason after the colon becomes the one for the vectors (the
-    // old one leaves before the new one arrives, as the captions above the machine do).
-    latent.tween('[data-why="dots"]', { opacity: [1, 0] }, { at: blind + 1000, dur: dur.micro });
-    latent.tween('[data-why="vectors"]', { opacity: [0, 1] }, { at: blind + 1000 + dur.micro, dur: dur.enter });
     // Last, the question that hands over to Part 3, in that part's color.
     latent.tween('.p2-dots__next', { opacity: [0, 1] }, { at: solved + 2600, dur: dur.enter });
     latent.hold(400);
@@ -897,7 +902,10 @@
   Deck.register({
     id: 'p2-dots',
     part: 2,
-    title: 'In small models, thoughts already stop being words',
+    // The title says what the two papers show; the main line under the picture says why
+    // that leaves slide 3 standing: these models are small and trained for it, slide 3 is
+    // about today's large models.
+    title: 'Small models can learn to reason without words',
     cues: [
       { text: 'Written words: the monitor reads every step', step: 0, at: 1600 },
       { text: 'Dots: still the right answer, with no words to read', step: 1, at: 2600 },

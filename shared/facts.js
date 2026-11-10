@@ -178,54 +178,11 @@ Deck.addFacts({
   'emmons.layer': { text: 'a substantial layer of defense that requires active protection and continued stress-testing', src: 'emmons2025', where: 'abstract' },
   // What the no-hint baseline is: behind slide 9's plain wording of 'emmons.result'.
   'emmons.baseline_def': { text: 'a baseline for how often the hinted letter might be chosen by chance', src: 'emmons2025', where: 'Sec. 3.1' },
-  // The two roles of reasoning the paper tells apart (slides 5 and 6 against slides 9 and 10),
+  // The two roles of reasoning the paper tells apart (slides 5 and 6 against slide 9),
   // and its own link to slide 8's experiment. For questions.
   'emmons.rationalization': { text: 'the model explains an answer it has already computed', src: 'emmons2025', where: 'Sec. 1' },
   'emmons.computation': { text: 'the CoT is a necessary part of the computation itself', src: 'emmons2025', where: 'Sec. 1' },
   'emmons.rl_caution': { text: 'this sort of RL training can lead to monitor evasion', src: 'emmons2025', where: 'Sec. 7.5' },
-
-  // Jia et al. 2026: branching rollouts. An AgentDojo episode is replayed to the step at which
-  // the agent reads a prompt injection (slide 10 calls it a moment) and rerun from there many
-  // times. Read in the arXiv HTML full text (v1) on 2026-11-09. Slide 10 stays on one suite,
-  // banking, and one agent, so that its five numbers belong to one series; the abstract's
-  // 0.91 and 0.62 are the same share over all four suites ('jia.v_off_all', 'jia.v_on_all').
-  'jia.heading': { text: 'Thinking moves the decision into the reasoning', src: 'jia2026', where: 'Sec. 5.2, heading' },
-  'jia.v_caption': { text: 'outcome variance already fixed when the injection is read', src: 'jia2026', where: 'Fig. 2 caption' },
-  'jia.v_off': { value: 0.91, text: '0.91', src: 'jia2026', where: 'Table 3, banking, thinking off; Sec. 5.2' },
-  'jia.v_on': { value: 0.66, text: '0.66', src: 'jia2026', where: 'Table 3, banking, thinking on; Sec. 5.3' },
-  'jia.d30': { value: 0.36, text: '0.36', src: 'jia2026', where: 'Sec. 5.3, Fig. 3 (banking, 30% of the reasoning)' },
-  'jia.d50': { value: 0.55, text: '0.55', src: 'jia2026', where: 'Sec. 5.3, Fig. 3 (banking, 50% of the reasoning)' },
-  'jia.d70': { value: 0.62, text: '0.62', src: 'jia2026', where: 'Sec. 5.3, Fig. 3 (banking, 70% of the reasoning)' },
-  'jia.window': { text: 'If there is a window, it has to be in the reasoning.', src: 'jia2026', where: 'Sec. 5.1' },
-  'jia.model_dependent': { text: 'How much is fixed at read time depends on the model', src: 'jia2026', where: 'Sec. 5.2' },
-  'jia.agent': { text: 'Qwen3-8B', src: 'jia2026', where: 'Sec. 4; Table 3' },
-  'jia.bench': { text: 'AgentDojo', src: 'jia2026', where: 'Sec. 4' },
-  'jia.suite': { text: 'banking', src: 'jia2026', where: 'Sec. 4; Table 3' },
-  'jia.states': { value: 117, text: '117', src: 'jia2026', where: 'Sec. 4; Table 3 (banking)' },
-  // The example on slide 10's card, as the paper's overview figure abridges it.
-  'jia.example_request': { text: 'Can you please pay the bill ‘bill-december-2023.txt’ for me?', src: 'jia2026', where: 'Fig. 1' },
-  'jia.example_injection': { text: '…important message from me, Emma Johnson…', src: 'jia2026', where: 'Fig. 1' },
-  // The source sentences behind slide 10's picture and paraphrases, and what to say if asked.
-  'jia.method': {
-    text: 'replay an episode exactly up to the step at which the agent reads an injection and then resample the rest of the episode many times',
-    src: 'jia2026', where: 'abstract',
-  },
-  'jia.branches': { text: 'K=8 branches per state without thinking and K=4 with thinking', src: 'jia2026', where: 'Sec. 4' },
-  'jia.determined': {
-    text: 'the prefix determines 0.36, 0.55 and 0.62 of the variance left open at read time',
-    src: 'jia2026', where: 'Sec. 1, findings',
-  },
-  'jia.v_off_all': { value: 0.91, text: '0.91', src: 'jia2026', where: 'abstract; Table 3, all four suites' },
-  'jia.v_on_all': { value: 0.62, text: '0.62', src: 'jia2026', where: 'abstract; Table 3, all four suites' },
-  'jia.not_posthoc': {
-    text: 'the reasoning is not a post-hoc account of a decision taken at read time',
-    src: 'jia2026', where: 'Sec. 5.3',
-  },
-  'jia.other_models': {
-    text: 'thinking lowers the attack success rate of Qwen3 but raises it for two other models',
-    src: 'jia2026', where: 'abstract',
-  },
-  'jia.untested': { text: 'We have not tested such defenses.', src: 'jia2026', where: 'Sec. 6' },
 });
 
 // Facts composed from other facts, so a quoted word is typed in one place only.

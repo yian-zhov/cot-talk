@@ -154,99 +154,102 @@
 /* After the quote, on the same line: whose sentence it is. */
 .p3-nec__by { margin-left: var(--sp-3); font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); white-space: nowrap; }
 
-/* ---- slide 10, p3-window: one moment rerun many times, with thinking off and on ---- */
-.p3-win {
-  height: 100%; display: grid; grid-template-columns: 520px 1160px; column-gap: var(--sp-12);
-  grid-template-rows: minmax(0, 1fr) auto; row-gap: var(--sp-4);
+/* ---- slide 10, p3-track: one training run, and what ships once monitorability counts ---- */
+.p3-trk { height: 100%; display: grid; align-content: center; row-gap: var(--sp-8); }
+/* The lead and the card with the run. The timeline moves them as one. The lead's first line
+   says that the run is a drawing, with a tag in the amber of the footer tags that mark what
+   is ours; its second line explains the two terms. */
+.p3-trk__main { display: grid; row-gap: var(--sp-4); }
+.p3-trk__lead { display: grid; row-gap: var(--sp-1); }
+.p3-trk__not { display: flex; align-items: baseline; gap: var(--sp-4); font: 500 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-text); }
+.p3-trk__tag {
+  flex: none; padding: 0 var(--sp-3); border: var(--stroke-2) solid var(--c-hidden); border-radius: var(--radius-1);
+  font: 600 var(--fs-1)/var(--lh-1) var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--c-hidden);
 }
-.p3-win__side, .p3-win__main { align-self: center; }
+.p3-trk__terms { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
+.p3-trk__card { position: relative; padding: var(--sp-6); }
 
-/* Left: what is new in this setting, the moment every rerun starts from, and under it which
-   agent and which tasks the two numbers are for. */
-.p3-win__side { display: grid; row-gap: var(--sp-4); }
-.p3-win__bridge { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text); }
-.p3-win__moment { position: relative; display: grid; row-gap: var(--sp-3); padding: var(--sp-6); }
-.p3-win__turn { display: grid; row-gap: var(--sp-1); padding-left: var(--sp-4); border-left: var(--stroke-2) solid var(--c-line); }
-.p3-win__turn--planted { border-left-color: var(--c-alarm); }
-.p3-win__who { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
-.p3-win__said { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text); }
-.p3-win__planted { font: 400 var(--fs-0)/var(--lh-0) var(--font-mono); color: var(--c-alarm); }
-.p3-win__how { font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text); }
-.p3-win__scope { margin-top: var(--sp-2); font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
-
-/* Right: the reruns. Geometry is set from the timeline (parts/part3.js, the paint of slide 10). */
-.p3-win__runs { position: relative; height: 344px; }
-.p3-win__svg { display: block; overflow: visible; }
-.p3-win__axis { font: 400 var(--fs-0)/1 var(--font-sans); fill: var(--c-dim); text-anchor: middle; }
-.p3-win__axis--zone { fill: var(--c-read); }
-.p3-win__zone {
-  fill: color-mix(in srgb, var(--c-read) calc(8% + var(--glow, 0) * 16%), transparent);
-  stroke: color-mix(in srgb, var(--c-read) 50%, transparent); stroke-width: 2; stroke-dasharray: 8 8;
+/* The run: a row of headings, then one row per checkpoint (--rows of them, set by the slide).
+   The column of the reasoning is as wide as the thought; the two bars share what is left. */
+.p3-trk__grid {
+  position: relative; display: grid; align-items: center;
+  grid-template-columns: 168px minmax(0, 1fr) max-content minmax(0, 1fr); column-gap: var(--sp-6);
+  grid-template-rows: var(--lh-0) repeat(var(--rows), 56px); row-gap: var(--sp-4);
 }
-.p3-win__pre { fill: none; stroke: var(--c-open); stroke-width: 3; }
-.p3-win__post { fill: none; stroke-width: 3; }
-.p3-win__post.is-follow { stroke: var(--c-alarm); }
-.p3-win__post.is-resist { stroke: var(--c-dim); }
-.p3-win__node { fill: var(--c-hidden); stroke: var(--c-hidden); stroke-width: 4; }
-.p3-win__node.is-open { fill: var(--c-bg); stroke: var(--c-open); }
-.p3-win__end { stroke-width: 3; transform-box: fill-box; transform-origin: center; }
-.p3-win__end.is-follow { fill: var(--c-alarm); stroke: var(--c-alarm); }
-.p3-win__end.is-resist { fill: var(--c-bg); stroke: var(--c-dim); }
-/* Next to a moment's endings, in words: how its reruns end. */
-.p3-win__count { font: 600 var(--fs-0)/1 var(--font-sans); }
-.p3-win__count.is-follow { fill: var(--c-alarm); }
-.p3-win__count.is-resist { fill: var(--c-dim); }
-.p3-win__count.is-open { fill: var(--c-open); }
-/* In the corner of the picture: what it is. The footer tag uses the same word. */
-.p3-win__drawn { font: 400 var(--fs-0)/1 var(--font-sans); fill: var(--c-dim); text-anchor: end; }
-.p3-win__runs .dk-lens { left: -4px; top: 40px; height: 300px; opacity: 0; }
-
-/* Above the picture: on the left the one thing that changes between the two pictures, on the
-   right what the marks of an ending and of the bundle mean (the marks are the picture's own). */
-.p3-win__head { height: var(--lh-1); display: flex; align-items: center; justify-content: space-between; }
-.p3-win__legend { display: flex; align-items: center; gap: var(--sp-8); }
-.p3-win__key { display: flex; align-items: center; gap: var(--sp-2); font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); white-space: nowrap; }
-.p3-win__key i { flex: none; width: 16px; height: 16px; border: 3px solid; border-radius: 50%; }
-.p3-win__key[data-key="follow"] { color: var(--c-alarm); }
-.p3-win__key[data-key="follow"] i { border-color: var(--c-alarm); background: var(--c-alarm); }
-.p3-win__key[data-key="resist"] { color: var(--c-dim); }
-.p3-win__key[data-key="resist"] i { border-color: var(--c-dim); background: var(--c-bg); }
-.p3-win__key[data-key="open"] { gap: var(--sp-3); color: var(--c-open); }
-.p3-win__key[data-key="open"] i { width: 48px; height: 8px; border: 0; border-radius: 4px; background: var(--c-open); }
-.p3-win__switch {
-  display: flex; align-items: center; gap: var(--sp-3);
-  font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--c-dim);
+.p3-trk__head {
+  grid-row: 1; white-space: nowrap;
+  font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--c-faint);
 }
-.p3-win__pill { position: relative; width: 64px; height: 32px; border: var(--stroke-1) solid var(--c-line); border-radius: var(--radius-2); background: var(--c-surface-2); }
-.p3-win__knob { position: absolute; left: 2px; top: 2px; width: 24px; height: 24px; border-radius: 50%; background: var(--c-dim); }
-.p3-win__state { display: inline-grid; min-width: 48px; }
-.p3-win__state b { grid-area: 1 / 1; font-weight: 600; color: var(--c-text); }
-.p3-win__switch.is-on .p3-win__pill { border-color: var(--c-read); }
-.p3-win__switch.is-on .p3-win__knob { background: var(--c-read); }
-.p3-win__switch.is-on .p3-win__state b { color: var(--c-read); }
+.p3-trk__head[data-col="step"] { grid-column: 1; }
+.p3-trk__head[data-col="cap"] { grid-column: 2; }
+.p3-trk__head[data-col="says"] { grid-column: 3; }
+/* The last heading is longer than its column and stands to the right of the one before it.
+   It has two states, one on top of the other: not tracked, and what is tracked. */
+.p3-trk__head[data-col="mon"] { grid-column: 3 / 5; justify-self: end; display: grid; justify-items: end; }
+.p3-trk__head[data-col="mon"] b { grid-area: 1 / 1; font-weight: 600; }
+.p3-trk__head[data-col="mon"] [data-state="on"] { color: var(--c-read); }
 
-/* Under the picture: the two numbers of the slide, each under its setting, and in plain words
-   what they are a share of. */
-.p3-win__fixed { display: flex; align-items: center; column-gap: var(--sp-8); height: 128px; }
-.p3-win__pair { flex: none; display: flex; align-items: center; column-gap: var(--sp-4); }
-.p3-win__num { display: grid; justify-items: start; transform-origin: 0 50%; }
-.p3-win__num b { font: 600 var(--fs-6)/var(--lh-6) var(--font-mono); color: var(--c-hidden); }
-.p3-win__num i { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); white-space: nowrap; }
-.p3-win__arrow { flex: none; display: block; margin-bottom: var(--lh-0); }
-.p3-win__arrow path { fill: none; stroke: var(--c-dim); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
-.p3-win__means { display: grid; row-gap: var(--sp-1); }
-.p3-win__sentence { font: 400 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-text); }
-.p3-win__scale { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
+/* A checkpoint: its number on the line of the training run. The timeline draws the line
+   down as the checkpoints arrive. */
+.p3-trk__rail { position: absolute; grid-column: 1 / 2; grid-row: 2 / -1; right: 19px; top: 28px; width: var(--stroke-1); height: 0; background: var(--c-line); }
+.p3-trk__node {
+  position: relative; grid-column: 1; grid-row: var(--r); justify-self: end; width: 40px; height: 40px;
+  display: grid; place-items: center; border: var(--stroke-1) solid var(--c-line); border-radius: 50%; background: var(--c-surface);
+  font: 600 var(--fs-0)/1 var(--font-mono); color: var(--c-dim);
+}
+/* The two bars of a row. Capability is the neutral gray of a chart; monitorability is the
+   color of what a monitor can read. A bar that nobody tracks is an empty dashed outline. */
+.p3-trk__bar {
+  grid-row: var(--r); height: 28px; border: var(--stroke-1) solid var(--c-line); border-radius: var(--radius-1);
+  background: var(--c-surface-2); overflow: hidden;
+}
+.p3-trk__bar i { display: block; height: 100%; width: var(--v, 0%); }
+.p3-trk__bar[data-kind="cap"] { grid-column: 2; }
+.p3-trk__bar[data-kind="cap"] i { background: var(--c-dim); }
+.p3-trk__bar[data-kind="mon"] { grid-column: 4; }
+.p3-trk__bar[data-kind="mon"] i { background: var(--c-read); }
+.p3-trk__bar.is-off { border-style: dashed; background: none; }
 
-/* The closing row, across both columns: what this slide answers to slides 5 and 6, the paper's
-   sentence with its authors, the way to keep the window open that follows from it, and the
-   one link to our own work. */
-.p3-win__close { grid-column: 1 / -1; display: grid; justify-items: center; text-align: center; }
-.p3-win__back { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text); }
-.p3-win__back b { font-weight: 600; }
-.p3-win__quote { font: italic 400 var(--fs-3)/var(--lh-3) var(--font-serif); color: var(--c-text); }
-.p3-win__by { margin-left: var(--sp-3); font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); white-space: nowrap; }
-.p3-win__link { font: 600 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-text); }
+/* What a checkpoint writes: the title slide's thought (kit.decay), a size smaller than
+   there. Words and dots are both hidden until the lens has passed; until then a bar covers
+   the line, as on slide 8. */
+.p3-trk__says { position: relative; grid-column: 3; grid-row: var(--r); height: 100%; display: grid; align-items: center; }
+.p3-trk .dk-decay { font-size: var(--fs-1); line-height: var(--lh-1); }
+.p3-trk .dk-decay__glyph { opacity: 0; }
+.p3-trk .dk-decay__dot { width: 8px; height: 8px; margin: -4px 0 0 -4px; opacity: 0; }
+.p3-trk__veil { position: absolute; inset: var(--sp-3) 0; border-radius: var(--radius-1); background: var(--c-line); }
+/* The monitor's lens, across the column of the reasoning; the timeline moves it down. */
+.p3-trk__scan { position: absolute; grid-column: 3 / 4; grid-row: 2 / -1; inset: 0; pointer-events: none; }
+.p3-trk__scan .dk-lens { left: calc(-1 * var(--sp-2)); top: 0; width: calc(100% + 2 * var(--sp-2)); height: 8px; margin-top: -4px; opacity: 0; }
+
+/* The frame around the checkpoint that ships. It stands on the first row and the timeline
+   moves it down and back. Plain while capability alone decides; the color of what is hidden
+   once the row turns out to be dots; the part's color on the checkpoint that is kept. */
+.p3-trk__ring {
+  position: absolute; grid-column: 1 / -1; grid-row: 2 / 3; inset: calc(-1 * var(--sp-2)) calc(-1 * var(--sp-3));
+  display: flex; align-items: center; padding-left: var(--sp-1);
+  border: var(--stroke-2) solid var(--c-text); border-radius: var(--radius-2); pointer-events: none;
+}
+.p3-trk__ships {
+  padding: 0 var(--sp-3); border-radius: var(--radius-1); background: var(--c-text);
+  font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--c-bg);
+}
+.p3-trk__ring.is-dark { border-color: var(--c-hidden); }
+.p3-trk__ring.is-dark .p3-trk__ships { background: var(--c-hidden); }
+.p3-trk__ring.is-kept { border-color: var(--c-open); box-shadow: 0 0 32px color-mix(in srgb, var(--c-open) 45%, transparent); }
+.p3-trk__ring.is-kept .p3-trk__ships { background: var(--c-open); }
+/* On the frame's bottom border, once it has moved back: where the reading goes. */
+.p3-trk__tab {
+  position: absolute; right: var(--sp-8); bottom: calc(var(--lh-0) / -2 - var(--stroke-1)); padding: 0 var(--sp-3);
+  background: var(--c-surface); font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-open); white-space: nowrap;
+  transform-origin: 100% 50%;
+}
+
+/* The closing row: the paper's sentence with its authors, and the way to keep the window
+   open that follows from the slide. */
+.p3-trk__close { display: grid; row-gap: var(--sp-3); justify-items: center; text-align: center; }
+.p3-trk__quote { font: italic 400 var(--fs-2)/var(--lh-2) var(--font-serif); color: var(--c-text); }
+.p3-trk__by { margin-left: var(--sp-3); font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); white-space: nowrap; }
 
 /* ---- slide 11, p3-close: three callbacks, three ways to keep it open, two questions ---- */
 .p3-cl { height: 100%; display: grid; align-content: center; justify-items: center; text-align: center; }
@@ -288,6 +291,8 @@
   background: var(--c-hidden);
 }
 .p3-cl__ask2 { margin-top: var(--sp-8); font: italic 400 var(--fs-4)/var(--lh-4) var(--font-serif); color: var(--c-open); }
-.p3-cl__end { margin-top: var(--sp-16); display: grid; row-gap: var(--sp-2); justify-items: center; }
-.p3-cl__questions { padding: 0 var(--sp-8); border-radius: var(--radius-1); font: 600 var(--fs-3)/var(--lh-4) var(--font-sans); color: var(--c-bg); background: var(--c-read); }
-.p3-cl__names { font: 400 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-dim); }
+/* The invitation ends the slide. No names under it: the title slide is the one place for them. */
+.p3-cl__questions {
+  margin-top: var(--sp-16); padding: 0 var(--sp-8); border-radius: var(--radius-1);
+  font: 600 var(--fs-3)/var(--lh-4) var(--font-sans); color: var(--c-bg); background: var(--c-read);
+}

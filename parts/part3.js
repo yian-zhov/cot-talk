@@ -1,11 +1,11 @@
-// Part 3: Keeping it open (Yian Zhou). Slides 8-11.
+// Part 3: Keeping it open (Speaker 3). Slides 8-11.
 // SPEC.md section 5 describes the slides; parts/sample.js shows the registration API.
 // Every quote and number on screen is read from the fact table by key (shared/facts.js, and
 // the facts below that only this part needs).
-// What we wrote ourselves (the rewritten thought and the edited test of slide 8) is marked as
-// illustrative on screen, on the border of its box; what we drew (the bars of slide 8, the
-// reruns of slide 10) is marked as schematic. The footer tags of each slide use the same
-// words; slide 8 holds both kinds and carries both tags.
+// What we wrote ourselves (the rewritten thought and the edited test of slide 8, the thought
+// of slide 10) is marked as illustrative on screen, on the border of its box; what we drew
+// (the bars of slide 8, the training run of slide 10) is marked as schematic. The footer tags
+// of each slide use the same words; slides 8 and 10 hold both kinds and carry both tags.
 (() => {
   'use strict';
 
@@ -19,7 +19,8 @@
   const typeMs = (s, cps) => Math.round((s.length / cps) * 1000);
 
   // Facts that only Part 3 needs. Each was read in the paper's arXiv HTML full text on
-  // 2026-11-10 (two downloads of each paper agree).
+  // 2026-11-10 (two downloads of each paper agree). Those of slide 10 were searched for as
+  // whole strings in two downloads of 2507.11473v2 made on that day.
   Deck.addFacts({
     // Slide 8: both bars stand for curves the paper plots over training.
     'p3.baker_plot_agent': { text: 'We show the agent’s performance over training', src: 'baker2025', where: 'Fig. 3 caption' },
@@ -50,12 +51,37 @@
       text: 'fully explained by cases where the model explicitly discusses the hint by performing the required arithmetic in its CoT',
       src: 'emmons2025', where: 'Sec. 3.1',
     },
-    // Slide 10: the title, and the two ends of the share it prints.
-    'p3.jia_part': { text: 'With thinking, part of the decision moves into the reasoning', src: 'jia2026', where: 'Sec. 5.2, paragraph heading' },
-    'p3.jia_share_one': { text: 'V=1 if every state either always or never complies', src: 'jia2026', where: 'Sec. 3.2' },
-    'p3.jia_share_rest': { text: 'the rest is decided by what the agent samples afterwards', src: 'jia2026', where: 'Sec. 3.2' },
-    // Slide 10: behind the line that sets this slide against slides 5 and 6.
-    'p3.jia_takes_part': { text: 'the reasoning takes part in the decision', src: 'jia2026', where: 'Sec. 5.3' },
+    // Slide 10: what the paper of slide 2 asks of developers. Behind the title and the third
+    // way to keep the window open: the heading of its Sec. 4 and the sentence under item 3.
+    'p3.korbak_track': {
+      text: 'AI Developers Should Track CoT Monitorability of Their Models and Treat it as a Contributor to Model Safety',
+      src: 'korbak2025', where: 'Sec. 4, heading',
+    },
+    'p3.korbak_consider': {
+      text: 'Developers should consider measures of monitorability alongside other capability and safety evaluations when deciding to train or deploy a given model.',
+      src: 'korbak2025', where: 'Sec. 4, item 3',
+    },
+    // Slide 10: the paper's own example, which the picture draws, and where the result goes.
+    'p3.korbak_checkpoint': {
+      text: 'If monitorability degrades during training, developers might prefer to use an earlier model checkpoint to keep CoTs monitorable',
+      src: 'korbak2025', where: 'Sec. 4, item 3 (b)',
+    },
+    'p3.korbak_system_card': {
+      text: 'report the results, methodology, and limitations in system cards of these models',
+      src: 'korbak2025', where: 'Sec. 4, item 2',
+    },
+    // Slide 10: why a run can lose its words (behind the rows that turn into dots).
+    'p3.korbak_degraded': { text: 'There are multiple ways in which CoT monitorability could be degraded.', src: 'korbak2025', where: 'Sec. 2' },
+    'p3.korbak_drift': { text: 'can drift away from legible English', src: 'korbak2025', where: 'Sec. 2, first paragraph' },
+    // Slide 10: the closing quote.
+    'p3.korbak_persist': { text: 'there is no guarantee that the current degree of visibility will persist', src: 'korbak2025', where: 'Sec. 6' },
+    // Slide 10: the limits. One input among others (behind the last cue), not a veto, and
+    // the measures themselves are still to be agreed on. For questions.
+    'p3.korbak_holistic': { text: 'These decisions should then be based on holistic assessments of risk', src: 'korbak2025', where: 'Sec. 4, item 3' },
+    'p3.korbak_justified': { text: 'developers might decide that reducing monitorability is justified', src: 'korbak2025', where: 'Sec. 4, item 3 (c)' },
+    'p3.korbak_when_exist': { text: 'when such evaluations exist', src: 'korbak2025', where: 'Sec. 4, item 2' },
+    // Slide 10, for questions: the paper's first example is a model of slide 7's kind.
+    'p3.korbak_architecture': { text: 'a novel model architecture that does not have monitorable CoT', src: 'korbak2025', where: 'Sec. 4, item 3 (a)' },
   });
 
   // ---------------------------------------------------------------------------------------
@@ -130,7 +156,7 @@
   const KEEP = Object.freeze([
     'No strong training pressure on the thoughts',   // 'baker.tax_advice'
     'Keep stress-testing the monitor',               // 'emmons.layer'
-    'Read where the decision forms',                 // 'jia.window', 'jia.heading'
+    'Track monitorability, and make it count',       // 'p3.korbak_track', 'p3.korbak_consider'
   ]);
   const keepHtml = (n) => `
     <p class="p3-keep" data-keep="${n}">
@@ -613,286 +639,229 @@
   });
 
   // ---------------------------------------------------------------------------------------
-  // Slide 10. When is the decision made? An agent is replayed to the moment it reads a planted
-  // instruction and rerun from there (Jia et al. 2026). Without thinking the reruns of a
-  // moment end the same way; with thinking a stretch of reasoning opens between reading and
-  // acting, and the middle moment now ends both ways. Two numbers only: how much of the
-  // ending is fixed when the agent reads the injection, with thinking off and on. The slide
-  // ends on a line that sets it against slides 5 and 6 (there the written reasoning could
-  // give an invented reason, here it takes part in the decision), on the paper's sentence
-  // and on the third way to keep the window open.
+  // Slide 10. What the paper of slide 2 asks of developers (Korbak et al. 2025, Sec. 4): track
+  // monitorability, publish it, and let it weigh on what is trained and shipped. The picture
+  // draws the paper's own example ('p3.korbak_checkpoint'): monitorability degrades during
+  // training, and an earlier checkpoint is preferred. One training run, one row per
+  // checkpoint: how capable it is, what it writes on the same task (the title slide's
+  // thought, on kit.decay) and whether a monitor can still read that. Judged on capability
+  // alone, the last checkpoint ships. Then the monitor's lens goes down the run: the words
+  // are there at checkpoints 1 to 3, half of them are dots at 4, and at 5, the one about to
+  // ship, nothing is left to read. Once that counts, an earlier checkpoint ships and its
+  // system card says so. The slide ends on the paper's last warning and on the third way to
+  // keep the window open.
+  // The run is a drawing and no number on it is measured, so the first line of the picture
+  // says so before anything else arrives, in the amber of the footer tags that mark what is
+  // ours: the example and the argument are the paper's, and the paper reports no such run. The
+  // line under it says in one sentence each what a checkpoint and a system card are.
   // ---------------------------------------------------------------------------------------
 
-  // The picture, in pixels of its svg. `read` and `act` are the x of a moment's node and of
-  // its endings, with thinking off and on: the stretch between them is the reasoning.
-  const WIN = Object.freeze({
-    width: 1160, height: 344,
-    runs: 8, top: 88, rowGap: 100, bundle: 3.5, slot: 12,
-    node: 20, dot: 4.5, bend: 40,
-    read: Object.freeze({ off: 360, on: 104 }),
-    act: Object.freeze({ off: 640, on: 884 }),
-    axisY: 28, zoneTop: 40, zoneBottom: 340, countGap: 24,
-    flip: 0.12, swell: 1.2,   // an ending that changes swells for this share of the turn, by this much
-    sweepAt: 500, sweepDur: 1000,   // click 2, in ms: the monitor's lens crosses the reasoning once
+  const RUN = Object.freeze({
+    // One row per checkpoint: the length of its capability bar, and the share of the
+    // thought's characters that it no longer writes as words. Both are ours: the paper
+    // gives its example in words. The monitorability bar of a row is the share that is
+    // left in words, so the bar and the row cannot disagree.
+    rows: Object.freeze([
+      Object.freeze({ cap: '36%', dark: 0 }),
+      Object.freeze({ cap: '52%', dark: 0 }),
+      Object.freeze({ cap: '68%', dark: 0 }),
+      Object.freeze({ cap: '84%', dark: 0.5 }),
+      Object.freeze({ cap: '100%', dark: 1 }),
+    ]),
+    seed: 23,     // the order in which characters turn into dots; a later row keeps the dots of an earlier one
+    kept: 2,      // the row that ships once monitorability counts: the last one still in words
+    stale: 0.5,   // the strength of the rows that do not ship (the strength of slide 9's dimmed cards)
+    // Enter, in ms: the rows arrive one after the other, and the frame "ships" hops to
+    // whichever checkpoint is the most capable so far.
+    rowsAt: 700, perRow: 220, hop: 180,
+    // Click 1, in ms: the lens goes down the run; as it reaches a row, the row's characters
+    // arrive from left to right, a word or a dot each.
+    scanAt: 500, perScan: 400, perCell: 7, flipAfter: 400,
+    // Click 2, in ms: the frame moves back, its tab arrives, the picture makes room, and
+    // the quote and the third way follow.
+    moveAt: 200, tabAfter: 200, closeAt: 1700, quoteAfter: 300, keepAfter: 1100,
   });
-  // How many of a moment's drawn reruns follow the planted instruction, with thinking off and
-  // on. The runs are a schematic: two moments keep their ending and the middle one opens, so
-  // two thirds of the drawn endings stay fixed on reading, close to the reported 'jia.v_on'.
-  const WIN_ROWS = Object.freeze([
-    Object.freeze({ off: 8, on: 8 }),
-    Object.freeze({ off: 8, on: 4 }),
-    Object.freeze({ off: 0, on: 0 }),
-  ]);
-  // Where along the reasoning each rerun of the open moment leaves the bundle (0 to 1), by
-  // slot from the top. The outer runs leave first, so no line crosses another.
-  const WIN_COMMIT = Object.freeze([0.08, 0.24, 0.62, 0.87, 0.94, 0.80, 0.42, 0.16]);
-  // What stands next to a moment's endings: in words, so that the only numbers on the slide
-  // are the two reported shares.
-  const winOutcome = (follows) => {
-    if (follows === WIN.runs) return Object.freeze({ words: 'all follow', state: 'is-follow' });
-    if (follows === 0) return Object.freeze({ words: 'all resist', state: 'is-resist' });
-    return Object.freeze({ words: 'both ways', state: 'is-open' });
-  };
-  const WIN_STATES = Object.freeze(['is-follow', 'is-resist', 'is-open']);
-  const winRowY = (r) => WIN.top + r * WIN.rowGap;
-  const winSlotY = (r, i) => round3(winRowY(r) + (i - (WIN.runs - 1) / 2) * WIN.slot);
-  const winBundleY = (r, i) => round3(winRowY(r) + (i - (WIN.runs - 1) / 2) * WIN.bundle);
-  // The x of a moment's node and of its endings when the reasoning is `open` (0 to 1), and
-  // the stretch between them that the runs cross.
-  const winSpan = (open) => {
-    const read = util.lerp(WIN.read.off, WIN.read.on, open);
-    const act = util.lerp(WIN.act.off, WIN.act.on, open);
-    return { read: round3(read), act: round3(act), from: round3(read + WIN.node), to: round3(act - WIN.dot - 4) };
-  };
-  const winAlong = (span, at) => round3(span.from + at * (span.to - span.from));
-  // One rerun as two paths: the stretch it shares with the bundle, where its ending is still
-  // open, and from the point it commits the branch to its own ending. Pure in its arguments.
-  const winRun = (r, i, span, commit) => {
-    const shared = winBundleY(r, i);
-    const own = winSlotY(r, i);
-    const leaves = Math.max(span.from, span.from + commit * (span.to - span.from) - WIN.bend);
-    const lands = Math.min(span.to, leaves + 2 * WIN.bend);
-    const mid = round3((leaves + lands) / 2);
-    return {
-      pre: leaves > span.from ? `M ${span.from} ${shared} L ${round3(leaves)} ${shared}` : '',
-      post: `M ${round3(leaves)} ${shared} C ${mid} ${shared} ${mid} ${own} ${round3(lands)} ${own} L ${span.to} ${own}`,
-    };
-  };
-  const winRow = (_, r) => `
-    <g data-row="${r}">
-      ${util.range(WIN.runs).map((i) => `<path class="p3-win__pre" data-pre="${r}-${i}"/>
-      <path class="p3-win__post" data-post="${r}-${i}" pathLength="1" stroke-dasharray="1" stroke-dashoffset="1"/>`).join('')}
-      <circle class="p3-win__node" data-node="${r}" cy="${winRowY(r)}" r="${WIN.node}"/>
-      ${util.range(WIN.runs).map((i) => `<circle class="p3-win__end" data-end="${r}-${i}" cy="${winSlotY(r, i)}" r="${WIN.dot}"/>`).join('')}
-      <text class="p3-win__count" data-count="${r}" y="${winRowY(r) + 8}"></text>
-    </g>`;
-  const winNumber = (key, fact, label) => `
-    <span class="p3-win__num" data-num="${key}"><b>${text(fact)}</b><i>${label}</i></span>`;
-  // A sentence from one of its words on, capitalized: a title that is the end of a quote.
-  const sentenceFrom = (sentence, word) => {
-    const at = sentence.indexOf(word);
-    if (at < 0) throw new Error(`"${word}" is not in "${sentence}"`);
-    return sentence[at].toUpperCase() + sentence.slice(at + 1);
-  };
+  // When the beats start, in ms after the step begins: the frame has reached the last
+  // checkpoint (enter); the lens has left the run, and the frame takes the color of what is
+  // hidden (click 1); the frame is back on the kept checkpoint (click 2). The cues follow them.
+  const RUN_AT = (() => {
+    const landed = RUN.rowsAt + (RUN.rows.length - 1) * RUN.perRow + 100 + RUN.hop;
+    const read = RUN.scanAt + RUN.rows.length * RUN.perScan;
+    return Object.freeze({ landed, read, flip: read + RUN.flipAfter, back: RUN.moveAt + DUR.move });
+  })();
+  // The note on the card's border, from click 1 on: whose thought the rows hold. That the run
+  // is a drawing is said in the lead above the card (RUN_LEAD), not on the border.
+  const RUN_NOTE = Object.freeze({ thought: 'illustrative: slide 1’s thought' });
+  // The lead above the card. 'p3.korbak_checkpoint' is the example, 'p3.korbak_track' and
+  // 'p3.korbak_consider' the argument; the paper gives the example in one sentence and reports no
+  // run. The two terms are explained in plain words: a checkpoint is what the paper's example
+  // goes back to, a system card is where it asks for the results ('p3.korbak_system_card')
+  // and where a deployed model's decision is documented ('p3.korbak_architecture').
+  const RUN_LEAD = Object.freeze({
+    tag: 'Drawing, not data',
+    says: `Example and argument: ${Deck.sources.korbak2025.short} (slide 2), Sec. 4. No such run is reported.`,
+    terms: 'Checkpoint: the model as saved at one point in training. System card: the report published with a model.',
+  });
+  // Which characters of the thought a row writes as dots (by position among the characters
+  // that are not spaces). Pure in (count, share).
+  const runDark = (count, share) => new Set(util.shuffled(util.range(count), RUN.seed).slice(0, Math.round(share * count)));
+  const runRow = (_, r) => `
+    <span class="p3-trk__node" data-row="${r}" style="--r:${r + 2}">${r + 1}</span>
+    <span class="p3-trk__bar" data-kind="cap" data-row="${r}" style="--r:${r + 2}"><i></i></span>
+    <div class="p3-trk__says" data-row="${r}" style="--r:${r + 2}">
+      ${kit.decay({ key: `run-${r}`, text: Deck.motifs.thought })}
+      <i class="p3-trk__veil"></i>
+    </div>
+    <span class="p3-trk__bar" data-kind="mon" data-row="${r}" style="--r:${r + 2}"><i></i></span>`;
 
   Deck.register({
-    id: 'p3-window',
+    id: 'p3-track',
     part: 3,
-    // The paper's own sentence for the finding, without "With thinking,": part of the
-    // decision, not all of it. The whole sentence is too long for one title line.
-    title: sentenceFrom(text('p3.jia_part'), 'part of'),
-    // The last cue carries the limit ('jia.model_dependent', paraphrased) where the room can
-    // read it; where to read is the line in the part's color under the quote (KEEP[2]).
+    // The paper's sentence under item 3 of Sec. 4 ('p3.korbak_consider'), in the deck's
+    // words: monitorability is weighed with the other evaluations when a model is deployed.
+    title: 'Monitorability should count when a model ships',
+    // The last cue carries the limit where the room can read it: one input among the
+    // others ('p3.korbak_consider', 'p3.korbak_holistic'), and "here" one outcome of it.
     cues: [
-      { text: 'Thinking off: reruns of one moment nearly always agree', step: 0, at: 3000 },
-      { text: 'Thinking on: the same moment can now end both ways', step: 1, at: 2600 },
-      { text: 'It decides as it reasons; how much depends on the model', step: 2, at: 2200 },
+      { text: 'Judged on capability alone, the last checkpoint ships', step: 0, at: RUN_AT.landed + 300 },
+      { text: 'Tracked, the run shows where the words stopped', step: 1, at: RUN_AT.flip },
+      { text: 'Weighed with the other tests: here an earlier checkpoint ships', step: 2, at: RUN_AT.back + RUN.tabAfter },
     ],
-    cite: [{ src: 'jia2026', where: 'Sec. 3.1-3.2, 5.1-5.3; Table 3; Fig. 1-2' }],
-    // The runs are drawn (schematic, and the picture says so); the two shares are the paper's.
-    figure: 'schematic',
-    numbers: 'reported',
+    cite: [{ src: 'korbak2025', where: 'Sec. 2; Sec. 4; Sec. 6' }],
+    // Two tags. The run is our drawing of the example the paper gives in words (schematic);
+    // the thought in its rows is the title slide's, an example we wrote (illustrative). No
+    // measured number is printed: every bar length is ours, and the picture says so.
+    figure: ['schematic', 'illustrative'],
     html: `
-      <div class="p3-win">
-        <div class="p3-win__side">
-          <p class="p3-win__bridge">Until now the hint was in the prompt. Here it is planted in a file.</p>
-          <div class="dk-card p3-win__moment">
-            <div class="p3-win__turn">
-              <span class="p3-win__who">the user asks</span>
-              <p class="p3-win__said">${quoted(esc(text('jia.example_request')))}</p>
-            </div>
-            <div class="p3-win__turn p3-win__turn--planted">
-              <span class="p3-win__who">in the file, a prompt injection</span>
-              <p class="p3-win__planted">${quoted(esc(text('jia.example_injection')))}</p>
-            </div>
-            <p class="p3-win__how">Replay to this moment, then rerun the rest many times. Right: one moment per row.</p>
-            ${kit.legend({ key: 'moment', text: 'example: Fig. 1, abridged there' })}
+      <div class="p3-trk">
+        <div class="p3-trk__main">
+          <div class="p3-trk__lead">
+            <p class="p3-trk__not"><b class="p3-trk__tag">${RUN_LEAD.tag}</b>${RUN_LEAD.says}</p>
+            <p class="p3-trk__terms">${RUN_LEAD.terms}</p>
           </div>
-          <p class="p3-win__scope">Numbers: ${text('jia.agent')}, ${text('jia.bench')} ${text('jia.suite')}</p>
-        </div>
-        <div class="p3-win__main">
-          <div class="p3-win__head">
-            <div class="p3-win__switch">
-              <span>thinking</span>
-              <span class="p3-win__pill"><i class="p3-win__knob"></i></span>
-              <span class="p3-win__state"><b data-state="off">off</b><b data-state="on">on</b></span>
+          <div class="dk-card p3-trk__card">
+            <div class="p3-trk__grid" style="--rows:${RUN.rows.length}">
+              <span class="p3-trk__head" data-col="step">Checkpoint</span>
+              <span class="p3-trk__head" data-col="cap">Capability</span>
+              <span class="p3-trk__head" data-col="says">Its reasoning on the same task</span>
+              <span class="p3-trk__head" data-col="mon"><b data-state="off">Monitorability: not tracked</b><b data-state="on">Monitorability: can a monitor read it?</b></span>
+              <i class="p3-trk__rail"></i>
+              ${RUN.rows.map(runRow).join('')}
+              <div class="p3-trk__scan">${kit.lens({ key: 'run' })}</div>
+              <div class="p3-trk__ring">
+                <span class="p3-trk__ships">ships</span>
+                <span class="p3-trk__tab">reported in its system card</span>
+              </div>
             </div>
-            <p class="p3-win__legend">
-              <span class="p3-win__key" data-key="follow"><i></i>follows the injection</span>
-              <span class="p3-win__key" data-key="resist"><i></i>resists it</span>
-              <span class="p3-win__key" data-key="open"><i></i>not decided yet</span>
-            </p>
-          </div>
-          <div class="p3-win__runs">
-            <svg class="p3-win__svg" viewBox="0 0 ${WIN.width} ${WIN.height}" width="${WIN.width}" height="${WIN.height}" aria-hidden="true">
-              <rect class="p3-win__zone" y="${WIN.zoneTop}" height="${WIN.zoneBottom - WIN.zoneTop}" rx="16"/>
-              <text class="p3-win__axis" data-axis="read" y="${WIN.axisY}">reads</text>
-              <text class="p3-win__axis p3-win__axis--zone" data-axis="zone" y="${WIN.axisY}">reasons, in words a monitor can read</text>
-              <text class="p3-win__axis" data-axis="act" y="${WIN.axisY}">acts</text>
-              ${WIN_ROWS.map(winRow).join('')}
-              <text class="p3-win__drawn" x="${WIN.width}" y="${WIN.height - 4}">drawn runs: schematic</text>
-            </svg>
-            ${kit.lens({ key: 'reader' })}
-          </div>
-          <div class="p3-win__fixed">
-            <div class="p3-win__pair">
-              ${winNumber('off', 'jia.v_off', 'thinking off')}
-              <svg class="p3-win__arrow" viewBox="0 0 64 32" width="64" height="32" aria-hidden="true"><path d="M 4 16 H 58 M 44 4 L 58 16 L 44 28"/></svg>
-              ${winNumber('on', 'jia.v_on', 'thinking on')}
-            </div>
-            <div class="p3-win__means">
-              <p class="p3-win__sentence">of the ending is already fixed when the agent reads the injection</p>
-              <p class="p3-win__scale">1.00 = a moment always ends the same way</p>
-            </div>
+            ${kit.legend({ key: 'run' })}
           </div>
         </div>
-        <div class="p3-win__close">
-          <p class="p3-win__back">Slides 5 and 6: the written reasoning can give an invented reason. <b>Here it takes part in the decision.</b></p>
-          <p class="p3-win__quote">${quoted(text('jia.window'))} <span class="p3-win__by">${Deck.sources.jia2026.short}</span></p>
+        <div class="p3-trk__close">
+          <p class="p3-trk__quote">“… ${text('p3.korbak_persist')}.” <span class="p3-trk__by">${Deck.sources.korbak2025.short}</span></p>
           ${keepHtml(3)}
-          <p class="p3-win__link">Our final project works in this setting.</p>
         </div>
       </div>`,
     setup: (ctx) => {
       const { dur } = ctx;
       const pop = { opacity: [0, 1], scale: [1.4, 1] };
-      const axis = (name) => ctx.q(`[data-axis="${name}"]`);
-      const zone = ctx.q('.p3-win__zone');
-      const lens = ctx.q('[data-lens="reader"]');
-      const rows = WIN_ROWS.map((row, r) => ({
-        ...row,
-        node: ctx.q(`[data-node="${r}"]`),
-        runs: util.range(WIN.runs).map((i) => ({
-          pre: ctx.q(`[data-pre="${r}-${i}"]`), post: ctx.q(`[data-post="${r}-${i}"]`), end: ctx.q(`[data-end="${r}-${i}"]`),
-        })),
-        count: ctx.q(`[data-count="${r}"]`),
-      }));
-      const attr = (el, name, value) => { if (el.getAttribute(name) !== String(value)) el.setAttribute(name, String(value)); };
-      const words = (el, value) => { if (el.textContent !== value) el.textContent = value; };
-      // Until the closing lines arrive their row is empty, so the picture sits lower.
-      const settle = Math.round((ctx.q('.p3-win__close').offsetHeight + parseFloat(getComputedStyle(ctx.q('.p3-win')).rowGap)) / 2);
-      // With thinking off its number stands alone, next to the sentence; the second number
-      // later takes that place and the first moves over.
-      const numberOff = ctx.q('[data-num="off"]');
-      const aside = ctx.q('[data-num="on"]').offsetLeft - numberOff.offsetLeft;
-
-      // Enter: the moment, then its reruns with thinking off. Every moment keeps one ending.
-      const enter = ctx.step({ label: 'no thinking: reruns agree' });
-      enter.tween('.p3-win__side, .p3-win__main', { y: [settle, settle] }, { dur: 0 });
-      enter.show('.p3-win__bridge', { at: 200 });
-      enter.show('.p3-win__moment', { at: 500 });
-      enter.show('.p3-win__turn', { at: 700, stagger: 400 });
-      enter.show('.p3-win__how', { at: 1500, rise: 0 });
-      enter.tween('.p3-win__moment .dk-legend', { opacity: [0, 1] }, { at: 1500, dur: dur.enter });
-      enter.tween([axis('read'), axis('act')], { opacity: [0, 1] }, { at: 1300, stagger: 150 });
-      enter.show('.p3-win__switch', { at: 1400, rise: 0 });
-      enter.show('[data-key="follow"], [data-key="resist"]', { at: 1800, stagger: 150, rise: 0 });
-      rows.forEach((row, r) => {
-        const at = 1600 + r * 300;
-        enter.tween(row.node, { 'attr:r': [0, WIN.node] }, { at: at - 250, dur: dur.enter, ease: 'back' });
-        row.runs.forEach((run, i) => {
-          enter.tween(run.post, { opacity: [0, 1] }, { at: at + i * 30, dur: 100 });
-          enter.tween(run.post, { 'attr:stroke-dashoffset': [1, 0] }, { at: at + i * 30, dur: dur.enter });
-          enter.tween(run.end, { 'attr:r': [0, WIN.dot] }, { at: at + i * 30 + 320, dur: dur.micro, ease: 'back' });
-        });
-        enter.tween(row.count, { opacity: [0, 1] }, { at: at + 700, dur: dur.micro });
+      const ring = ctx.q('.p3-trk__ring');
+      const tag = ctx.q('.p3-trk__ships');
+      const lens = ctx.q('[data-lens="run"]');
+      const note = ctx.q('.p3-trk__card > .dk-legend');
+      const last = RUN.rows.length - 1;
+      const rows = RUN.rows.map((row, r) => {
+        const cells = ctx.qa(`[data-decay="run-${r}"] .dk-decay__cell`);
+        const dark = runDark(cells.length, row.dark);
+        return {
+          ...row,
+          all: ctx.qa(`[data-row="${r}"]`),
+          node: ctx.q(`.p3-trk__node[data-row="${r}"]`),
+          says: ctx.q(`.p3-trk__says[data-row="${r}"]`),
+          veil: ctx.q(`.p3-trk__says[data-row="${r}"] .p3-trk__veil`),
+          capFill: ctx.q(`[data-kind="cap"][data-row="${r}"] i`),
+          mon: ctx.q(`[data-kind="mon"][data-row="${r}"]`),
+          monFill: ctx.q(`[data-kind="mon"][data-row="${r}"] i`),
+          read: `${Math.round((1 - dark.size / cells.length) * 100)}%`,
+          cells: cells.map((cell, i) => ({
+            glyph: cell.querySelector('.dk-decay__glyph'), dot: cell.querySelector('.dk-decay__dot'), dark: dark.has(i),
+          })),
+        };
       });
-      enter.tween('.p3-win__drawn', { opacity: [0, 1] }, { at: 2600, dur: dur.enter });
-      enter.tween(numberOff, { ...pop, x: [aside, aside] }, { at: 2800, dur: dur.enter, ease: 'back' });
-      enter.show('.p3-win__sentence', { at: 3000, rise: 0 });
-      enter.show('.p3-win__scale', { at: 3200, rise: 0 });
-      enter.show('.p3-win__scope', { at: 3200, rise: 0 });
+      if (rows[RUN.kept].read !== '100%' || rows[last].read !== '0%') throw new Error('the kept checkpoint is no longer all words, or the last one no longer all dots');
+      // Geometry is read from the layout: one row down, and when the lens reaches a row.
+      const pitch = rows[1].node.offsetTop - rows[0].node.offsetTop;
+      // The lens stops inside the last row, clear of the frame around it.
+      const scan = ctx.q('.p3-trk__scan');
+      const travel = scan.offsetHeight - lens.offsetHeight;
+      const scanDur = RUN_AT.read - RUN.scanAt;
+      const passes = (row) => Math.round(RUN.scanAt + ((row.says.offsetTop - scan.offsetTop) / travel) * scanDur);
+      // Until the closing lines arrive their row is empty, so the picture sits lower.
+      const settle = Math.round((ctx.q('.p3-trk__close').offsetHeight + parseFloat(getComputedStyle(ctx.q('.p3-trk')).rowGap)) / 2);
+      const beat = (step, at) => {
+        step.tween(tag, { scale: [1, 1.25] }, { at, dur: 160 });
+        step.tween(tag, { scale: [1.25, 1] }, { at: at + 160, dur: 300 });
+      };
+
+      // Enter: the run, one checkpoint after the other. Each is more capable than the one
+      // before, and the frame "ships" hops to it. What each one writes is covered: nobody
+      // reads it, and the column on the right is empty.
+      const enter = ctx.step({ label: 'judged on capability alone, the last checkpoint ships' });
+      enter.tween('.p3-trk__main', { y: [settle, settle] }, { dur: 0 });
+      enter.show('.p3-trk__lead', { at: 200 });
+      enter.show('.p3-trk__card', { at: 400 });
+      enter.show('.p3-trk__head', { at: 500, stagger: 60, rise: 0 });
+      enter.tween('.p3-trk__rail', { height: ['0px', `${last * pitch}px`] }, { at: RUN.rowsAt, dur: last * RUN.perRow, ease: 'linear' });
+      enter.tween(ring, { opacity: [0, 1] }, { at: RUN.rowsAt + 100, dur: dur.micro });
+      rows.forEach((row, r) => {
+        const at = RUN.rowsAt + r * RUN.perRow;
+        enter.tween(row.all, { opacity: [0, 1] }, { at, dur: dur.micro });
+        enter.tween(row.node, { scale: [0.4, 1] }, { at, dur: dur.enter, ease: 'back' });
+        enter.tween(row.capFill, { '--v': ['0%', row.cap] }, { at: at + 100, dur: dur.enter });
+        if (r > 0) enter.tween(ring, { y: [(r - 1) * pitch, r * pitch] }, { at: at + 100, dur: RUN.hop, ease: 'inOut' });
+      });
+      beat(enter, RUN_AT.landed);
       enter.hold(300);
 
-      // Click 1, the reveal: thinking on. The reasoning opens between reading and acting, and
-      // the middle moment no longer has one ending. The second number arrives next to the
-      // first: no count runs through values that nobody measured.
-      const think = ctx.step({ label: 'thinking on: the reasoning opens' });
-      think.tween('.p3-win__knob', { x: [0, 32] }, { at: 100, dur: dur.micro, ease: 'inOut' });
-      think.cls('.p3-win__switch', 'is-on', { at: 200 });
-      think.hide('[data-state="off"]', { at: 100, dur: 100 });
-      think.tween('[data-state="on"]', { opacity: [0, 1] }, { at: 200, dur: 100 });
-      const open = think.signal({ at: 400, dur: dur.reveal, ease: 'inOut' });
-      const turn = think.signal({ at: 900, dur: 1400, ease: 'linear' });
-      think.show('[data-key="open"]', { at: 1500, rise: 0 });
-      think.tween(numberOff, { x: [aside, 0] }, { at: 2300, dur: dur.enter, ease: 'inOut' });
-      think.tween('.p3-win__arrow', { opacity: [0, 1] }, { at: 2600, dur: dur.micro });
-      think.tween('[data-num="on"]', pop, { at: 2800, dur: dur.enter, ease: 'back' });
-      think.hold(300);
-
-      // Click 2: the monitor's lens crosses the reasoning, where the open moment is decided.
-      // As it does, the line that answers slides 5 and 6 ('p3.jia_takes_part',
-      // 'jia.not_posthoc'); then the paper's sentence, the third of the part's three ways to
-      // keep the window open, and the one line that links this setting to our own work.
-      const close = ctx.step({ label: 'read where the decision forms' });
-      close.tween('.p3-win__side, .p3-win__main', { y: [settle, 0] }, { dur: dur.move, ease: 'inOut' });
-      close.tween(lens, { opacity: [0, 1] }, { at: WIN.sweepAt - dur.micro, dur: dur.micro });
-      const sweep = close.signal({ at: WIN.sweepAt, dur: WIN.sweepDur, ease: 'inOut' });
-      close.tween(lens, { opacity: [1, 0] }, { at: WIN.sweepAt + WIN.sweepDur, dur: dur.enter });
-      close.show('.p3-win__back', { at: 700 });
-      close.show('.p3-win__quote', { at: 1200, dur: dur.move });
-      close.tween('.p3-keep', pop, { at: 2000, dur: dur.enter, ease: 'back' });
-      close.show('.p3-win__link', { at: 2500 });
-      close.hold(300);
-
-      ctx.paint(() => {
-        const o = open();
-        const span = winSpan(o);
-        attr(axis('read'), 'x', span.read);
-        attr(axis('act'), 'x', span.act);
-        attr(axis('zone'), 'x', round3((span.from + span.to) / 2));
-        axis('zone').style.opacity = String(round3(util.clamp((o - 0.6) / 0.4)));
-        attr(zone, 'x', span.from - 8);
-        attr(zone, 'width', round3(span.to - span.from + 16));
-        zone.style.opacity = String(round3(o));
-        zone.style.setProperty('--glow', String(round3(4 * o * (1 - o))));
-        rows.forEach((row, r) => {
-          const opens = row.off !== row.on;
-          const flipped = Math.min(row.off - row.on, Math.floor(turn() * (row.off - row.on + 1)));
-          const follows = row.off - flipped;
-          attr(row.node, 'cx', span.read);
-          row.node.classList.toggle('is-open', opens && o > 0);
-          row.runs.forEach((run, i) => {
-            const path = winRun(r, i, span, opens ? WIN_COMMIT[i] * o : 0);
-            const followed = i < follows;
-            attr(run.pre, 'd', path.pre);
-            attr(run.post, 'd', path.post);
-            attr(run.end, 'cx', span.act);
-            // An ending that thinking changes swells for a moment as it turns.
-            const since = i >= row.on && i < row.off ? (turn() - (row.off - i) / (row.off - row.on + 1)) / WIN.flip : -1;
-            run.end.style.transform = since >= 0 && since < 1 ? `scale(${round3(1 + WIN.swell * (1 - since))})` : '';
-            [run.post, run.end].forEach((el) => {
-              el.classList.toggle('is-follow', followed);
-              el.classList.toggle('is-resist', !followed);
-            });
-          });
-          const outcome = winOutcome(follows);
-          attr(row.count, 'x', span.act + WIN.countGap);
-          words(row.count, outcome.words);
-          WIN_STATES.forEach((state) => row.count.classList.toggle(state, state === outcome.state));
+      // Click 1, the reveal: monitorability is tracked. The lens goes down the run and each
+      // row shows what that checkpoint writes: words a monitor can read, or dots. The bar
+      // on the right is the share still in words. The frame has not moved: what was about
+      // to ship is the row of dots, and the frame takes the color of what is hidden.
+      const track = ctx.step({ label: 'tracked: the lens goes down the run; the last checkpoint writes dots' });
+      track.hide('[data-state="off"]', { dur: dur.micro });
+      track.tween('[data-state="on"]', { opacity: [0, 1] }, { at: dur.micro, dur: dur.micro });
+      track.type(note, RUN_NOTE.thought, { at: RUN.scanAt, dur: 0 });
+      track.tween(note, { opacity: [0, 1] }, { at: RUN.scanAt, dur: dur.enter });
+      track.tween(lens, { opacity: [0, 1] }, { at: RUN.scanAt - dur.micro, dur: dur.micro });
+      track.tween(lens, { y: [0, travel] }, { at: RUN.scanAt, dur: scanDur, ease: 'linear' });
+      rows.forEach((row) => {
+        const at = passes(row);
+        track.hide(row.veil, { at, dur: dur.micro });
+        row.cells.forEach((cell, i) => {
+          if (cell.dark) track.tween(cell.dot, { opacity: [0, 1], scale: [0.2, 1] }, { at: at + i * RUN.perCell, dur: dur.enter, ease: 'back' });
+          else track.tween(cell.glyph, { opacity: [0, 1] }, { at: at + i * RUN.perCell, dur: dur.micro });
         });
-        lens.style.transform = `translateX(${winAlong(span, sweep())}px)`;
+        track.cls(row.mon, 'is-off', { at, on: false });
+        track.tween(row.monFill, { '--v': ['0%', row.read] }, { at: at + 100, dur: dur.enter });
       });
+      track.tween(lens, { opacity: [1, 0] }, { at: RUN_AT.read, dur: dur.enter });
+      track.cls(ring, 'is-dark', { at: RUN_AT.flip });
+      beat(track, RUN_AT.flip);
+      track.hold(300);
+
+      // Click 2: it counts. The frame goes back to the last checkpoint whose reasoning is
+      // still in words and takes the part's color; the rows after it dim; a tab on the
+      // frame says where the reading goes. Then the picture makes room for the paper's
+      // sentence and for the third of the part's three ways to keep the window open.
+      const keep = ctx.step({ label: 'it counts: an earlier checkpoint ships, on record; the third way' });
+      keep.tween(ring, { y: [last * pitch, RUN.kept * pitch] }, { at: RUN.moveAt, dur: dur.move, ease: 'inOut' });
+      keep.cls(ring, 'is-dark', { at: RUN_AT.back - dur.micro, on: false });
+      keep.cls(ring, 'is-kept', { at: RUN_AT.back - dur.micro });
+      keep.tween(rows.slice(RUN.kept + 1).flatMap((row) => row.all), { opacity: [1, RUN.stale] }, { at: RUN.moveAt + dur.micro, dur: dur.enter });
+      keep.tween('.p3-trk__tab', pop, { at: RUN_AT.back + RUN.tabAfter, dur: dur.enter, ease: 'back' });
+      keep.tween('.p3-trk__main', { y: [settle, 0] }, { at: RUN.closeAt, dur: dur.move, ease: 'inOut' });
+      keep.show('.p3-trk__quote', { at: RUN.closeAt + RUN.quoteAfter, dur: dur.move });
+      keep.tween('.p3-keep', pop, { at: RUN.closeAt + RUN.keepAfter, dur: dur.enter, ease: 'back' });
+      keep.hold(300);
     },
   });
 
@@ -909,7 +878,7 @@
   const CLOSE = Object.freeze({
     ask: Object.freeze(['Would you give up reading a model', 'if that made it smarter?']),
     dark: 'give up reading',
-    stagger: 0.45, fade: 0.14, lift: 196,
+    stagger: 0.45, fade: 0.14, lift: 172,
     tilesAt: 700, perTile: 450, keepsAt: 2300, perKeep: 300,   // the three ways arrive after the third tile, one by one
     dotScale: 0.75,    // a dot of the thought is this much smaller than a dot of the question
     // The echo of slide 1, in ms after the click: its dots arrive and stand, travel into the
@@ -979,10 +948,7 @@
           <div class="p3-cl__thought">${kit.decay({ key: 'echo', text: Deck.motifs.thought })}</div>
         </div>
         <p class="p3-cl__ask2">And how would you know you can still read it?</p>
-        <div class="p3-cl__end">
-          <span class="p3-cl__questions">Questions?</span>
-          <span class="p3-cl__names">${[1, 2, 3].map((n) => Deck.meta.parts[n].speaker).join(' · ')}</span>
-        </div>
+        <p class="p3-cl__questions">Questions?</p>
       </div>`,
     setup: (ctx) => {
       const { dur } = ctx;
@@ -1035,7 +1001,6 @@
       const reveal = ask.signal({ at: CLOSE.revealAt, dur: CLOSE.revealDur, ease: 'linear' });
       ask.show('.p3-cl__ask2', { at: CLOSE.secondAt, dur: dur.move });
       ask.show('.p3-cl__questions', { at: CLOSE.endAt, dur: dur.move });
-      ask.show('.p3-cl__names', { at: CLOSE.endAt + 400, rise: 0 });
       ask.hold(300);
 
       ctx.paint(() => {

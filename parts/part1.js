@@ -1,4 +1,4 @@
-// Part 1: The window (Yizhang Cao). Slides 1-4.
+// Part 1: The window (Speaker 1). Slides 1-4.
 // SPEC.md section 3 describes each slide; parts/sample.js shows the registration API.
 // Slide 8 (part 3) brings slide 4's terminal back: both draw kit.trace from the lines in
 // shared/motifs.js (hackTrace), and every line is a fact. Slide 11 brings back the title
@@ -47,8 +47,11 @@
     wave: Object.freeze({ ramp: 1200, pace: 900, lag: 0.35, depth: 0.7 }),
   });
 
+  // The one place that shows a real name: each stands under the label ("Speaker 1") that the
+  // corner of every slide and the hand-off chip show in its place.
   const speakers = () => Object.entries(Deck.meta.parts).map(([n, part]) => `
     <div class="p1-title__person" data-tone="${PART_TONES[n]}">
+      <span class="p1-title__label">${part.label}</span>
       <span class="p1-title__speaker">${part.speaker}</span>
       <span class="p1-title__part">Part ${n} · ${part.name}</span>
     </div>`).join('');

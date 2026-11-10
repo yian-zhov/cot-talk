@@ -49,13 +49,14 @@
     const nextPart = next ? D.meta.parts[next.def.part] : null;
     const lastStep = pos.step === slide.steps.length - 1;
     const handsOver = Boolean(part && nextPart && lastStep && next.def.part !== slide.def.part);
-    ui.speaker.textContent = part ? part.speaker : '';
+    // The chrome shows a part's label; the real name stands on the title slide alone.
+    ui.speaker.textContent = part ? part.label : '';
     ui.page.textContent = `${pos.index + 1} / ${mounted.length}`;
     ui.dots.innerHTML = slide.steps.length > 1
       ? slide.steps.map((_, i) => `<i class="${i <= pos.step ? 'is-done' : ''}"></i>`).join('')
       : '';
     ui.handoff.hidden = !handsOver;
-    ui.handoff.textContent = handsOver ? `Next: ${nextPart.speaker}` : '';
+    ui.handoff.textContent = handsOver ? `Next: ${nextPart.label}` : '';
     ui.progress.querySelectorAll('[data-index]').forEach((cell) => {
       const i = Number(cell.dataset.index);
       cell.classList.toggle('is-done', i < pos.index);

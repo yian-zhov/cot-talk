@@ -53,10 +53,4 @@ Deck.addSources({
     title: 'When Chain of Thought is Necessary, Language Models Struggle to Evade Monitors',
     ref: 'arXiv:2507.05246',
   },
-  jia2026: {
-    short: 'Jia et al. 2026',
-    authors: 'Jia, Liu, Chong, Yang, et al.',
-    title: 'The Window Is in the Reasoning: When LLM Agents Decide to Follow Prompt Injections',
-    ref: 'arXiv:2610.24048',
-  },
 });
