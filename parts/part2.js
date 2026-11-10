@@ -25,6 +25,22 @@
     },
   });
 
+  // Facts that only slide 6 needs: which hemisphere talks, which sees which picture, and which
+  // hand points to which card, in the author's caption of the figure (the same caption as
+  // 'gazzaniga.quote'; SPEC.md, 7.1). Behind the labels "left hemisphere / speaks" and "right
+  // hemisphere / silent", the two pictures and the two picks. Read on 2026-11-10 in the copy of
+  // the author's page saved on 2026-11-09.
+  Deck.addFacts({
+    'p2.gazzaniga_halves': {
+      text: 'the left talking/interpreting brain sees a chicken claw and the right, silent brain sees a snow scene',
+      src: 'gazzaniga1998', where: 'interpreter figure, as the author captions it',
+    },
+    'p2.gazzaniga_hands': {
+      text: 'The left brain/ right hand points to the chicken to match the claw and the right brain/left hand points to the shovel, to match the snow scene.',
+      src: 'gazzaniga1998', where: 'interpreter figure, as the author captions it',
+    },
+  });
+
   // Facts that only slide 7 needs: the sentences behind "nothing written" (vectors) and
   // "trained for this" (vectors; for dots it is 'pfau.supervision'). Each was searched for
   // as a whole string in the arXiv HTML full text (2412.06769v4, the copy downloaded on
@@ -157,8 +173,7 @@
           ${kit.legend({ key: 'prompt', text: 'question: ours' })}
         </div>
         <div class="p2-hint__echo">
-          <span class="p2-hint__echo-tag">Slide 4</span>
-          <span class="p2-hint__echo-note">it said why:</span>
+          <span class="p2-hint__echo-note">Earlier, the coding agent said why:</span>
           <span class="p2-hint__echo-quote">“${said('baker.quote_hack')}”</span>
           ${kit.flag({ key: 'echo', text: 'flagged' })}
         </div>
@@ -204,8 +219,11 @@
       return at + Math.round((text.length / HINT.cps) * 1000) + 220;
     }, startAt);
 
-    // Enter: no hint. The model reasons and answers (B). The tab above the reasoning answers
-    // slide 4's last cue ("But does the text always say why?"): that time it did.
+    // Enter: no hint. The model reasons and answers (B). The line above the reasoning answers
+    // slide 4's last cue ("But does the text always say why?"): that time it did. It recalls
+    // slide 4's coding agent (that slide's first cue calls it "A frontier coding agent"), not
+    // the model of this example, so it stands apart from the reasoning pane: a pill of its
+    // own, with a gap under it, in the body face and not in the pane's uppercase label.
     const enter = ctx.step({ label: 'no hint: answer B' });
     enter.show('.p2-hint__echo', { at: 100, rise: 8 });
     enter.show('.p2-hint__prompt', { at: 260 });
@@ -304,18 +322,50 @@
   });
 
   // ---------------------------------------------------------------- slide 6: the split brain
-  // One box of 1728 x 620. The brain is drawn from above and turned on its side, so each half
-  // owns a lane that reads left to right: what it sees, the half, what its hand picks, what is said.
+  // One box of 1728 x 620. The brain is drawn from above, front up: the left hemisphere on the
+  // left, the right one on the right. Which half speaks, which half sees which picture and
+  // which hand points to which card is the author's caption ('p2.gazzaniga_halves',
+  // 'p2.gazzaniga_hands'): the left one talks, sees the chicken claw and points with the right
+  // hand to the chicken; the right one is silent, sees the snow scene and points with the left
+  // hand to the shovel. Each side is the other half's: the claw stands on the right (the right
+  // visual field), the snow scene on the left, the chicken lower right, the shovel lower left,
+  // and both pairs of arrows cross, the pictures' in front of the brain, the hands' behind it.
+  // The caption names the hands; the visual fields, the crossing in front ("optic chiasm") and
+  // what the cut is are textbook anatomy, ours and not the caption's (SPEC.md, 4.2). The cut
+  // runs along the midline inside the brain only, labeled on it, so that it does not reach the
+  // crossing in front, which stays intact. At the reveal the same two halves are relabeled as
+  // the two parts of the model, under a label that calls it an analogy; a model has no other
+  // side, so the crossed arrows go, the hint and the answer move over to the half that
+  // decides, and the cross on the midline goes with them: nothing is cut there.
   const SB = Object.freeze({
     shift: 380,           // the experiment sits mid-stage until the answer needs the right third
-    brain: Object.freeze({ cx: 608, cy: 290, rx: 228, ry: 188, folds: 9, bulge: 1.1 }),
-    mirror: 'translate(0 624) scale(1 -1)',
-    bars: Object.freeze([[136, 170], [158, 230], [180, 200], [202, 260]]),
-    nodes: Object.freeze({ upper: [490, 550, 610, 670, 730], lower: [520, 580, 640, 700], upperY: 366, lowerY: 404 }),
-    pulse: 'M292 486C340 486 352 432 392 424C430 418 450 400 450 338',
+    // A hemisphere is drawn as a dome (flat side down) and turned so that its flat side lies
+    // along the cut: `place` puts the dome's center at (cut -/+ gap, midY).
+    brain: Object.freeze({ cx: 608, cy: 290, rx: 228, ry: 214, folds: 9, bulge: 1.1 }),
+    cut: 552, gap: 8, midY: 320, scale: 0.94,
+    bars: Object.freeze([[202, 112], [224, 150], [246, 124], [268, 160]]),
+    // The network at the reveal sits in the upper part of the right half, as the bars of text
+    // do in the left one, clear of the label on the cut below.
+    nodes: Object.freeze({ upper: [588, 628, 668, 708], lower: [608, 648, 688], upperY: 204, lowerY: 248 }),
+    // At the reveal the hint and the answer move from the left side over to the right one,
+    // to the places of the claw and the chicken, beside the half that decides.
+    moves: Object.freeze({ hint: 816, answer: 856 }),
+    // The snow scene's way: through the crossing in front into the right hemisphere, then
+    // toward the speaking half, where the cut stops it.
+    pulse: 'M296 56C424 56 504 64 552 84C600 104 630 122 652 138C690 170 650 240 576 262',
     runs: 3, travel: 0.8, quoteCps: 24, traceCps: 40,
     invented: 'you need a shovel',     // where the answer leaves what the speaking half saw
   });
+  const place = (side) => {
+    const x = SB.cut + side * SB.gap;
+    const { cx, cy } = SB.brain;
+    // Turned a quarter, the dome's top points left; the right hemisphere is its mirror image.
+    return `translate(${x} ${SB.midY}) scale(${-side * SB.scale} ${SB.scale}) rotate(-90) translate(${-cx} ${-cy})`;
+  };
+  // The labels inside each half, in its middle: the patient's (which hemisphere, what it does)
+  // and, at the reveal, the model's.
+  const LABEL_X = Object.freeze({ left: 452, right: 652 });
+  const labelLines = (x, lines) => lines.map(([text, cls, dy], i) => `<tspan class="${cls}" x="${x}"${i ? ` dy="${dy}"` : ''}>${text}</tspan>`).join('');
   // The reveal (click 3), in ms from the click. A piece of the picture and what stands for it
   // in the exchange on the right change in the same beat, so that the two sides never say
   // different things. The last cue waits for the last note.
@@ -376,8 +426,8 @@
       sulci: Object.freeze([...util.range(folds - 1).map((i) => groove(i + 1)), ...inner]),
     });
   })();
-  const hemisphere = (key, tone) => `
-    <g class="p2-sb__hemi" data-hemi="${key}" data-tone="${tone}"${key === 'silent' ? ` transform="${SB.mirror}"` : ''}>
+  const hemisphere = (key, tone, side) => `
+    <g class="p2-sb__hemi" data-hemi="${key}" data-tone="${tone}" transform="${place(side)}">
       <path class="p2-sb__hemi-shape" d="${HEMI.shape}"/>
       <path class="p2-sb__hemi-flash" d="${HEMI.shape}"/>
       <g class="p2-sb__sulci">${HEMI.sulci.map((d) => `<path d="${d}"/>`).join('')}</g>
@@ -391,47 +441,56 @@
     <div class="p2-sb"><div class="p2-sb__box"><div class="p2-sb__lab">
       <svg class="p2-sb__art" viewBox="0 0 1104 620" width="1104" height="620" aria-hidden="true">
         <g class="p2-sb__brain">
-          ${hemisphere('speaking', 'read')}
-          ${hemisphere('silent', 'hidden')}
+          ${hemisphere('speaking', 'read', -1)}
+          ${hemisphere('silent', 'hidden', 1)}
           <g class="p2-sb__glyph" data-glyph="written" data-tone="read">
-            ${SB.bars.map(([y, w]) => `<rect x="${610 - w / 2}" y="${y}" width="${w}" height="8" rx="4"/>`).join('')}
+            ${SB.bars.map(([y, w]) => `<rect x="${LABEL_X.left - w / 2}" y="${y}" width="${w}" height="8" rx="4"/>`).join('')}
           </g>
           <g class="p2-sb__glyph" data-glyph="computation" data-tone="hidden">${netLinks()}${netNodes()}</g>
-          <text class="p2-sb__half" data-half="speaking" data-tone="read" x="610" y="208">speaking half</text>
-          <text class="p2-sb__half" data-half="silent" data-tone="hidden" x="610" y="436">silent half</text>
-          <text class="p2-sb__half" data-half="written" data-tone="read" x="610" y="254">the written reasoning</text>
-          <text class="p2-sb__half" data-half="computation" data-tone="hidden" x="610" y="452">the computation</text>
-          <text class="p2-sb__half" data-half="computation" data-tone="hidden" x="610" y="488">that decided</text>
+          <text class="p2-sb__half" data-half="speaking" data-tone="read" x="${LABEL_X.left}" y="296">${labelLines(LABEL_X.left, [
+    ['left', 'p2-sb__half-main'], ['hemisphere', 'p2-sb__half-sub', 32], ['speaks', 'p2-sb__half-role', 48]])}</text>
+          <text class="p2-sb__half" data-half="silent" data-tone="hidden" x="${LABEL_X.right}" y="296">${labelLines(LABEL_X.right, [
+    ['right', 'p2-sb__half-main'], ['hemisphere', 'p2-sb__half-sub', 32], ['silent', 'p2-sb__half-role', 48]])}</text>
+          <text class="p2-sb__half" data-half="written" data-tone="read" x="${LABEL_X.left}" y="336">${labelLines(LABEL_X.left, [
+    ['the written', 'p2-sb__half-sub'], ['reasoning', 'p2-sb__half-sub', 32]])}</text>
+          <text class="p2-sb__half" data-half="computation" data-tone="hidden" x="${LABEL_X.right}" y="320">${labelLines(LABEL_X.right, [
+    ['the', 'p2-sb__half-sub'], ['computation', 'p2-sb__half-sub', 32], ['that decided', 'p2-sb__half-sub', 32]])}</text>
         </g>
         <g class="p2-sb__cut">
-          <path class="p2-sb__cut-line" d="M362 312H474M746 312H858"/>
-          <path class="p2-sb__cut-line p2-sb__cut-mid" d="M486 312H734"/>
-          <text class="p2-sb__cut-label" data-cut="patient" x="610" y="321">connection cut</text>
-          <text class="p2-sb__cut-label" data-cut="model" x="610" y="321">seen, not said</text>
+          <path class="p2-sb__cut-line" d="M${SB.cut} 112V528"/>
+          <rect class="p2-sb__cut-pill" x="${SB.cut - 128}" y="432" width="256" height="40" rx="20"/>
+          <text class="p2-sb__cut-label" data-cut="patient" x="${SB.cut}" y="461">connection cut</text>
+          <text class="p2-sb__cut-label" data-cut="model" x="${SB.cut}" y="461">seen, not said</text>
         </g>
-        <text class="p2-sb__scene" data-scene="patient" x="610" y="72">a split-brain patient</text>
-        <text class="p2-sb__scene" data-scene="model" x="610" y="72">the model on slide 5</text>
-        ${arrow('sees-claw', 'read', 'M292 134C340 134 352 190 388 199', [394, 200, 14])}
-        ${arrow('sees-snow', 'hidden', 'M292 486C340 486 352 432 388 425', [394, 424, -11])}
-        ${arrow('picks-chicken', 'read', 'M836 200C884 196 880 130 922 130', [932, 130, 0])}
-        ${arrow('picks-shovel', 'hidden', 'M836 424C884 428 880 510 922 510', [932, 510, 0])}
-        <text class="p2-sb__hand" data-hand="chicken" data-tone="read" x="882" y="104">its hand</text>
-        <text class="p2-sb__hand" data-hand="shovel" data-tone="hidden" x="882" y="560">its hand</text>
+        <g class="p2-sb__chiasm">
+          <text class="p2-sb__chiasm-label" x="${SB.cut}" y="28">optic chiasm: intact</text>
+          <path class="p2-sb__chiasm-tick" d="M${SB.cut} 40V72"/>
+        </g>
+        <text class="p2-sb__scene" data-scene="patient" x="0" y="24">a split-brain patient</text>
+        <text class="p2-sb__scene" data-scene="model" x="0" y="24">by analogy: the hinted model</text>
+        ${arrow('sees-claw', 'read', 'M808 56C680 56 600 64 552 84C504 104 474 122 452 138', [452, 138, 144])}
+        ${arrow('sees-snow', 'hidden', 'M296 56C424 56 504 64 552 84C600 104 630 122 652 138', [652, 138, 36])}
+        ${arrow('picks-chicken', 'read', 'M452 520C480 548 510 558 552 574C600 592 760 560 892 520', [896, 519, -17])}
+        ${arrow('picks-shovel', 'hidden', 'M652 520C624 548 594 558 552 574C504 592 344 560 212 520', [208, 519, 197])}
+        ${arrow('gets-hint', 'hidden', 'M808 128C776 128 768 180 744 189', [738, 190, 168])}
+        ${arrow('gives-answer', 'hidden', 'M738 452C782 458 808 510 888 510', [896, 510, 0])}
+        <text class="p2-sb__hand" data-hand="chicken" data-tone="read" x="980" y="610">right hand</text>
+        <text class="p2-sb__hand" data-hand="shovel" data-tone="hidden" x="124" y="610">left hand</text>
         <path class="p2-sb__pulse-path" d="${SB.pulse}"/>
         <g class="p2-sb__block">
-          <path class="p2-sb__route" d="M398 423C430 418 450 400 450 350"/>
-          <path class="p2-sb__route-head" d="M450 334L440 352H460Z"/>
-          <path class="p2-sb__stop" d="M438 300L462 324M462 300L438 324"/>
+          <path class="p2-sb__route" d="M668 176C660 220 630 244 588 256"/>
+          <path class="p2-sb__route-head" d="M570 264L588 252L590 274Z"/>
+          <path class="p2-sb__stop" d="M540 252L564 276M564 252L540 276"/>
         </g>
-        <circle class="p2-sb__ring" cx="450" cy="318" r="6" opacity="0"/>
-        <circle class="p2-sb__pulse" cx="292" cy="486" r="10" opacity="0"/>
+        <circle class="p2-sb__ring" cx="${SB.cut}" cy="264" r="6" opacity="0"/>
+        <circle class="p2-sb__pulse" cx="808" cy="128" r="10" opacity="0"/>
       </svg>
 
       <div class="p2-sb__card p2-sb__card--sees" data-card="claw" data-tone="read">
-        <div class="p2-sb__face">${icon('claw')}<span class="p2-sb__cap">chicken claw</span></div>
+        <div class="p2-sb__face">${icon('claw')}<span class="p2-sb__cap">chicken claw</span><span class="p2-sb__field">right visual field</span></div>
       </div>
       <div class="p2-sb__card p2-sb__card--sees" data-card="snow" data-tone="hidden"><div class="p2-sb__flip">
-        <div class="p2-sb__face">${icon('snow')}<span class="p2-sb__cap">snow scene</span></div>
+        <div class="p2-sb__face">${icon('snow')}<span class="p2-sb__cap">snow scene</span><span class="p2-sb__field">left visual field</span></div>
         <div class="p2-sb__face p2-sb__face--back"><span class="p2-sb__hint">${hintLead()}&nbsp;…</span><span class="p2-sb__cap">the hint</span></div>
       </div></div>
 
@@ -444,7 +503,7 @@
         <div class="p2-sb__face">${icon('shovel')}<span class="p2-sb__cap">shovel</span></div>
         <div class="p2-sb__face p2-sb__face--back"><span class="p2-sb__letter">(A)</span><span class="p2-sb__cap">answer</span></div>
       </div></div>
-      <div class="p2-sb__leak"><p><span class="p2-sb__leak-tag">Slide 5</span> the hint is mentioned in only <b>${said('chen.overall_claude')}</b> and <b>${said('chen.overall_r1')}</b> of flips, on average</p></div>
+      <div class="p2-sb__leak"><p><span class="p2-sb__leak-tag">Chen et al.</span> the hint is mentioned in only <b>${said('chen.overall_claude')}</b> and <b>${said('chen.overall_r1')}</b> of flips, on average</p></div>
       </div>
 
       <div class="p2-sb__says">
@@ -456,7 +515,7 @@
             <div class="p2-sb__trace">${lines('echo', CASE.hinted.length)}${findHtml('echo')}</div>
           </div>
           ${kit.legend({ key: 'say-quote', text: 'as the author captions the figure' })}
-          ${kit.legend({ key: 'say', text: 'illustrative: ours, as on slide 5' })}
+          ${kit.legend({ key: 'say', text: 'illustrative: ours, the planet question' })}
         </div>
         <div class="p2-sb__before">Written before the answer, and still not the reason.</div>
         <div class="p2-sb__real">
@@ -483,20 +542,22 @@
       step.tween(`[data-${key}="model"]`, { opacity: [0, 1] }, { at: at + 200, dur: dur.enter });
     };
 
-    // Enter: one brain, the link between its halves cut, and one picture for each half.
+    // Enter: one brain, the link between its halves cut, and one picture for each half, from
+    // the other side: each arrow crosses in front of the brain, where nothing is cut.
     const enter = ctx.step({ label: 'each half sees one picture' });
     enter.tween('.p2-sb__brain', { opacity: [0, 1], scale: [0.92, 1] }, { at: 150, dur: 600 });
     enter.show('[data-scene="patient"]', { at: 300, rise: 0 });
     enter.tween('.p2-sb__cut', { opacity: [0, 1] }, { at: 800, dur: dur.enter });
     enter.tween('[data-half="speaking"]', { opacity: [0, 1] }, { at: 1000, dur: dur.enter });
     enter.tween('[data-half="silent"]', { opacity: [0, 1] }, { at: 1150, dur: dur.enter });
-    [['claw', 'speaking', 1500], ['snow', 'silent', 2300]].forEach(([card, half, at]) => {
-      enter.tween(`[data-card="${card}"]`, { opacity: [0, 1], x: [-120, 0] }, { at, dur: 500 });
+    [['claw', 'speaking', 1500, 120], ['snow', 'silent', 2300, -120]].forEach(([card, half, at, from]) => {
+      enter.tween(`[data-card="${card}"]`, { opacity: [0, 1], x: [from, 0] }, { at, dur: 500 });
       draw(enter, `sees-${card}`, at + 350);
       flash(enter, half, at + 700);
     });
+    enter.tween('.p2-sb__chiasm', { opacity: [0, 1] }, { at: 2100, dur: dur.enter });
 
-    // Click 1: each half picks a card with the hand it controls.
+    // Click 1: each half picks a card with the hand it controls, the hand on the other side.
     const pick = ctx.step({ label: 'each hand picks a card' });
     pick.show('.p2-sb__card--pick, .p2-sb__card--spare', { at: 0, stagger: 70 });
     [['chicken', 'speaking', 650], ['shovel', 'silent', 1650]].forEach(([card, half, at]) => {
@@ -546,17 +607,25 @@
 
     // Click 3, the reveal: the same picture, relabeled piece by piece, is slide 5 (TURN has
     // the beats). What has no counterpart in the model leaves the picture: the other picture,
-    // the other hand's choice, the spare cards, the hands.
-    const reveal = ctx.step({ label: 'the picture is slide 5' });
+    // the other hand's choice, the spare cards, the hands, the crossing in front, and the
+    // blocked route with its cross (in the model nothing is cut). The two pieces that stay
+    // move to the side of the half that decides, and their crossed arrows become straight.
+    const reveal = ctx.step({ label: 'by analogy, the picture becomes the hinted model' });
     cross(reveal, 'scene', 0);
     reveal.tween('[data-scene="model"]', { scale: [1.3, 1] }, { at: 200, dur: dur.enter, ease: 'back' });
-    reveal.tween('[data-card="claw"], [data-card="chicken"], [data-arrow="sees-claw"], [data-arrow="picks-chicken"], .p2-sb__hand', { opacity: [1, 0] }, { at: 0, dur: dur.enter });
+    reveal.tween('[data-card="claw"], [data-card="chicken"], [data-arrow="sees-claw"], [data-arrow="picks-chicken"], .p2-sb__hand, .p2-sb__chiasm', { opacity: [1, 0] }, { at: 0, dur: dur.enter });
     reveal.tween('.p2-sb__card--spare', { opacity: [0.4, 0] }, { at: 0, dur: dur.enter });
-    reveal.tween('[data-cut="patient"]', { opacity: [1, 0] }, { at: 0, dur: dur.enter });
-    reveal.cls('.p2-sb__cut-line', 'is-plain', { at: 200 });
-    reveal.tween('.p2-sb__cut-mid', { opacity: [0, 1] }, { at: 200, dur: dur.enter });
+    reveal.tween('.p2-sb__block', { opacity: [1, 0] }, { at: 0, dur: dur.enter });
+    reveal.tween('[data-cut="patient"], .p2-sb__cut-pill', { opacity: [1, 0] }, { at: 0, dur: dur.enter });
+    reveal.cls('.p2-sb__cut-line, .p2-sb__cut-pill', 'is-plain', { at: 200 });
+    const moveOver = (card, crossed, straight, by, at) => {
+      reveal.tween(`[data-arrow="${crossed}"]`, { opacity: [1, 0] }, { at, dur: 300 });
+      reveal.tween(`[data-card="${card}"]`, { x: [0, by] }, { at, dur: 700, ease: 'inOut' });
+      draw(reveal, straight, at + 600);
+    };
     // The snow scene is the hint, on its card and as the real reason; what the patient's note
     // said about it goes, and the model's note waits for the search.
+    moveOver('snow', 'sees-snow', 'gets-hint', SB.moves.hint, TURN.hint);
     reveal.tween('[data-card="snow"] .p2-sb__flip', { '--flip': [0, 1] }, { at: TURN.hint, dur: 700, ease: 'back' });
     cross(reveal, 'what', TURN.hint);
     reveal.tween('[data-note="patient"]', { opacity: [1, 0] }, { at: TURN.hint, dur: 300 });
@@ -567,6 +636,7 @@
       reveal.tween(`[data-half="${model}"]`, { opacity: [0, 1] }, { at: at + 250, dur: dur.enter });
       flash(reveal, half, at);
     });
+    moveOver('shovel', 'picks-shovel', 'gives-answer', SB.moves.answer, TURN.answer);
     reveal.tween('[data-card="shovel"] .p2-sb__flip', { '--flip': [0, 1] }, { at: TURN.answer, dur: 700, ease: 'back' });
     cross(reveal, 'ask', TURN.answer);
     reveal.tween('.p2-sb__quote', { opacity: [1, 0] }, { at: TURN.written, dur: 300 });
@@ -587,8 +657,7 @@
     // the line between the two halves is relabeled "seen, not said", and slide 5's two
     // rates beside it are how often the hint does reach the text.
     reveal.show('.p2-sb__before', { at: TURN.before, rise: 0 });
-    reveal.tween('.p2-sb__cut-mid', { opacity: [1, 0] }, { at: TURN.leak, dur: dur.micro });
-    reveal.tween('[data-cut="model"]', { opacity: [0, 1] }, { at: TURN.leak, dur: dur.enter });
+    reveal.tween('[data-cut="model"], .p2-sb__cut-pill', { opacity: [0, 1] }, { at: TURN.leak, dur: dur.enter });
     reveal.show('.p2-sb__leak p', { at: TURN.leak, rise: 0 });
     reveal.hold(300);
   };
@@ -599,7 +668,7 @@
     title: 'People do this too: the speaking half invents a reason',
     cues: [
       'Each half of the brain sees a different picture',
-      { text: 'Asked why: a fluent, confident, wrong reason', step: 2 },
+      { text: 'Asked why: a fluent, wrong reason', step: 2 },
       { text: 'An analogy for the behavior, not a claim about mechanism', step: 3, at: TURN.cue },
     ],
     cite: [{ src: 'gazzaniga1998', where: 'figure' }, { src: 'chen2025', where: 'Table 1; Fig. 1' }],
@@ -628,7 +697,7 @@
   // is about today's large models, which still need the words for hard problems. The line
   // says both, in that order, from click 1 on, and does not infer the one from the other.
   const holdsHtml = () => `<p class="p2-dots__holds">These are small models trained for it.
-          Today’s large models still need words for hard problems (<b>slide 3</b>).</p>`;
+          Today’s large models still <b>need words</b> for hard problems.</p>`;
   const DOTS = Object.freeze({
     shape: Object.freeze({ cols: 8, rows: 4 }),
     tokens: Object.freeze(['Q', 'first', 'sum', 'each', 'pair', 'then', 'check', 'so']),
@@ -705,7 +774,7 @@
     <div class="p2-dots"><div class="p2-dots__box">
       <div class="p2-dots__machine">
         <div class="p2-dots__ways">
-          <span data-way="words" data-tone="read"><i></i>slide 3: every step comes back down through a written token</span>
+          <span data-way="words" data-tone="read"><i></i>words: every step comes back down through a written token</span>
           <span data-way="dots" data-tone="hidden"><i></i>filler dots in place of words carry nothing down: columns work in parallel</span>
           <span data-way="vectors" data-tone="hidden"><i></i>Coconut: nothing written; the last hidden state is the next input</span>
         </div>
@@ -756,7 +825,7 @@
       </div>
       <div class="p2-dots__under">
         ${holdsHtml()}
-        <p class="p2-dots__next">So can the window be kept open?</p>
+        <p class="p2-dots__next">If the window can close, can we keep it open?</p>
       </div>
     </div></div>`;
   };
@@ -894,7 +963,9 @@
     latent.show('[data-card="vectors"]', { at: solved + 600 });
     grow(latent, 'logic', solved + 1000, oneDecimal);
     grow(latent, 'math', solved + 1500, oneDecimal);
-    // Last, the question that hands over to Part 3, in that part's color.
+    // Last, the question that hands over to Part 3, in that part's color. It follows from
+    // the picture (words gone, so the window can close) and not from the main line, which
+    // says that today's large models still need words: "So can ..." read as a non sequitur.
     latent.tween('.p2-dots__next', { opacity: [0, 1] }, { at: solved + 2600, dur: dur.enter });
     latent.hold(400);
   };

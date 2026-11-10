@@ -24,6 +24,22 @@
       src: 'korbak2025', where: 'Fig. 1 caption',
     },
   });
+  // Facts that only slide 2 needs: the motive that comes before the monitor. The worry on
+  // screen quotes 'p1.korbak_misbehave'; the title and the first cue rest on
+  // 'p1.korbak_before'; the window is our image, not the paper's word, and the sentence it
+  // stands for is 'p1.korbak_insight'. Each was searched for as a whole string in the arXiv
+  // HTML full text (2507.11473v2, the copy downloaded on 2026-11-09).
+  Deck.addFacts({
+    'p1.korbak_misbehave': { text: 'intent to misbehave', src: 'korbak2025', where: 'abstract; Sec. 1' },
+    'p1.korbak_before': {
+      text: 'explicitly trained to perform extended reasoning in CoT before taking actions or producing final outputs',
+      src: 'korbak2025', where: 'Sec. 1',
+    },
+    'p1.korbak_insight': {
+      text: 'by studying the CoT, we can gain some insight into how our AI agents think',
+      src: 'korbak2025', where: 'Sec. 1',
+    },
+  });
 
   // A word of a shared string gets its own element; if the string changed, say so loudly.
   const wrapWord = (html, word, attrs) => {
@@ -128,6 +144,11 @@
   // The monitor's check also stands beside the line with the slip in it: it is not a grade.
   // The note is about the trace, so it goes on the terminal's border, not among the lines.
   const CHECK_IS = 'a check: nothing suspicious, not “correct”';
+  // Why anyone reads the reasoning, before a monitor is named: the paper's worry (quoted),
+  // then what the written reasoning is to us. The window is our image (the name of Part 1),
+  // not the paper's word, so it is set as a tag on the trace's top border and says so; the
+  // paper's sentence behind it is 'p1.korbak_insight'.
+  const WINDOW_IS = 'our metaphor: a window into its thinking';
   // Who signed the position paper: the four largest groups of its author list, then the rest.
   // One dot per author, so the 41 on the card is the number of dots.
   const SIGNED = (() => {
@@ -151,6 +172,22 @@
   };
   const arrow = (key) => `<svg class="p1-pad__arrow" data-arrow="${key}" viewBox="0 0 64 24"><path d="M2 12h58M48 3l12 9-12 9"/></svg>`;
 
+  // When the entrance has typed the reasoning, and when the window tag arrives (and with it
+  // the first cue), in ms. Computed here because the cue is registered before setup() runs;
+  // setup() checks the result against its own timeline, so the two cannot drift apart.
+  const PAD_AT = (() => {
+    const typeMs = (s, cps) => Math.round((s.length / cps) * 1000);
+    const traceIn = 600 + DUR.enter;
+    const typed = PAD.lines.reduce((end, line, i) => {
+      const at = end + (i === 0 ? 200 : 250);
+      if (!line.beat) return at + typeMs(line.text, PAD.cps);
+      const paused = at + typeMs(line.beat, PAD.cps / 2) + 500;
+      return paused + Math.round(((line.text.length - line.beat.length) / PAD.cps) * 1000);
+    }, traceIn);
+    const answered = typed + 200 + DUR.enter + DUR.enter;
+    return Object.freeze({ typed, window: answered + 200 });
+  })();
+
   // A line types; a line with a beat stops after it, then goes on (the self-correction).
   const typeLine = (step, line, gap) => {
     const target = `[data-line="${line.key}"]`;
@@ -168,7 +205,7 @@
     part: 1,
     title: 'Reasoning models write their thinking before they answer',
     cues: [
-      'Thinking first, answer after',
+      { text: 'Thinking first, answer after: the words are a window', at: PAD_AT.window },
       { text: 'These thoughts are words, so a monitor can read them', step: 1 },
       { text: `${text('korbak.authors')} across labs and institutes: “new and fragile”`, step: 2, at: SIGNED.fragileAt },
     ],
@@ -183,7 +220,10 @@
             <div class="p1-pad__ask">${PAD.ask}</div>
           </div>
           ${arrow('in')}
-          ${kit.trace({ key: 'pad', label: 'Reasoning, written out', lines: PAD.lines.map((l) => l.key), verdict: 'clean', note: CHECK_IS })}
+          ${kit.trace({
+    key: 'pad', label: 'Reasoning, written out', lines: PAD.lines.map((l) => l.key), verdict: 'clean', note: CHECK_IS,
+    inner: `<span class="p1-pad__window">${WINDOW_IS}</span>`,
+  })}
           ${arrow('out')}
           <div class="p1-pad__answer dk-card">
             <div class="p1-pad__tag">Answer</div>
@@ -193,6 +233,7 @@
             </div>
             <div class="p1-pad__state"><span class="p1-pad__state-held">held back</span><span class="p1-pad__state-open">released</span></div>
           </div>
+          <p class="p1-pad__why"><b>The worry:</b> a model’s <q>${text('p1.korbak_misbehave')}</q></p>
           <p class="p1-pad__def"><b>The monitor:</b> ${MONITOR_IS}</p>
           <p class="p1-pad__gate">If it flags, the answer <q>${text('korbak.blocked')}</q></p>
         </div>
@@ -215,13 +256,19 @@
       // Until the paper arrives its slot is empty, so the flow sits lower, centered on the stage.
       const lift = Math.round((paperCard.offsetHeight + rowGap(ctx.q('.p1-pad'))) / 2);
 
-      const enter = ctx.step({ label: 'prompt, written reasoning, the answer waits' });
+      // Enter: the worry first, then the model writes its reasoning and the answer waits;
+      // once the words stand, the tag on the trace's border names what they are to us.
+      const enter = ctx.step({ label: 'the worry; written reasoning, a window; the answer waits' });
+      enter.show('.p1-pad__why', { at: 0, rise: 0 });
       enter.tween('.p1-pad__prompt', { opacity: [0, 1], x: [-48, 0] }, { at: 200 });
       enter.show('[data-arrow="in"]', { at: 500, rise: 0 });
       enter.show(trace, { at: 600 });
       PAD.lines.forEach((line, i) => typeLine(enter, line, i === 0 ? 200 : 250));
+      if (enter.end !== PAD_AT.typed) throw Deck.fail(`part 1: p1-scratchpad types its reasoning by ${enter.end} ms, PAD_AT says ${PAD_AT.typed}`);
       enter.show('[data-arrow="out"]', { at: enter.end + 200, rise: 0 });
       enter.show('.p1-pad__answer', { at: enter.end });
+      enter.show('.p1-pad__window', { at: PAD_AT.window, rise: 0 });
+      enter.cls(trace, 'p1-is-window', { at: PAD_AT.window });
       enter.hold(DUR.micro);
 
       // Think, be read, act: the answer is released only after the lens has passed every line.
@@ -525,7 +572,7 @@
     part: 1,
     title: 'Sometimes the model just says it: <em>“Let’s hack”</em>',
     cues: [
-      'A frontier coding agent, told to make all unit tests pass',
+      'A frontier coding agent, asked to implement features so all tests pass',
       { text: `Actions only: ${text('baker.recall_action')} caught.<br>With thoughts: <b>${text('baker.recall_cot')}</b>`, step: 2, at: REVEAL.landed },
       { text: 'But does the text always say why?', step: 3, at: 600 },
     ],

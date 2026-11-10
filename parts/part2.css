@@ -51,19 +51,21 @@
 .p2-hint__options .is-forced { color: var(--c-hidden); }
 .p2-hint__options .is-forced b { color: var(--c-hidden); }
 
-/* The last slide's trace, tucked behind this one: that time the text said why. */
+/* A callback to the "Let's hack" terminal, not part of this example: a pill of its own, with
+   a gap under it, so that it is not read as the planet question's reasoning. */
 .p2-hint__echo {
-  position: absolute; left: 736px; top: 0; width: 728px; height: 60px; padding: 0 var(--sp-6) var(--sp-3);
-  display: flex; align-items: center; gap: var(--sp-4);
-  border: var(--stroke-1) solid var(--c-line); border-bottom: 0; border-radius: var(--radius-2) var(--radius-2) 0 0;
-  background: var(--c-surface-2); font: 400 var(--fs-0)/var(--lh-0) var(--font-mono); color: var(--c-faint);
+  position: absolute; left: 712px; top: 0; height: 40px; padding: 0 var(--sp-2) 0 var(--sp-4);
+  display: flex; align-items: center; gap: var(--sp-3);
+  border: var(--stroke-1) dashed var(--c-line); border-radius: var(--radius-3);
+  font: 400 var(--fs-0)/var(--lh-0) var(--font-mono); color: var(--c-faint);
 }
-.p2-hint__echo-tag { letter-spacing: .08em; text-transform: uppercase; }
+/* One row: who it was, what it said, the verdict it got. */
+.p2-hint__echo > span { white-space: nowrap; }
 .p2-hint__echo-quote { font-weight: 600; color: var(--c-alarm); }
 .p2-hint__echo-note { font-family: var(--font-sans); color: var(--c-dim); }
-.p2-hint__echo .dk-flag { margin-left: auto; border-color: var(--c-alarm); color: var(--c-alarm); line-height: var(--lh-0); }
+.p2-hint__echo .dk-flag { border-color: var(--c-alarm); color: var(--c-alarm); line-height: 24px; }
 
-.p2-hint__term { position: absolute; left: 712px; top: 48px; width: 776px; height: 244px; }
+.p2-hint__term { position: absolute; left: 712px; top: 56px; width: 776px; height: 236px; }
 .p2-hint__lines { display: grid; }
 .p2-hint__plain { grid-area: 1 / 1; }
 .p2-hint__hinted { grid-area: 1 / 1; }
@@ -77,7 +79,7 @@
 .p2-hint__term .p2-find { position: absolute; right: var(--sp-6); top: 20px; }
 
 .p2-hint__answer {
-  position: absolute; left: 1528px; top: 48px; width: 200px; height: 244px; padding: var(--sp-4);
+  position: absolute; left: 1528px; top: 56px; width: 200px; height: 236px; padding: var(--sp-4);
   display: grid; grid-template-rows: auto 96px auto; row-gap: var(--sp-2); justify-items: center; align-content: center;
   border: var(--stroke-1) solid var(--c-line); border-radius: var(--radius-2); background: var(--c-surface);
 }
@@ -149,8 +151,15 @@
   font: 600 var(--fs-1) var(--font-sans); text-anchor: middle; fill: var(--tone);
   paint-order: stroke; stroke: color-mix(in srgb, var(--tone) 12%, var(--c-surface)); stroke-width: 10px; stroke-linejoin: round;
 }
+/* Inside each hemisphere: which one it is, then what it does (the author's caption). */
+.p2-sb__half-sub { font: 600 var(--fs-0) var(--font-sans); }
+.p2-sb__half-role { font: 600 var(--fs-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; }
 .p2-sb__cut-line { fill: none; stroke: var(--c-alarm); stroke-width: 4; stroke-dasharray: 14 10; stroke-linecap: round; }
 .p2-sb__cut-line.is-plain { stroke: var(--c-line); }
+/* The label sits on the cut, inside the brain, so that it names the link between the halves
+   and not the crossing in front of them. */
+.p2-sb__cut-pill { fill: var(--c-bg); stroke: var(--c-alarm); stroke-width: 2; }
+.p2-sb__cut-pill.is-plain { stroke: var(--c-hidden); }
 .p2-sb__cut-label {
   font: 600 var(--fs-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; text-anchor: middle; fill: var(--c-alarm);
   paint-order: stroke; stroke: var(--c-bg); stroke-width: 12px; stroke-linejoin: round;
@@ -158,9 +167,12 @@
 /* What the cut is in the model, at the reveal: nothing is cut, the hint is in the prompt. */
 .p2-sb__cut-label[data-cut="model"] { fill: var(--c-hidden); }
 .p2-sb__scene {
-  font: 600 var(--fs-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; text-anchor: middle; fill: var(--c-faint);
-  transform-box: fill-box; transform-origin: center;
+  font: 600 var(--fs-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; text-anchor: start; fill: var(--c-faint);
+  transform-box: fill-box; transform-origin: left center;
 }
+/* In front of the brain the two pictures' arrows cross; this crossing is not cut. */
+.p2-sb__chiasm-label { font: 400 var(--fs-0) var(--font-sans); text-anchor: middle; fill: var(--c-dim); }
+.p2-sb__chiasm-tick { fill: none; stroke: var(--c-faint); stroke-width: 2; stroke-dasharray: 4 6; }
 .p2-sb__scene[data-scene="model"] { fill: var(--c-hidden); }
 .p2-sb__arrow-line { fill: none; stroke: var(--tone); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: var(--draw, 1); }
 .p2-sb__arrow-head { fill: var(--tone); }
@@ -172,20 +184,24 @@
 .p2-sb__route-head { fill: var(--c-hidden); }
 .p2-sb__stop { fill: none; stroke: var(--c-alarm); stroke-width: 7; stroke-linecap: round; }
 
-/* Beside the cross, level with the cut and clear of it: how often the hint does reach the
-   text in the model (slide 5's rates). */
-.p2-sb__leak { position: absolute; left: 0; top: 232px; width: 328px; height: 160px; display: flex; align-items: center; }
+/* At the reveal, beside the written reasoning, where the patient's spare card stood: how
+   often the hint does reach the text in the model (Chen et al.'s two rates). */
+.p2-sb__leak { position: absolute; left: 0; top: 232px; width: 304px; height: 160px; display: flex; align-items: center; }
 .p2-sb__leak p { width: 100%; font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); text-align: right; text-wrap: balance; }
 .p2-sb__leak b { font-weight: 600; color: var(--c-read); }
 .p2-sb__leak-tag { display: block; font: 400 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--c-faint); }
 
 .p2-sb__card { position: absolute; perspective: 900px; }
-.p2-sb__card[data-card="claw"] { left: 0; top: 40px; width: 288px; height: 188px; }
-.p2-sb__card[data-card="snow"] { left: 0; top: 392px; width: 288px; height: 188px; }
-.p2-sb__card[data-card="chicken"] { left: 936px; top: 60px; width: 160px; height: 140px; }
-.p2-sb__card[data-card="spare-a"] { left: 968px; top: 216px; width: 96px; height: 96px; }
-.p2-sb__card[data-card="spare-b"] { left: 968px; top: 328px; width: 96px; height: 96px; }
-.p2-sb__card[data-card="shovel"] { left: 936px; top: 440px; width: 160px; height: 140px; }
+/* Each hemisphere sees the picture on the other side and points with the other side's hand:
+   the claw (right visual field) and the chicken (right hand) on the right, for the left
+   hemisphere; the snow scene and the shovel on the left, for the right one. One spare card on
+   each side. */
+.p2-sb__card[data-card="claw"] { left: 816px; top: 44px; width: 288px; height: 176px; }
+.p2-sb__card[data-card="snow"] { left: 0; top: 44px; width: 288px; height: 176px; }
+.p2-sb__card[data-card="chicken"] { left: 900px; top: 440px; width: 160px; height: 140px; }
+.p2-sb__card[data-card="spare-a"] { left: 76px; top: 272px; width: 96px; height: 96px; }
+.p2-sb__card[data-card="spare-b"] { left: 932px; top: 272px; width: 96px; height: 96px; }
+.p2-sb__card[data-card="shovel"] { left: 44px; top: 440px; width: 160px; height: 140px; }
 .p2-sb__flip { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateY(calc(var(--flip, 0) * 180deg)); }
 .p2-sb__face {
   position: absolute; inset: 0; padding: var(--sp-3); display: grid; grid-template-rows: minmax(0, 1fr) auto; justify-items: center;
@@ -196,6 +212,8 @@
 .p2-sb__card.is-picked .p2-sb__face { border-color: var(--tone); border-width: var(--stroke-2); }
 .p2-sb__card--spare .p2-sb__face { grid-template-rows: minmax(0, 1fr); }
 .p2-sb__cap { font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
+.p2-sb__card--sees .p2-sb__face:not(.p2-sb__face--back) { grid-template-rows: minmax(0, 1fr) auto auto; }
+.p2-sb__field { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--tone); }
 .p2-sb__icon { width: 100%; height: 100%; min-height: 0; fill: none; stroke: var(--c-text); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
 .p2-sb__icon-bold { stroke-width: 8; }
 .p2-sb__icon-dot { fill: var(--c-text); stroke: none; }

@@ -23,6 +23,8 @@
   position: absolute; left: var(--sp-12); top: 100%; margin-top: var(--sp-6);
   font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-read);
 }
+/* From click 1 the terminal shows this experiment's agent; its label says so, in full text color. */
+.p3-tw .dk-term__label.p3-tw__now { color: var(--c-text); }
 .p3-tw__pane { position: relative; }
 
 /* Top right of the actions pane: this monitor reads thoughts only. */
@@ -56,11 +58,14 @@
 
 /* The right column has the width of slide 4's. Its blocks stack from the top: the training
    card, the meters under their heading, and the line that says what the bars are. */
-.p3-tw__side { position: absolute; right: 0; top: 0; width: 784px; display: grid; row-gap: var(--sp-4); }
+.p3-tw__side { position: absolute; right: 0; top: 0; width: 784px; display: grid; row-gap: var(--sp-2); }
 .p3-tw__train { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: var(--sp-6); align-items: center; padding: var(--sp-6); }
 .p3-tw__train-text { display: grid; row-gap: var(--sp-2); }
 .p3-tw__train-label { font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--c-faint); }
 .p3-tw__reward { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+/* From the first step, at the size of body text: which experiment the board shows. It is
+   not the one of the terminal above (the frontier agent, whose monitor also saw the actions). */
+.p3-tw__run { font: 500 var(--fs-2)/var(--lh-2) var(--font-sans); color: var(--c-text); text-wrap: pretty; }
 .p3-tw__fine { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
 /* The dial: how much the training optimizes against the monitor. The needle starts on a
    neutral tick, "off": the monitor is not in the reward yet. The two zones after it are the
@@ -83,8 +88,8 @@
    reveal the one trained too much against it. The low zone has no bars of its own: while
    the needle is away from "off" and the reveal has not come, the timeline dims the heading
    and both meters. */
-.p3-tw__meters { display: grid; row-gap: var(--sp-6); }
-.p3-tw__state { display: grid; margin-bottom: calc(-1 * var(--sp-4)); font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
+.p3-tw__meters { display: grid; row-gap: var(--sp-4); }
+.p3-tw__state { display: grid; margin-bottom: calc(-1 * var(--sp-2)); font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
 .p3-tw__state span { grid-area: 1 / 1; }
 .p3-tw__state [data-state="high"] { color: var(--c-alarm); }
 .p3-tw__meter .dk-meter { grid-template-columns: minmax(0, 1fr) auto; row-gap: var(--sp-2); column-gap: var(--sp-4); }

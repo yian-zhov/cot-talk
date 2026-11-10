@@ -38,6 +38,16 @@
       text: 'We chose to exclude agent actions from the monitor because it allows us to make statements around the monitorability of, and optimization pressures on, the CoT in isolation',
       src: 'baker2025', where: 'Sec. 3.1',
     },
+    // Slide 8: the terminal's two thoughts are the frontier agent's (Sec. 2, Fig. 1 and 9);
+    // the run this slide trains is another experiment of the same paper, with a non-frontier
+    // agent ('baker.obfuscated_agent') and a monitor that reads only the thoughts
+    // ('baker.obfuscated_monitor', Sec. 3.2; 'p3.baker_cot_only', Sec. 3.1). Behind the caption
+    // under the terminal, the terminal's label once click 1 has switched it to this run's
+    // agent, and the line under the meters ("a different, non-frontier agent": "non-frontier"
+    // is the paper's word; "different" says only that it is not the agent of the caption).
+    // Searched for as whole strings in the copy of 2503.11926v1 downloaded on 2026-11-09.
+    'p3.baker_frontier_cot': { text: 'Chain-of-thought from a frontier reasoning model', src: 'baker2025', where: 'Fig. 1 caption' },
+    'p3.baker_nonfrontier_run': { text: 'We train a non-frontier agent in the same coding environments', src: 'baker2025', where: 'Fig. 3 caption' },
     // Slide 9: the easy hint is the kind slide 5 used, and what happens without the steps.
     'p3.emmons_prior_simple': {
       text: 'In the original experiments, following the simple hint did not require significant computation',
@@ -134,7 +144,15 @@
   const TWIST = Object.freeze({
     caught: ['96%', '3%'], hacks: ['100%', '62%'], perLine: 180,
     lowAt: 300, lowDur: 700, highAt: 2000, highDur: 2400, beat: 900,
-    cueOpen: 2200, cueLaw: 2600, stale: 0.5,
+    cueOpen: 2200, cueLaw: 2600, stale: 0.5, runAt: 1000, switchAt: 1800,
+  });
+  // The terminal opens on the frontier agent's thoughts of slide 4, and click 1 trains this
+  // experiment's agent, another one. So before its lines start to change (REWRITE, from
+  // 2400 ms) the terminal says whose thoughts it now shows: at `switchAt` the caption under it
+  // and its label change over, while the needle still rests in the low zone.
+  const SWITCH = Object.freeze({
+    label: () => `The ${text('baker.obfuscated_agent')} agent thinks`,
+    caption: 'Now this experiment’s agent, trained against the monitor',
   });
   // When each beat of the click starts (ms): the thought has settled, the monitor reads it and
   // gives its verdict, the cover lifts from the actions line by line, the hack stands, and the
@@ -251,7 +269,8 @@
           <div class="p3-tw__left">
             ${kit.trace({
     key: HACK.key, label: HACK.label, verdict: HACK.verdict, width: HACK.width, lines: HACK.lines,
-    inner: '<span class="p3-tw__caption">Slide 4’s examples again: thoughts still in words</span>',
+    inner: `<span class="p3-tw__caption" data-caption="before">The frontier agent’s thoughts from before, still in words</span>
+      <span class="p3-tw__caption" data-caption="now">${SWITCH.caption}</span>`,
   })}
             <div class="p3-tw__pane">
               ${kit.term({ label: 'What the agent does', lines: ACTION_KEYS })}
@@ -281,8 +300,9 @@
                 <p class="p3-tw__said">${quoted(text('baker.obfuscated_hacking'))}</p>
               </div>
             </div>
-            <p class="p3-tw__fine">Trained here: a ${text('baker.obfuscated_agent')} agent in the same coding environments.
-              Bar lengths are ours: the paper plots both over training.</p>
+            <p class="p3-tw__run">Same paper, another experiment: a different, ${text('baker.obfuscated_agent')} agent,
+              and a monitor that reads only its thoughts.</p>
+            <p class="p3-tw__fine">Bar lengths are ours: the paper plots both over training.</p>
           </div>
         </div>
         <div class="p3-tw__law">
@@ -307,7 +327,7 @@
       // Enter: the terminal of slide 4 as it ended, in the same place: the thought, the two
       // pointers, the red frame, the verdict and the note on its border. The chip beats once;
       // then this slide's own pieces arrive around it.
-      const enter = ctx.step({ label: 'slide 4’s terminal, as it ended' });
+      const enter = ctx.step({ label: 'the “Let’s hack” terminal, as it ended' });
       kit.setTrace(enter, trace, {
         verdict: HACK.verdict, state: 'is-flagged', alarm: true, note: text(HACK.note),
         lines: HACK.lines.map((line) => (REWRITE[line.key]
@@ -316,7 +336,11 @@
       });
       enter.tween(parts.chip, { scale: [1, 1.25] }, { at: 700, dur: 160 });
       enter.tween(parts.chip, { scale: [1.25, 1] }, { at: 860, dur: 300 });
-      enter.show('.p3-tw__caption', { at: 500, rise: 0 });
+      enter.show('[data-caption="before"]', { at: 500, rise: 0 });
+      // The label is slide 4's until click 1 switches it (the selftest compares it at the end
+      // of this step); typed here at once so that it holds its text before the switch.
+      const label = parts.term.querySelector('.dk-term__label');
+      enter.type(label, HACK.label, { at: 0, dur: 0 });
       enter.show('.p3-tw__pane', { at: 900 });
       enter.show('.p3-tw__train', { at: 1200 });
       enter.show('[data-state="off"]', { at: 1400, rise: 0 });
@@ -326,6 +350,7 @@
       enter.type(`${caught} .dk-meter__value`, text('baker.baseline_recall'), { at: 2000, dur: 0 });
       enter.tween(`${caught} .dk-meter__value`, { scale: [1, 1] }, { dur: 0 });
       enter.show('.p3-tw__fine', { at: 2000, rise: 0 });
+      enter.show('.p3-tw__run', { at: TWIST.runAt, rise: 0 });
 
       // Click 1: the monitor enters the reward and the dial leaves "off". In the low zone the
       // paper found a better agent; the needle rests there while that finding is read (the
@@ -347,7 +372,13 @@
       const high = press.signal({ at: TWIST.highAt, dur: TWIST.highDur, ease: 'inOut', to: 1 - DIAL.rest });
       beat('[data-end="high"]', TWIST.highAt + TWIST.highDur / 2);
       press.tween(parts.term, { '--heat': [0, 1] }, { at: TWIST.highAt + 100, dur: dur.move });
-      press.hide('.p3-tw__caption', { at: TWIST.highAt, dur: dur.micro });
+      // Whose thoughts these are from now on: this experiment's agent, before they change.
+      press.hide('[data-caption="before"]', { at: TWIST.switchAt, dur: dur.micro });
+      press.tween(label, { opacity: [1, 0] }, { at: TWIST.switchAt, dur: dur.micro });
+      press.type(label, SWITCH.label(), { at: TWIST.switchAt + dur.micro, dur: 0 });
+      press.cls(label, 'p3-tw__now', { at: TWIST.switchAt + dur.micro });
+      press.tween(label, { opacity: [0, 1] }, { at: TWIST.switchAt + dur.micro, dur: dur.enter });
+      press.show('[data-caption="now"]', { at: TWIST.switchAt + dur.micro, rise: 0 });
       press.tween(parts.note, { opacity: [1, 0] }, { at: TWIST.highAt + 200, dur: dur.micro });
       const morphs = rewritten.map((line, i) => {
         const plan = REWRITE[line.key];
@@ -475,9 +506,9 @@
     // ("simple" is the paper's word, 'baker.simple_hack'), which is why it could go quiet there
     // and why the hard hint cannot here.
     cues: [
-      'Easy hint, like slide 8’s simple hack: followed without a word',
+      'Easy hint, like the “assert True” hack: followed without a word',
       { text: 'Hard hint: the arithmetic has to be written', step: 1 },
-      { text: 'No words, no hard step; slide 7’s dots took special training', step: 2, at: NEC_AT.verdict },
+      { text: 'No words, no hard step; the filler dots took special training', step: 2, at: NEC_AT.verdict },
     ],
     cite: [{ src: 'emmons2025', where: 'Sec. 3.1, Fig. 3; abstract' }, { src: 'baker2025', where: 'Sec. 3.2' }],
     figure: 'schematic',
@@ -487,7 +518,7 @@
           <div class="dk-card p3-nec__hint" data-hint="easy">
             <div class="p3-nec__hint-label">Easy hint to a wrong answer</div>
             <div class="p3-nec__hint-text">${esc(text('emmons.simple_hint'))}</div>
-            <div class="p3-nec__hint-like">Nothing to work out: like slide 5’s hint and slide 8’s simple hack.</div>
+            <div class="p3-nec__hint-like">Nothing to work out: like the professor hint and the “assert True” hack.</div>
           </div>
           <div class="dk-card p3-nec__hint" data-hint="hard">
             <div class="p3-nec__hint-label">Hard hint to the same answer</div>
@@ -691,7 +722,7 @@
   })();
   // The note on the card's border, from click 1 on: whose thought the rows hold. That the run
   // is a drawing is said in the lead above the card (RUN_LEAD), not on the border.
-  const RUN_NOTE = Object.freeze({ thought: 'illustrative: slide 1’s thought' });
+  const RUN_NOTE = Object.freeze({ thought: 'illustrative: the 17 × 24 thought' });
   // The lead above the card. 'p3.korbak_checkpoint' is the example, 'p3.korbak_track' and
   // 'p3.korbak_consider' the argument; the paper gives the example in one sentence and reports no
   // run. The two terms are explained in plain words: a checkpoint is what the paper's example
@@ -699,7 +730,7 @@
   // and where a deployed model's decision is documented ('p3.korbak_architecture').
   const RUN_LEAD = Object.freeze({
     tag: 'Drawing, not data',
-    says: `Example and argument: ${Deck.sources.korbak2025.short} (slide 2), Sec. 4. No such run is reported.`,
+    says: `Example and argument: ${Deck.sources.korbak2025.short} (the ${text('korbak.authors')}), Sec. 4. No such run is reported.`,
     terms: 'Checkpoint: the model as saved at one point in training. System card: the report published with a model.',
   });
   // Which characters of the thought a row writes as dots (by position among the characters
@@ -990,7 +1021,7 @@
       // Click 1: the recap moves up. The dots of slide 1 return, stand for a moment and
       // gather into the question. After a pause the second question, the one still open,
       // and then the floor opens.
-      const ask = ctx.step({ label: 'slide 1’s dots return and become the question; how would you know' });
+      const ask = ctx.step({ label: 'the title slide’s dots return and become the question; how would you know' });
       ask.tween('.p3-cl__recap', { y: [CLOSE.lift, 0] }, { dur: dur.move, ease: 'inOut' });
       seeds.forEach((seed, i) => {
         ask.tween(seed, { opacity: [0, 1], scale: [0.2, 1] }, { at: CLOSE.dotsAt + i * CLOSE.perDot, dur: dur.enter, ease: 'back' });

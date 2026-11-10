@@ -34,12 +34,25 @@
 .p1-pad__flow {
   display: grid; grid-template-columns: minmax(380px, max-content) 64px minmax(0, 1fr) 64px 300px; column-gap: var(--sp-4);
   row-gap: var(--sp-6); align-items: stretch;
+  padding-top: var(--sp-4);   /* room for the tag on the trace's top border (.p1-pad__window) */
 }
 /* The note on the terminal's border says what a check means; the row gap above keeps it
    clear of the definition under the terminal. */
 /* The second row of the flow: what the monitor is, under the reasoning it reads, and what a
    flag can lead to, under the answer it holds back. */
-.p1-pad__def, .p1-pad__gate { grid-row: 2; font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
+.p1-pad__why, .p1-pad__def, .p1-pad__gate { grid-row: 2; font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
+/* Under the prompt, first of the row: why anyone reads the reasoning. It takes the width of
+   the prompt card and lends none of its own to that column. */
+.p1-pad__why { grid-column: 1; contain: inline-size; }
+.p1-pad__why b { font-weight: 600; color: var(--c-alarm); }
+.p1-pad__why q { quotes: "“" "”"; color: var(--c-text); white-space: nowrap; }
+/* What the written reasoning is to us, on the trace's top border: our metaphor, in the face
+   of a label, outside the lines the model wrote. The frame turns teal with it. */
+.p1-pad__window {
+  position: absolute; left: var(--sp-8); top: calc(var(--lh-0) / -2); padding: 0 var(--sp-3); background: var(--c-bg);
+  font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-read); white-space: nowrap;
+}
+.p1-pad .dk-trace.p1-is-window .dk-term { border-color: var(--c-read); }
 .p1-pad__def { grid-column: 3; padding-left: var(--sp-12); }
 .p1-pad__def b { font-weight: 600; color: var(--c-read); }
 .p1-pad__gate { grid-column: 4 / span 2; text-align: right; }
