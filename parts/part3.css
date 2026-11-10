@@ -1,0 +1,293 @@
+/* Part 3 styles.
+   Every selector starts with .p3- (or [data-part="3"]) and every @keyframes name with p3-,
+   so the three parts cannot collide. Colors, sizes and fonts come from core/tokens.css;
+   no text below var(--fs-0). Motion belongs to the timeline (ctx.step), not to CSS transitions. */
+
+/* ---- shared by slides 8 to 11: one of the part's three ways to keep the window open ---- */
+.p3-keep { display: flex; align-items: baseline; justify-content: center; gap: var(--sp-6); color: var(--c-open); }
+.p3-keep__tag { font: 600 var(--fs-0)/var(--lh-2) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.p3-keep__move { font: 600 var(--fs-2)/var(--lh-2) var(--font-sans); }
+
+/* ---- slide 8, p3-twist: the terminal of slide 4, trained against the monitor ---- */
+.p3-tw { position: absolute; inset: 0; }
+.p3-tw__board { position: absolute; inset: 0; }
+/* The left column is slide 4's: the trace (kit.trace) sits exactly where that slide left it,
+   and under it a pane for the actions, where slide 4 has the pane of the action monitor. */
+.p3-tw__left { position: absolute; left: 0; top: 0; width: 880px; display: grid; row-gap: var(--sp-16); }
+.p3-tw__left .dk-trace .dk-term {
+  box-shadow: 0 0 calc(var(--heat, 0) * 64px) color-mix(in srgb, var(--c-hidden) calc(var(--heat, 0) * 55%), transparent);
+}
+/* Under the trace, in the gap between the two panes and below the note on the trace's border:
+   where this picture comes from. */
+.p3-tw__caption {
+  position: absolute; left: var(--sp-12); top: 100%; margin-top: var(--sp-6);
+  font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-read);
+}
+.p3-tw__pane { position: relative; }
+
+/* Top right of the actions pane: this monitor reads thoughts only. */
+.p3-tw__mon {
+  position: absolute; right: var(--sp-8); top: var(--sp-6);
+  font: 400 var(--fs-0)/var(--lh-1) var(--font-sans); color: var(--c-dim);
+}
+
+/* The actions are covered until the reveal: one bar per line of the pane. */
+.p3-tw__veil { position: absolute; left: var(--sp-12); top: 80px; display: grid; }
+.p3-tw__veil i { display: block; height: 28px; margin: var(--sp-2) 0; border-radius: var(--radius-1); background: var(--c-line); }
+.p3-tw__veil i:nth-child(1) { width: 640px; }
+.p3-tw__veil i:nth-child(2) { width: 252px; }
+.p3-tw__veil i:nth-child(3) { width: 368px; }
+/* Under the actions pane, once the hack is on screen: why this monitor was not shown them. */
+.p3-tw__why {
+  position: absolute; left: var(--sp-12); right: 0; top: 100%; margin-top: var(--sp-6);
+  font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text);
+}
+
+/* The rewrite: old characters keep the line's tone, noise is what happens inside, and a
+   settled character is plain text. */
+.p3-tw__noise { color: var(--c-hidden); font-weight: 400; }
+.p3-tw__new { color: var(--c-text); font-weight: 400; }
+.p3-tw__pass { color: var(--c-ok); }
+/* The monitor read the rewritten thought and found nothing. That is no good news here, so its
+   marks and its verdict are neutral and not the green of a trace that is fine (slide 2); once
+   the hack is on screen the verdict turns to "fooled", in the red of a flag. */
+.p3-tw .dk-trace.p3-tw__reread .dk-term__line::before { background: var(--c-dim); }
+.p3-tw .dk-flag.p3-tw__quiet { border-color: var(--c-dim); color: var(--c-dim); }
+
+/* The right column has the width of slide 4's. Its blocks stack from the top: the training
+   card, the meters under their heading, and the line that says what the bars are. */
+.p3-tw__side { position: absolute; right: 0; top: 0; width: 784px; display: grid; row-gap: var(--sp-4); }
+.p3-tw__train { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: var(--sp-6); align-items: center; padding: var(--sp-6); }
+.p3-tw__train-text { display: grid; row-gap: var(--sp-2); }
+.p3-tw__train-label { font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--c-faint); }
+.p3-tw__reward { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.p3-tw__fine { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
+/* The dial: how much the training optimizes against the monitor. The needle starts on a
+   neutral tick, "off": the monitor is not in the reward yet. The two zones after it are the
+   paper's two regimes; what it found in the first one stands next to the dial, under the
+   zone's name and in its color. The arc under the needle is neutral: amber is kept for what
+   happens inside the model. */
+.p3-tw__dial { display: block; overflow: visible; }
+.p3-tw__dial-zone { fill: none; stroke: var(--tone); stroke-width: 6; stroke-linecap: round; }
+.p3-tw__dial-off { stroke: var(--c-dim); stroke-width: 6; stroke-linecap: round; }
+.p3-tw__dial-track { fill: none; stroke: var(--c-line); stroke-width: 16; stroke-linecap: round; }
+.p3-tw__dial-fill { fill: none; stroke: var(--c-dim); stroke-width: 16; stroke-linecap: butt; }
+.p3-tw__dial-needle { stroke: var(--c-text); stroke-width: 6; stroke-linecap: round; }
+.p3-tw__dial-hub { fill: var(--c-text); }
+.p3-tw__dial-name { font: 600 var(--fs-0)/1 var(--font-sans); fill: var(--tone, var(--c-dim)); transform-box: fill-box; transform-origin: center; }
+.p3-tw__low { font: italic 400 var(--fs-0)/var(--lh-0) var(--font-serif); color: var(--c-text); }
+.p3-tw__low b { font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-ok); }
+
+/* Meters in the side column: label and words on one row, the track below. Above them, which
+   agent the bars show: the one trained without the monitor in its reward, and after the
+   reveal the one trained too much against it. The low zone has no bars of its own: while
+   the needle is away from "off" and the reveal has not come, the timeline dims the heading
+   and both meters. */
+.p3-tw__meters { display: grid; row-gap: var(--sp-6); }
+.p3-tw__state { display: grid; margin-bottom: calc(-1 * var(--sp-4)); font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
+.p3-tw__state span { grid-area: 1 / 1; }
+.p3-tw__state [data-state="high"] { color: var(--c-alarm); }
+.p3-tw__meter .dk-meter { grid-template-columns: minmax(0, 1fr) auto; row-gap: var(--sp-2); column-gap: var(--sp-4); }
+.p3-tw__meter .dk-meter__track { grid-column: 1 / -1; grid-row: 2; height: 32px; }
+.p3-tw__meter .dk-meter__value { grid-column: 2; grid-row: 1; min-height: var(--lh-1); font: 600 var(--fs-0)/var(--lh-1) var(--font-sans); }
+.p3-tw__meter .dk-meter.is-drained .dk-meter__value { color: var(--c-alarm); font-size: var(--fs-1); }
+.p3-tw__meter { display: grid; row-gap: var(--sp-2); }
+.p3-tw__said { font: italic 400 var(--fs-0)/var(--lh-0) var(--font-serif); color: var(--c-dim); }
+
+/* Click 2: the board is gone and the sentence stands alone; under it the advice, in the
+   color of the part. */
+.p3-tw__law {
+  position: absolute; inset: 0; display: grid; align-content: center; justify-items: center; row-gap: var(--sp-4);
+  text-align: center; pointer-events: none;
+}
+.p3-tw__law-quote { max-width: 1360px; font: italic 400 var(--fs-5)/var(--lh-5) var(--font-serif); color: var(--c-text); text-wrap: balance; }
+.p3-tw__law-by { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
+.p3-tw__law .p3-keep { margin-top: var(--sp-8); }
+.p3-tw__law-note { max-width: 1280px; font: 400 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-dim); text-wrap: balance; }
+
+/* ---- slide 9, p3-necessity: an easy hint, a hard hint, and the hard hint in the runs that wrote no step ---- */
+.p3-nec {
+  height: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 1152px; column-gap: var(--sp-12); row-gap: var(--sp-6);
+  align-content: center;
+}
+/* Left: the three cases, one card each; the one on the lattice is the bright one. */
+.p3-nec__hints { display: grid; row-gap: var(--sp-4); align-content: start; }
+.p3-nec__hint { display: grid; row-gap: var(--sp-1); padding: var(--sp-4) var(--sp-6); }
+.p3-nec__hint-label { font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--c-faint); }
+.p3-nec__hint-text { font: 400 var(--fs-0)/var(--lh-0) var(--font-mono); color: var(--c-hidden); }
+.p3-nec__hint-note { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-hidden); }
+/* Under the easy hint: the two earlier slides that were this kind of case. */
+.p3-nec__hint-like { margin-top: var(--sp-1); font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text); }
+.p3-nec__whose { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
+
+.p3-nec__lattice { position: relative; }
+.p3-nec__drops { position: absolute; left: 0; top: 0; overflow: visible; }
+.p3-nec__drop { fill: none; stroke: var(--c-read); stroke-width: 4; stroke-linecap: round; }
+.p3-nec__strike { fill: none; stroke: var(--c-dim); stroke-width: 4; stroke-linecap: round; }
+.p3-nec__lattice .dk-lens { left: 0; top: 308px; height: 80px; }
+.p3-nec__lattice .dk-lattice__token text { transform-box: fill-box; transform-origin: center; }
+.p3-nec__lattice .dk-lattice__token.is-hint rect { stroke: var(--c-hidden); }
+.p3-nec__lattice .dk-lattice__token.is-hint text { fill: var(--c-hidden); }
+.p3-nec__lattice .dk-lattice__token.is-answer rect { stroke: var(--c-ok); stroke-width: 4; }
+.p3-nec__lattice .dk-lattice__token.is-answer text { fill: var(--c-ok); font-weight: 600; }
+/* A step that was not written: an empty chip. Not a dot: on slide 7 a dot is a place where a
+   model trained for it computes, and here nothing takes the place of the words. */
+.p3-nec__lattice .dk-lattice__token.p3-nec__blank rect { stroke-dasharray: 8 8; }
+/* The hinted answer that no longer comes out. */
+.p3-nec__lattice .dk-lattice__token.is-lost rect { stroke-dasharray: 8 8; }
+.p3-nec__lattice .dk-lattice__token.is-lost text { fill: var(--c-faint); }
+
+.p3-nec__readout { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; column-gap: var(--sp-8); align-items: center; margin-top: var(--sp-4); }
+.p3-nec__reads { padding-left: var(--sp-3); font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-read); }
+.p3-nec__tally { text-align: right; font: 400 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-dim); }
+.p3-nec__count { display: inline-block; min-width: 1ch; font: 600 var(--fs-3)/var(--lh-1) var(--font-mono); color: var(--c-read); vertical-align: baseline; }
+.p3-nec__verdict { display: inline-grid; justify-items: end; }
+.p3-nec__verdict .dk-flag { grid-area: 1 / 1; text-align: center; white-space: nowrap; transform-origin: 100% 50%; }
+/* "Clean" and "not followed" are neutral: the monitor found nothing to read. Only a flag has a color. */
+.p3-nec__verdict .dk-flag:not(.is-flagged) { border-color: var(--c-dim); }
+/* Under the readout: what the case on the lattice comes to. One line per step. */
+.p3-nec__results { display: grid; margin-top: var(--sp-2); padding-left: var(--sp-3); font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); }
+.p3-nec__results span { grid-area: 1 / 1; color: var(--tone); }
+
+.p3-nec__close { grid-column: 1 / -1; display: grid; row-gap: var(--sp-3); justify-items: center; text-align: center; }
+.p3-nec__quote { font: italic 400 var(--fs-2)/var(--lh-2) var(--font-serif); color: var(--c-text); }
+/* After the quote, on the same line: whose sentence it is. */
+.p3-nec__by { margin-left: var(--sp-3); font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); white-space: nowrap; }
+
+/* ---- slide 10, p3-window: one moment rerun many times, with thinking off and on ---- */
+.p3-win {
+  height: 100%; display: grid; grid-template-columns: 520px 1160px; column-gap: var(--sp-12);
+  grid-template-rows: minmax(0, 1fr) auto; row-gap: var(--sp-4);
+}
+.p3-win__side, .p3-win__main { align-self: center; }
+
+/* Left: what is new in this setting, the moment every rerun starts from, and under it which
+   agent and which tasks the two numbers are for. */
+.p3-win__side { display: grid; row-gap: var(--sp-4); }
+.p3-win__bridge { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text); }
+.p3-win__moment { position: relative; display: grid; row-gap: var(--sp-3); padding: var(--sp-6); }
+.p3-win__turn { display: grid; row-gap: var(--sp-1); padding-left: var(--sp-4); border-left: var(--stroke-2) solid var(--c-line); }
+.p3-win__turn--planted { border-left-color: var(--c-alarm); }
+.p3-win__who { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
+.p3-win__said { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text); }
+.p3-win__planted { font: 400 var(--fs-0)/var(--lh-0) var(--font-mono); color: var(--c-alarm); }
+.p3-win__how { font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text); }
+.p3-win__scope { margin-top: var(--sp-2); font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
+
+/* Right: the reruns. Geometry is set from the timeline (parts/part3.js, the paint of slide 10). */
+.p3-win__runs { position: relative; height: 344px; }
+.p3-win__svg { display: block; overflow: visible; }
+.p3-win__axis { font: 400 var(--fs-0)/1 var(--font-sans); fill: var(--c-dim); text-anchor: middle; }
+.p3-win__axis--zone { fill: var(--c-read); }
+.p3-win__zone {
+  fill: color-mix(in srgb, var(--c-read) calc(8% + var(--glow, 0) * 16%), transparent);
+  stroke: color-mix(in srgb, var(--c-read) 50%, transparent); stroke-width: 2; stroke-dasharray: 8 8;
+}
+.p3-win__pre { fill: none; stroke: var(--c-open); stroke-width: 3; }
+.p3-win__post { fill: none; stroke-width: 3; }
+.p3-win__post.is-follow { stroke: var(--c-alarm); }
+.p3-win__post.is-resist { stroke: var(--c-dim); }
+.p3-win__node { fill: var(--c-hidden); stroke: var(--c-hidden); stroke-width: 4; }
+.p3-win__node.is-open { fill: var(--c-bg); stroke: var(--c-open); }
+.p3-win__end { stroke-width: 3; transform-box: fill-box; transform-origin: center; }
+.p3-win__end.is-follow { fill: var(--c-alarm); stroke: var(--c-alarm); }
+.p3-win__end.is-resist { fill: var(--c-bg); stroke: var(--c-dim); }
+/* Next to a moment's endings, in words: how its reruns end. */
+.p3-win__count { font: 600 var(--fs-0)/1 var(--font-sans); }
+.p3-win__count.is-follow { fill: var(--c-alarm); }
+.p3-win__count.is-resist { fill: var(--c-dim); }
+.p3-win__count.is-open { fill: var(--c-open); }
+/* In the corner of the picture: what it is. The footer tag uses the same word. */
+.p3-win__drawn { font: 400 var(--fs-0)/1 var(--font-sans); fill: var(--c-dim); text-anchor: end; }
+.p3-win__runs .dk-lens { left: -4px; top: 40px; height: 300px; opacity: 0; }
+
+/* Above the picture: on the left the one thing that changes between the two pictures, on the
+   right what the marks of an ending and of the bundle mean (the marks are the picture's own). */
+.p3-win__head { height: var(--lh-1); display: flex; align-items: center; justify-content: space-between; }
+.p3-win__legend { display: flex; align-items: center; gap: var(--sp-8); }
+.p3-win__key { display: flex; align-items: center; gap: var(--sp-2); font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); white-space: nowrap; }
+.p3-win__key i { flex: none; width: 16px; height: 16px; border: 3px solid; border-radius: 50%; }
+.p3-win__key[data-key="follow"] { color: var(--c-alarm); }
+.p3-win__key[data-key="follow"] i { border-color: var(--c-alarm); background: var(--c-alarm); }
+.p3-win__key[data-key="resist"] { color: var(--c-dim); }
+.p3-win__key[data-key="resist"] i { border-color: var(--c-dim); background: var(--c-bg); }
+.p3-win__key[data-key="open"] { gap: var(--sp-3); color: var(--c-open); }
+.p3-win__key[data-key="open"] i { width: 48px; height: 8px; border: 0; border-radius: 4px; background: var(--c-open); }
+.p3-win__switch {
+  display: flex; align-items: center; gap: var(--sp-3);
+  font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--c-dim);
+}
+.p3-win__pill { position: relative; width: 64px; height: 32px; border: var(--stroke-1) solid var(--c-line); border-radius: var(--radius-2); background: var(--c-surface-2); }
+.p3-win__knob { position: absolute; left: 2px; top: 2px; width: 24px; height: 24px; border-radius: 50%; background: var(--c-dim); }
+.p3-win__state { display: inline-grid; min-width: 48px; }
+.p3-win__state b { grid-area: 1 / 1; font-weight: 600; color: var(--c-text); }
+.p3-win__switch.is-on .p3-win__pill { border-color: var(--c-read); }
+.p3-win__switch.is-on .p3-win__knob { background: var(--c-read); }
+.p3-win__switch.is-on .p3-win__state b { color: var(--c-read); }
+
+/* Under the picture: the two numbers of the slide, each under its setting, and in plain words
+   what they are a share of. */
+.p3-win__fixed { display: flex; align-items: center; column-gap: var(--sp-8); height: 128px; }
+.p3-win__pair { flex: none; display: flex; align-items: center; column-gap: var(--sp-4); }
+.p3-win__num { display: grid; justify-items: start; transform-origin: 0 50%; }
+.p3-win__num b { font: 600 var(--fs-6)/var(--lh-6) var(--font-mono); color: var(--c-hidden); }
+.p3-win__num i { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); white-space: nowrap; }
+.p3-win__arrow { flex: none; display: block; margin-bottom: var(--lh-0); }
+.p3-win__arrow path { fill: none; stroke: var(--c-dim); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.p3-win__means { display: grid; row-gap: var(--sp-1); }
+.p3-win__sentence { font: 400 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-text); }
+.p3-win__scale { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
+
+/* The closing row, across both columns: what this slide answers to slides 5 and 6, the paper's
+   sentence with its authors, the way to keep the window open that follows from it, and the
+   one link to our own work. */
+.p3-win__close { grid-column: 1 / -1; display: grid; justify-items: center; text-align: center; }
+.p3-win__back { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text); }
+.p3-win__back b { font-weight: 600; }
+.p3-win__quote { font: italic 400 var(--fs-3)/var(--lh-3) var(--font-serif); color: var(--c-text); }
+.p3-win__by { margin-left: var(--sp-3); font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); white-space: nowrap; }
+.p3-win__link { font: 600 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-text); }
+
+/* ---- slide 11, p3-close: three callbacks, three ways to keep it open, two questions ---- */
+.p3-cl { height: 100%; display: grid; align-content: center; justify-items: center; text-align: center; }
+.p3-cl__recap { display: grid; row-gap: var(--sp-6); justify-items: center; }
+.p3-cl__thesis { font: 400 var(--fs-3)/var(--lh-3) var(--font-serif); color: var(--c-text); }
+.p3-cl__thesis em { font-style: italic; }
+.p3-cl__tiles { display: grid; grid-template-columns: repeat(3, 560px); column-gap: var(--sp-6); }
+.p3-cl__tile {
+  display: grid; grid-template-columns: 128px minmax(0, 1fr); column-gap: var(--sp-4); align-items: center; text-align: left;
+  padding: var(--sp-6); border: var(--stroke-1) solid var(--c-line); border-top: var(--stroke-2) solid var(--tone); border-radius: var(--radius-2);
+  background: var(--c-surface);
+}
+.p3-cl__tile-text { display: grid; row-gap: var(--sp-1); }
+.p3-cl__tile-text b { font: 600 var(--fs-2)/var(--lh-2) var(--font-serif); color: var(--tone); }
+.p3-cl__tile-text span { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-faint); }
+.p3-cl__icon { display: block; }
+.p3-cl__frame { fill: var(--c-surface-2); stroke: var(--tone); stroke-width: 3; }
+.p3-cl__bar { fill: var(--c-line); }
+.p3-cl__bar.is-hot { fill: var(--c-alarm); }
+.p3-cl__bar.is-gap { fill: none; stroke: var(--c-hidden); stroke-width: 3; stroke-dasharray: 6 6; }
+.p3-cl__bar.is-kept { fill: var(--tone); }
+/* Under the tiles: the three ways slides 8 to 10 ended on, as they stood there (.p3-keep).
+   The rows share one left edge, so the three tags stand in a column. */
+.p3-cl__keeps { display: grid; justify-content: center; }
+.p3-cl__keeps .p3-keep { justify-content: flex-start; }
+
+/* The question and, over it, the thought of slide 1 that its dots come from. */
+.p3-cl__words { position: relative; margin-top: 72px; display: grid; justify-items: center; }
+.p3-cl__thought { position: absolute; left: 50%; top: 50%; translate: -50% -50%; }
+.p3-cl__thought .dk-decay__glyph { opacity: 0; }
+.p3-cl__thought .dk-decay__dot { opacity: 0; }
+.p3-cl__ask { display: grid; font: 600 var(--fs-6)/var(--lh-6) var(--font-serif); letter-spacing: -.01em; color: var(--c-text); }
+.p3-cl__line { display: block; }
+.p3-cl__word { display: inline-block; white-space: nowrap; }
+.p3-cl__ch { position: relative; display: inline-block; }
+.p3-cl__ch.is-dark { color: var(--c-hidden); }
+.p3-cl__dot {
+  position: absolute; left: 50%; top: 56%; width: 16px; height: 16px; margin: -8px 0 0 -8px; border-radius: 50%;
+  background: var(--c-hidden);
+}
+.p3-cl__ask2 { margin-top: var(--sp-8); font: italic 400 var(--fs-4)/var(--lh-4) var(--font-serif); color: var(--c-open); }
+.p3-cl__end { margin-top: var(--sp-16); display: grid; row-gap: var(--sp-2); justify-items: center; }
+.p3-cl__questions { padding: 0 var(--sp-8); border-radius: var(--radius-1); font: 600 var(--fs-3)/var(--lh-4) var(--font-sans); color: var(--c-bg); background: var(--c-read); }
+.p3-cl__names { font: 400 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-dim); }

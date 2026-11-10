@@ -1,0 +1,330 @@
+/* Part 2 styles.
+   Every selector starts with .p2- (or [data-part="2"]) and every @keyframes name with p2-,
+   so the three parts cannot collide. Colors, sizes and fonts come from core/tokens.css;
+   no text below var(--fs-0). Motion belongs to the timeline (ctx.step), not to CSS transitions.
+   Each slide draws in a fixed box (stage pixels) that is centered in the stage, so the
+   coordinates in parts/part2.js and the ones below describe the same picture. */
+
+.p2-label {
+  font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase;
+  color: var(--c-faint);
+}
+
+/* A reader searches the reasoning; the stamp is the result (slides 5 and 6). */
+.p2-find { display: flex; align-items: center; gap: var(--sp-3); font: 400 var(--fs-0)/var(--lh-0) var(--font-mono); }
+.p2-find__box {
+  display: inline-flex; gap: var(--sp-3); min-width: 244px; padding: var(--sp-1) var(--sp-4);
+  border: var(--stroke-1) solid var(--c-read); border-radius: 999px; background: var(--c-bg); color: var(--c-read);
+}
+.p2-find__box i { font-style: normal; color: var(--c-faint); }
+.p2-find__box b { font-weight: 600; }
+.p2-find__stamp {
+  padding: var(--sp-1) var(--sp-4); border-radius: var(--radius-1); background: var(--c-hidden); color: var(--c-bg);
+  font-weight: 700; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap;
+}
+
+/* ------------------------------------------------------------------ slide 5: the hint */
+.p2-hint { position: absolute; inset: 0; display: grid; place-items: center; }
+.p2-hint__box { position: relative; width: 1728px; height: 616px; }
+.p2-hint__case { position: absolute; left: 0; top: 0; width: 1728px; height: 360px; }
+
+.p2-hint__prompt {
+  position: absolute; left: 0; top: 0; width: 672px; padding: 28px var(--sp-8);
+  border: var(--stroke-1) solid var(--c-line); border-radius: var(--radius-2); background: var(--c-surface);
+}
+.p2-hint__prompt-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: var(--sp-3); }
+/* Whose hint this is: the sentence is the paper's, the question around it is not. */
+.p2-hint__whose { font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--c-hidden); }
+.p2-hint__slot { height: 0; }
+.p2-hint__hint {
+  min-height: 88px; padding: var(--sp-1) var(--sp-4); border-left: var(--stroke-2) solid var(--c-hidden);
+  border-radius: var(--radius-1); background: color-mix(in srgb, var(--c-hidden) 14%, transparent);
+  font: 600 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-hidden);
+  box-shadow: 0 0 calc(var(--glow, 0) * 36px) color-mix(in srgb, var(--c-hidden) calc(var(--glow, 0) * 55%), transparent);
+}
+/* Sized so that the card still ends above the charts when a wider font wraps the question. */
+.p2-hint__question { margin-bottom: var(--sp-3); font: 600 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-text); }
+.p2-hint__options { display: grid; grid-template-columns: 1fr 1fr; font: 400 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-dim); }
+.p2-hint__options b { font: 600 var(--fs-0)/var(--lh-1) var(--font-mono); color: var(--c-faint); }
+.p2-hint__options .is-picked { color: var(--c-ok); }
+.p2-hint__options .is-picked b { color: var(--c-ok); }
+.p2-hint__options .is-forced { color: var(--c-hidden); }
+.p2-hint__options .is-forced b { color: var(--c-hidden); }
+
+/* The last slide's trace, tucked behind this one: that time the text said why. */
+.p2-hint__echo {
+  position: absolute; left: 736px; top: 0; width: 728px; height: 60px; padding: 0 var(--sp-6) var(--sp-3);
+  display: flex; align-items: center; gap: var(--sp-4);
+  border: var(--stroke-1) solid var(--c-line); border-bottom: 0; border-radius: var(--radius-2) var(--radius-2) 0 0;
+  background: var(--c-surface-2); font: 400 var(--fs-0)/var(--lh-0) var(--font-mono); color: var(--c-faint);
+}
+.p2-hint__echo-tag { letter-spacing: .08em; text-transform: uppercase; }
+.p2-hint__echo-quote { font-weight: 600; color: var(--c-alarm); }
+.p2-hint__echo-note { font-family: var(--font-sans); color: var(--c-dim); }
+.p2-hint__echo .dk-flag { margin-left: auto; border-color: var(--c-alarm); color: var(--c-alarm); line-height: var(--lh-0); }
+
+.p2-hint__term { position: absolute; left: 712px; top: 48px; width: 776px; height: 244px; }
+.p2-hint__lines { display: grid; }
+.p2-hint__plain { grid-area: 1 / 1; }
+.p2-hint__hinted { grid-area: 1 / 1; }
+.p2-hint__term .p2-is-read { color: var(--c-read); }
+/* The lens reads downward: a beam one line tall with its bright edge leading. */
+.p2-hint__term .dk-lens {
+  left: var(--sp-6); right: var(--sp-6); top: -44px; width: auto; height: 44px; border-radius: 0;
+  border-bottom: var(--stroke-2) solid var(--c-read); box-shadow: none;
+  background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--c-read) 26%, transparent));
+}
+.p2-hint__term .p2-find { position: absolute; right: var(--sp-6); top: 20px; }
+
+.p2-hint__answer {
+  position: absolute; left: 1528px; top: 48px; width: 200px; height: 244px; padding: var(--sp-4);
+  display: grid; grid-template-rows: auto 96px auto; row-gap: var(--sp-2); justify-items: center; align-content: center;
+  border: var(--stroke-1) solid var(--c-line); border-radius: var(--radius-2); background: var(--c-surface);
+}
+.p2-hint__tile { position: relative; width: 160px; height: 96px; perspective: 600px; }
+.p2-hint__tile-inner { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(calc(var(--flip, 0) * 180deg)); }
+.p2-hint__face {
+  position: absolute; inset: 0; display: grid; place-items: center; backface-visibility: hidden;
+  border: var(--stroke-2) solid var(--c-ok); border-radius: var(--radius-2);
+  background: color-mix(in srgb, var(--c-ok) 12%, var(--c-surface));
+  font: 600 var(--fs-5)/var(--lh-5) var(--font-mono); color: var(--c-ok);
+}
+.p2-hint__face--hinted {
+  transform: rotateX(180deg); border-color: var(--c-hidden); color: var(--c-hidden);
+  background: color-mix(in srgb, var(--c-hidden) 14%, var(--c-surface));
+}
+.p2-hint__verdicts { display: grid; }
+.p2-hint__verdict { grid-area: 1 / 1; font: 600 var(--fs-1)/var(--lh-1) var(--font-sans); }
+.p2-hint__verdict--ok { color: var(--c-ok); }
+.p2-hint__verdict--bad { color: var(--c-alarm); }
+
+/* The cause: from the hint to the answer, around the reasoning. */
+.p2-hint__wire { position: absolute; left: 0; top: 0; overflow: visible; }
+.p2-hint__wire-path {
+  fill: none; stroke: var(--c-hidden); stroke-width: 4; stroke-linecap: round;
+  stroke-dasharray: 1; stroke-dashoffset: var(--draw, 1);
+}
+.p2-hint__wire-head { fill: var(--c-hidden); }
+.p2-hint__wire-dot { fill: var(--c-hidden); filter: drop-shadow(0 0 8px var(--c-hidden)); }
+.p2-hint__wire-label {
+  position: absolute; left: 712px; top: 326px; width: 776px; text-align: center;
+  font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-hidden);
+}
+
+.p2-hint__stats {
+  position: absolute; left: 0; top: 384px; width: 1728px; height: 232px;
+  display: grid; grid-template-rows: 40px 136px 32px; row-gap: var(--sp-3);
+}
+.p2-hint__stats-head { display: flex; align-items: center; gap: var(--sp-8); font: 600 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-text); }
+.p2-hint__legend { display: inline-flex; align-items: center; gap: var(--sp-2); font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
+.p2-hint__legend i { width: 20px; height: 20px; border-radius: 50%; background: var(--tone); }
+/* Whose numbers the two charts are: the worked example above them is ours, these are not. */
+.p2-hint__source { margin-left: auto; font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-faint); white-space: nowrap; }
+.p2-hint__models { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--sp-16); --cell: 20px; --gap: 8px; }
+.p2-hint__model { display: grid; grid-template-columns: 256px auto; column-gap: var(--sp-6); align-items: center; justify-content: start; }
+.p2-hint__model-head { display: grid; }
+/* One line in any font: a name that wrapped would push the rate onto the note below. */
+.p2-hint__model-name { font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text); white-space: nowrap; }
+.p2-hint__rate { font: 600 var(--fs-5)/var(--lh-5) var(--font-mono); color: var(--c-read); }
+/* What the rate is a rate of, right under it: it is not the share of answers that flipped. */
+.p2-hint__rate-what { font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-read); white-space: nowrap; }
+.p2-hint__models .dk-grid i:not(.is-on) { background: var(--c-hidden); }
+/* What the two rates are averages of: a limit on the claim, so in the color of body text. */
+.p2-hint__caveat { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text); }
+
+/* ------------------------------------------------------------------ slide 6: the split brain */
+.p2-sb { position: absolute; inset: 0; display: grid; place-items: center; }
+.p2-sb__box { position: relative; width: 1728px; height: 620px; }
+.p2-sb__lab { position: absolute; left: 0; top: 0; width: 1104px; height: 620px; }
+.p2-sb__art { position: absolute; left: 0; top: 0; overflow: visible; }
+
+.p2-sb__brain { transform-box: fill-box; transform-origin: center; }
+.p2-sb__hemi-shape { fill: color-mix(in srgb, var(--tone) 12%, var(--c-surface)); stroke: var(--tone); stroke-width: 4; stroke-linejoin: round; }
+.p2-sb__hemi-flash { fill: var(--tone); stroke: none; }
+.p2-sb__sulci { fill: none; stroke: color-mix(in srgb, var(--tone) 55%, var(--c-surface)); stroke-width: 3; stroke-linecap: round; }
+.p2-sb__glyph rect { fill: color-mix(in srgb, var(--tone) 60%, var(--c-surface)); }
+.p2-sb__glyph line { stroke: color-mix(in srgb, var(--tone) 60%, var(--c-surface)); stroke-width: 3; }
+.p2-sb__glyph circle { fill: var(--tone); }
+.p2-sb__half {
+  font: 600 var(--fs-1) var(--font-sans); text-anchor: middle; fill: var(--tone);
+  paint-order: stroke; stroke: color-mix(in srgb, var(--tone) 12%, var(--c-surface)); stroke-width: 10px; stroke-linejoin: round;
+}
+.p2-sb__cut-line { fill: none; stroke: var(--c-alarm); stroke-width: 4; stroke-dasharray: 14 10; stroke-linecap: round; }
+.p2-sb__cut-line.is-plain { stroke: var(--c-line); }
+.p2-sb__cut-label {
+  font: 600 var(--fs-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; text-anchor: middle; fill: var(--c-alarm);
+  paint-order: stroke; stroke: var(--c-bg); stroke-width: 12px; stroke-linejoin: round;
+}
+/* What the cut is in the model, at the reveal: nothing is cut, the hint is in the prompt. */
+.p2-sb__cut-label[data-cut="model"] { fill: var(--c-hidden); }
+.p2-sb__scene {
+  font: 600 var(--fs-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; text-anchor: middle; fill: var(--c-faint);
+  transform-box: fill-box; transform-origin: center;
+}
+.p2-sb__scene[data-scene="model"] { fill: var(--c-hidden); }
+.p2-sb__arrow-line { fill: none; stroke: var(--tone); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: var(--draw, 1); }
+.p2-sb__arrow-head { fill: var(--tone); }
+.p2-sb__hand { font: 400 var(--fs-0) var(--font-sans); text-anchor: middle; fill: var(--tone); }
+.p2-sb__pulse-path { fill: none; stroke: none; }
+.p2-sb__pulse { fill: var(--c-hidden); filter: drop-shadow(0 0 10px var(--c-hidden)); }
+.p2-sb__ring { fill: none; stroke: var(--c-hidden); stroke-width: 4; }
+.p2-sb__route { fill: none; stroke: var(--c-hidden); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 10 10; }
+.p2-sb__route-head { fill: var(--c-hidden); }
+.p2-sb__stop { fill: none; stroke: var(--c-alarm); stroke-width: 7; stroke-linecap: round; }
+
+/* Beside the cross, level with the cut and clear of it: how often the hint does reach the
+   text in the model (slide 5's rates). */
+.p2-sb__leak { position: absolute; left: 0; top: 232px; width: 328px; height: 160px; display: flex; align-items: center; }
+.p2-sb__leak p { width: 100%; font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); text-align: right; text-wrap: balance; }
+.p2-sb__leak b { font-weight: 600; color: var(--c-read); }
+.p2-sb__leak-tag { display: block; font: 400 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--c-faint); }
+
+.p2-sb__card { position: absolute; perspective: 900px; }
+.p2-sb__card[data-card="claw"] { left: 0; top: 40px; width: 288px; height: 188px; }
+.p2-sb__card[data-card="snow"] { left: 0; top: 392px; width: 288px; height: 188px; }
+.p2-sb__card[data-card="chicken"] { left: 936px; top: 60px; width: 160px; height: 140px; }
+.p2-sb__card[data-card="spare-a"] { left: 968px; top: 216px; width: 96px; height: 96px; }
+.p2-sb__card[data-card="spare-b"] { left: 968px; top: 328px; width: 96px; height: 96px; }
+.p2-sb__card[data-card="shovel"] { left: 936px; top: 440px; width: 160px; height: 140px; }
+.p2-sb__flip { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateY(calc(var(--flip, 0) * 180deg)); }
+.p2-sb__face {
+  position: absolute; inset: 0; padding: var(--sp-3); display: grid; grid-template-rows: minmax(0, 1fr) auto; justify-items: center;
+  border: var(--stroke-1) solid var(--c-line); border-radius: var(--radius-2); background: var(--c-surface); backface-visibility: hidden;
+}
+.p2-sb__face--back { transform: rotateY(180deg); border-color: var(--c-hidden); background: color-mix(in srgb, var(--c-hidden) 12%, var(--c-surface)); align-items: center; }
+.p2-sb__card--sees .p2-sb__face { border-color: var(--tone); }
+.p2-sb__card.is-picked .p2-sb__face { border-color: var(--tone); border-width: var(--stroke-2); }
+.p2-sb__card--spare .p2-sb__face { grid-template-rows: minmax(0, 1fr); }
+.p2-sb__cap { font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
+.p2-sb__icon { width: 100%; height: 100%; min-height: 0; fill: none; stroke: var(--c-text); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.p2-sb__icon-bold { stroke-width: 8; }
+.p2-sb__icon-dot { fill: var(--c-text); stroke: none; }
+.p2-sb__icon-fill { fill: var(--c-text); }
+.p2-sb__hint { align-self: center; font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-hidden); text-align: left; }
+.p2-sb__letter { align-self: center; font: 600 var(--fs-4)/var(--lh-4) var(--font-mono); color: var(--c-hidden); }
+
+.p2-sb__swap { display: grid; }
+.p2-sb__swap > span { grid-area: 1 / 1; }
+/* The exchange is a column that grows with its text, so another serif face cannot spill it. */
+.p2-sb__says { position: absolute; left: 1128px; top: 0; width: 600px; display: flex; flex-direction: column; }
+.p2-sb__ask {
+  align-self: flex-end; height: 48px; margin-bottom: var(--sp-4); padding: var(--sp-1) var(--sp-6);
+  border: var(--stroke-1) solid var(--c-line); border-radius: var(--radius-3) var(--radius-3) var(--sp-1) var(--radius-3);
+  background: var(--c-surface-2); font: 600 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-text); text-align: right;
+  transform-origin: right bottom;
+}
+/* Positioned for the note on its border (kit.legend): at the reveal the box holds our
+   example, not the patient's words. The margin keeps that note clear of the line below. */
+.p2-sb__say {
+  position: relative; min-height: 316px; margin-bottom: var(--sp-6); padding: 20px var(--sp-6);
+  border: var(--stroke-1) solid var(--c-read); border-radius: var(--radius-3) var(--radius-3) var(--radius-3) var(--sp-1);
+  background: color-mix(in srgb, var(--c-read) 8%, var(--c-surface));
+}
+.p2-sb__say-label { margin-bottom: var(--sp-1); font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--c-read); }
+.p2-sb__say-body { display: grid; }
+/* Sized so that the quote keeps to four lines in a wider serif and the column stays in its box.
+   It starts a little lower than the label (and does not center: centering would shift the
+   lines up each time the typing wraps). */
+.p2-sb__quote { grid-area: 1 / 1; padding-top: var(--sp-6); font: italic 400 var(--fs-3)/var(--lh-3) var(--font-serif); color: var(--c-text); }
+.p2-sb__quote .is-marked { text-decoration: underline wavy var(--c-alarm); text-decoration-thickness: 3px; text-underline-offset: 8px; }
+.p2-sb__trace { grid-area: 1 / 1; padding-top: var(--sp-4); }
+.p2-sb__trace .dk-term__line { color: var(--c-read); }
+.p2-sb__trace .p2-find { margin-top: var(--sp-6); }
+/* Under the model's reasoning, where the analogy stops: the patient explained afterwards.
+   One line in any font; in a wide one it grows to the left, into the gap beside the column. */
+.p2-sb__before {
+  align-self: flex-end; margin-bottom: var(--sp-2);
+  font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text); white-space: nowrap;
+}
+.p2-sb__real {
+  min-height: 176px; padding: 20px var(--sp-6);
+  border: var(--stroke-1) dashed var(--c-hidden); border-radius: var(--radius-3);
+  background: color-mix(in srgb, var(--c-hidden) 8%, transparent);
+}
+.p2-sb__real .p2-label { color: var(--c-hidden); }
+.p2-sb__real-what { font: 600 var(--fs-3)/var(--lh-3) var(--font-serif); color: var(--c-hidden); }
+.p2-sb__real-note { font: 400 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-dim); }
+
+/* ------------------------------------------------------------------ slide 7: words, dots, vectors */
+.p2-dots { position: absolute; inset: 0; display: grid; place-items: center; }
+/* The machine and the result cards side by side; under both, across the box, the slide's
+   main line and the question that hands over. The box grows with the cards and with those
+   lines (in a wider font the title takes two lines and the stage is 72px lower, so the
+   picture is kept to 520px) and stays centered. Positioned: parts/part2.js reads where the
+   machine sits in it. */
+.p2-dots__box { position: relative; width: 1728px; display: grid; grid-template-columns: 1152px 544px; column-gap: var(--sp-8); align-items: center; }
+.p2-dots__machine { position: relative; width: 1152px; height: 520px; }
+/* Above the machine: how one column reaches the next in this picture. One caption per step. */
+.p2-dots__ways { position: absolute; left: var(--sp-3); top: 0; display: grid; font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); }
+.p2-dots__ways span { grid-area: 1 / 1; display: inline-flex; align-items: center; gap: var(--sp-3); color: var(--tone); white-space: nowrap; }
+.p2-dots__ways i { flex: none; width: 28px; height: 4px; border-radius: 2px; background: var(--tone); }
+
+.p2-dots__answer {
+  position: absolute; left: 1004px; top: 0; width: 148px; height: 56px; display: grid; place-items: center;
+  border: var(--stroke-1) solid var(--c-line); border-radius: var(--radius-1); background: var(--c-surface);
+  font: 600 var(--fs-1)/var(--lh-1) var(--font-mono); color: var(--c-faint);
+}
+.p2-dots__answer span { grid-area: 1 / 1; }
+.p2-dots__answer-label { position: absolute; right: 164px; top: var(--sp-3); }
+.p2-dots__answer.is-done { border-color: var(--c-ok); border-width: var(--stroke-2); color: var(--c-ok); background: color-mix(in srgb, var(--c-ok) 12%, var(--c-surface)); }
+
+.p2-dots__lattice { position: absolute; left: 0; top: 52px; width: 1152px; height: 388px; }
+.p2-dots__lattice [data-token="0"] text { fill: var(--c-faint); }
+.p2-dots__lattice .dk-lattice__token text { transform-box: fill-box; transform-origin: center; }
+.p2-dots__lattice .dk-lens { left: 6px; top: 312px; height: 72px; }
+.p2-dots__lattice .dk-lens.p2-is-off { background: var(--c-line); box-shadow: none; }
+.p2-dots__over { position: absolute; left: 0; top: 0; overflow: visible; }
+.p2-dots__out { fill: none; stroke: var(--c-line); stroke-width: 2; stroke-dasharray: 4 6; }
+.p2-dots__dot { fill: var(--c-hidden); transform-box: fill-box; transform-origin: center; }
+.p2-dots__band rect { fill: none; stroke: var(--c-line); stroke-width: 2; stroke-dasharray: 10 10; }
+.p2-dots__band text { font: 400 var(--fs-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; text-anchor: middle; fill: var(--c-faint); }
+/* The three ways from one column to the next. Teal is what a monitor can read. */
+.p2-dots__drop { fill: none; stroke: var(--c-read); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: var(--draw, 1); }
+.p2-dots__gather { fill: none; stroke: var(--c-hidden); stroke-width: 3; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: var(--draw, 1); }
+.p2-dots__gather-head { fill: var(--c-hidden); }
+.p2-dots__feed-line { fill: none; stroke: var(--c-hidden); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: var(--draw, 1); }
+.p2-dots__feed-head { fill: var(--c-hidden); }
+
+.p2-dots__readout {
+  position: absolute; left: var(--sp-3); right: var(--sp-3); top: 456px; height: 64px; padding: 0 var(--sp-6);
+  display: flex; align-items: center; gap: var(--sp-6);
+  border: var(--stroke-1) solid var(--c-line); border-radius: var(--radius-2); background: var(--c-surface);
+}
+.p2-dots__readout .p2-label { flex: none; }
+.p2-dots__words { flex: 1; display: flex; gap: var(--sp-4); font: 400 var(--fs-1)/var(--lh-1) var(--font-mono); }
+.p2-dots__word { display: grid; justify-items: center; }
+.p2-dots__word b { grid-area: 1 / 1; font-weight: 400; color: var(--c-read); }
+.p2-dots__word i { grid-area: 1 / 1; font-style: normal; font-weight: 700; color: var(--c-hidden); }
+.p2-dots__verdicts { display: grid; justify-items: end; }
+.p2-dots__verdicts b {
+  grid-area: 1 / 1; padding: 0 var(--sp-4); border: var(--stroke-1) solid var(--tone); border-radius: var(--radius-1);
+  font: 600 var(--fs-0)/var(--lh-1) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--tone); white-space: nowrap;
+  transform-origin: right center;
+}
+/* Under the picture: the slide's one main line, how the dots square with slide 3 and, at
+   the last click, how the vectors do. Its two reasons share one place after the colon (a
+   one-cell grid set in the line, as wide as the longer of the two), so the opening words
+   never move. It is the size of body text and opens with the slide it returns to, in the
+   teal of written words. To its right, at the last click, the question that hands over to
+   Part 3, in the violet of that part and of a question still open; where the two do not
+   fit one line (a wider font), the question takes the next one and keeps to the right. */
+.p2-dots__under { grid-column: 1 / -1; margin-top: var(--sp-3); padding: 0 var(--sp-3); display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--sp-8); }
+.p2-dots__holds { font: 500 var(--fs-2)/var(--lh-2) var(--font-sans); color: var(--c-text); }
+.p2-dots__holds b { font-weight: 600; color: var(--c-read); }
+.p2-dots__why { display: inline-grid; }
+.p2-dots__why span { grid-area: 1 / 1; }
+.p2-dots__next { margin-left: auto; font: 600 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-open); white-space: nowrap; }
+
+/* The results: one card per substitute, one pair of bars for every task. A card is
+   positioned for the note on its border (kit.legend): which model the numbers are from. */
+.p2-dots__cards { display: grid; row-gap: var(--sp-6); }
+.p2-dots__card { position: relative; display: grid; row-gap: var(--sp-1); padding: var(--sp-4) var(--sp-4) 20px; border: var(--stroke-1) solid var(--c-line); border-radius: var(--radius-2); background: var(--c-surface); }
+.p2-dots__card .p2-label { color: var(--c-hidden); }
+.p2-dots__task { font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text); text-wrap: balance; }
+.p2-dots__task b { font-weight: 600; color: var(--tone); }
+.p2-dots__bars + .p2-dots__task { margin-top: var(--sp-2); }
+.p2-dots__bar { display: grid; grid-template-columns: 184px minmax(0, 1fr) 96px; column-gap: var(--sp-3); align-items: center; }
+.p2-dots__bar-label { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); white-space: nowrap; }
+.p2-dots__bar-track { height: 16px; border-radius: 4px; background: var(--c-surface-2); overflow: hidden; }
+.p2-dots__bar-track i { display: block; height: 100%; width: var(--v, 0%); background: var(--tone); }
+.p2-dots__bar-value { font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); color: var(--tone); text-align: right; }

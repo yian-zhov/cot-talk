@@ -1,0 +1,138 @@
+/* Slide frame and chrome. Shared file: parts style their own stage in parts/partN.css. */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; background: var(--c-bg); color: var(--c-text); overflow: hidden; }
+body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+
+/* The 1920 x 1080 stage, centered and scaled to the window by core/nav.js. */
+.dk-root {
+  position: fixed; left: 50%; top: 50%; width: 1920px; height: 1080px; overflow: hidden;
+  transform: translate(-50%, -50%) scale(var(--dk-scale, 1));
+  background: radial-gradient(1400px 800px at 85% -10%, var(--c-bg-glow) 0%, transparent 60%), var(--c-bg);
+}
+
+/* --- slide frame --- */
+.dk-slide {
+  position: absolute; inset: 0; padding: 56px var(--sp-24) 80px;
+  display: grid; grid-template-rows: auto minmax(0, 1fr) auto; row-gap: var(--sp-6);
+  visibility: hidden; opacity: 0;
+  transition: opacity var(--dur-enter) var(--ease-out), visibility 0s linear var(--dur-enter);
+}
+.dk-slide.is-active { visibility: visible; opacity: 1; transition: opacity var(--dur-enter) var(--ease-out); }
+.dk-slide[data-layout="bare"] { grid-template-rows: minmax(0, 1fr); }
+
+.dk-kicker {
+  font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .12em; text-transform: uppercase;
+  color: var(--c-read); margin-bottom: var(--sp-2);
+}
+.dk-slide[data-part="2"] .dk-kicker { color: var(--c-hidden); }
+.dk-slide[data-part="3"] .dk-kicker { color: var(--c-open); }
+.dk-slide[data-part="0"] .dk-kicker { color: var(--c-dim); }
+.dk-title { font: 600 var(--fs-5)/var(--lh-5) var(--font-serif); letter-spacing: -.01em; max-width: 1640px; text-wrap: balance; }
+.dk-title em { font-style: normal; color: var(--c-read); }
+
+.dk-stage { position: relative; min-height: 0; min-width: 0; }
+
+/* Cues: at most three short prompts for the speaker, each shown at its step. */
+.dk-cues {
+  list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--sp-12);
+  height: calc(var(--lh-1) * 2); overflow: hidden;
+}
+.dk-cue { position: relative; padding-left: var(--sp-8); font: 400 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-dim); }
+.dk-cue::before {
+  content: ""; position: absolute; left: 0; top: 14px; width: 12px; height: 12px; border-radius: 50%;
+  background: var(--c-read);
+}
+.dk-cue b, .dk-cue strong { color: var(--c-text); font-weight: 600; }
+
+/* Footer: what the picture is (schematic / illustrative / data; a picture that is two of
+   these carries both tags), whether its numbers are a source's, and the sources of the
+   slide's facts. A tag that says "ours" is amber; a tag that says "the source's" is plain.
+   The sources slide prints what each tag in use means. The tags are set tight (8px of
+   padding, little tracking, 12px between them): three of them and a cite of two sources
+   share the 1384px to the left of the chrome, also in a wide font. */
+.dk-foot {
+  position: absolute; left: var(--sp-24); right: 440px; bottom: var(--sp-6); min-height: var(--lh-0);
+  display: flex; align-items: center; gap: var(--sp-3);
+  font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-faint);
+}
+.dk-figure-tag {
+  flex: none; padding: 0 var(--sp-2); border: var(--stroke-1) solid var(--c-hidden); border-radius: var(--radius-1);
+  color: var(--c-hidden); font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .04em; text-transform: uppercase;
+}
+.dk-figure-tag.is-reported { border-color: var(--c-dim); color: var(--c-dim); }
+.dk-cite { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* --- chrome: current speaker, step dots, page number, progress by part --- */
+.dk-chrome {
+  position: absolute; right: var(--sp-24); bottom: var(--sp-6); height: var(--lh-0);
+  display: flex; align-items: center; gap: var(--sp-4);
+  font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-faint); white-space: nowrap;
+}
+.dk-speaker { color: var(--c-dim); font-weight: 600; }
+/* Shown on the last step of a part's last slide: who speaks next. */
+.dk-handoff {
+  position: absolute; right: var(--sp-24); top: 56px; padding: 0 var(--sp-4); border-radius: var(--radius-1);
+  font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-bg); background: var(--c-read);
+}
+.dk-dots { display: flex; gap: var(--sp-2); }
+.dk-dots i { width: 12px; height: 12px; border-radius: 50%; border: var(--stroke-1) solid var(--c-faint); }
+.dk-dots i.is-done { background: var(--c-faint); }
+.dk-progress { position: absolute; left: 0; right: 0; bottom: 0; height: 8px; display: flex; gap: 4px; }
+.dk-progress i { flex: 1; background: var(--c-surface-2); }
+.dk-progress i.is-gap { flex: none; width: 16px; background: transparent; }
+.dk-progress i.is-done { background: var(--c-line); }
+.dk-progress i.is-current { background: var(--c-read); }
+
+/* --- placeholder slides and errors --- */
+.dk-placeholder {
+  position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: var(--sp-4);
+  padding: var(--sp-12); border: var(--stroke-2) dashed var(--c-line); border-radius: var(--radius-3);
+  font: 400 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-dim);
+}
+.dk-placeholder b { font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .12em; text-transform: uppercase; color: var(--c-hidden); }
+.dk-placeholder--error { border-color: var(--c-alarm); color: var(--c-alarm); }
+.dk-errors {
+  position: fixed; left: 0; right: 0; top: 0; z-index: 10; max-height: 50vh; overflow: auto; padding: 16px 24px;
+  background: #5c0f1c; color: #fff; font: 16px/1.5 var(--font-mono); white-space: pre-wrap;
+}
+
+/* --- sources slide --- */
+/* The slide has no cues, so its stage takes the cue row as well. In a wide fallback face
+   (Verdana, DejaVu Sans) the title, the list and the tag legend all run to more lines, and
+   without that row the legend left the stage. */
+.dk-slide[data-slide="sources"] { grid-template-rows: auto minmax(0, 1fr); }
+.dk-slide[data-slide="sources"] .dk-cues { display: none; }
+.dk-sources { list-style: none; column-count: 2; column-gap: var(--sp-16); }
+.dk-sources li {
+  break-inside: avoid; margin-bottom: var(--sp-3); padding-left: var(--sp-6); border-left: var(--stroke-2) solid var(--c-line);
+  font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim);
+}
+.dk-sources b { color: var(--c-text); font-weight: 600; }
+.dk-sources .dk-ref { font-family: var(--font-mono); color: var(--c-read); white-space: nowrap; }
+.dk-sources .dk-used { color: var(--c-faint); white-space: nowrap; }
+/* Under the list: what the footer tags mean. The heading stands on the rule that parts the
+   legend from the list, so the rule takes no row of its own. */
+.dk-tags { margin-top: var(--sp-3); display: grid; row-gap: var(--sp-2); }
+.dk-tags__head {
+  display: flex; align-items: center; column-gap: var(--sp-4); white-space: nowrap;
+  font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--c-faint);
+}
+.dk-tags__head::after { content: ""; flex: 1; height: var(--stroke-1); background: var(--c-line); }
+.dk-tags__list { list-style: none; display: grid; grid-template-columns: max-content minmax(0, 1fr) max-content minmax(0, 1fr); column-gap: var(--sp-4); row-gap: var(--sp-2); align-items: center; }
+.dk-tags__list li { display: contents; }
+.dk-tags__list .dk-figure-tag { justify-self: start; }
+.dk-tags__means { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
+
+/* --- text helpers --- */
+.c-read { color: var(--c-read); } .c-hidden { color: var(--c-hidden); } .c-alarm { color: var(--c-alarm); }
+.c-ok { color: var(--c-ok); } .c-open { color: var(--c-open); } .c-dim { color: var(--c-dim); }
+.dk-mono { font-family: var(--font-mono); }
+
+/* Seeking (capture, ?t=) and reduced motion show states, not motion. */
+.dk-root.is-still *, .dk-root.is-still *::before, .dk-root.is-still *::after {
+  transition: none !important; animation: none !important;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; }
+}

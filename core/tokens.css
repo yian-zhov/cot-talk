@@ -1,0 +1,67 @@
+/* Design tokens. The stage is 1920 x 1080 and every size is in stage pixels.
+   Parts use these tokens only: no hard-coded colors, sizes below --fs-0, or ad hoc easings.
+   `node tools/contrast.mjs` checks every text color against every surface (>= 4.5:1). */
+
+:root {
+  /* Color roles, dark theme (default: best in a dimmed room). */
+  --c-bg: #0a0d13;
+  --c-bg-glow: #14213a;
+  --c-surface: #131a26;
+  --c-surface-2: #1c2636;
+  --c-line: #3a4962;
+  --c-text: #f1f4f9;      /* primary text */
+  --c-dim: #b6c0d0;       /* secondary text: cues, labels */
+  --c-faint: #93a0b5;     /* tertiary text: footnotes, page number */
+  --c-read: #5ee6d0;      /* what the text shows; what a monitor can read */
+  --c-hidden: #ffb454;    /* what happens inside the model */
+  --c-alarm: #ff7f8c;     /* misbehavior; flagged */
+  --c-ok: #8fe38f;        /* clean; passes */
+  --c-open: #b9a1ff;      /* still open: an outcome not yet decided, a question not yet answered */
+
+  /* Type: system stacks only, so the deck renders offline from file://. */
+  --font-sans: system-ui, -apple-system, "Segoe UI", "Helvetica Neue", Arial, sans-serif;
+  --font-serif: "Iowan Old Style", "Palatino Linotype", Palatino, "Book Antiqua", Georgia, serif;
+  --font-mono: ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+  /* Type scale on a 4px grid. --fs-0 (24px at 1920 wide) is the floor for any text. */
+  --fs-0: 24px;  --lh-0: 32px;    /* footnote, label, chip */
+  --fs-1: 28px;  --lh-1: 40px;    /* cue, caption */
+  --fs-2: 32px;  --lh-2: 44px;    /* body, trace text */
+  --fs-3: 40px;  --lh-3: 52px;    /* lead, quote */
+  --fs-4: 48px;  --lh-4: 60px;    /* sub-headline */
+  --fs-5: 64px;  --lh-5: 72px;    /* slide title */
+  --fs-6: 88px;  --lh-6: 96px;    /* hero number */
+  --fs-7: 120px; --lh-7: 124px;   /* deck title */
+
+  /* Spacing on a 4px grid. */
+  --sp-1: 4px;  --sp-2: 8px;  --sp-3: 12px; --sp-4: 16px; --sp-6: 24px;
+  --sp-8: 32px; --sp-12: 48px; --sp-16: 64px; --sp-24: 96px;
+
+  --radius-1: 8px; --radius-2: 16px; --radius-3: 24px;
+  --stroke-1: 2px; --stroke-2: 4px;
+
+  /* Motion. The JS timeline uses the same four durations (Deck.timeline.DUR). */
+  --dur-micro: 200ms;     /* a state flip */
+  --dur-enter: 400ms;     /* an element arrives */
+  --dur-move: 800ms;      /* something travels or a number counts */
+  --dur-reveal: 1600ms;   /* a headline reveal */
+  --ease-out: cubic-bezier(.2, .7, .1, 1);
+  --ease-in-out: cubic-bezier(.65, 0, .35, 1);
+}
+
+/* Light theme for a bright room or a weak projector: press T, or open with ?theme=light. */
+:root[data-theme="light"] {
+  --c-bg: #fbfaf6;
+  --c-bg-glow: #e9eef6;
+  --c-surface: #ffffff;
+  --c-surface-2: #eef1f5;
+  --c-line: #9aa6b8;
+  --c-text: #131822;
+  --c-dim: #3a4658;
+  --c-faint: #556173;
+  --c-read: #08766a;
+  --c-hidden: #9a5200;
+  --c-alarm: #bb2940;
+  --c-ok: #2a7530;
+  --c-open: #6340d0;
+}

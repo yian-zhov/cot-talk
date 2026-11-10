@@ -1,0 +1,121 @@
+/* Shared visual building blocks (markup from core/kit.js). Tone = a color role name. */
+
+[data-tone="read"] { --tone: var(--c-read); }
+[data-tone="hidden"] { --tone: var(--c-hidden); }
+[data-tone="alarm"] { --tone: var(--c-alarm); }
+[data-tone="ok"] { --tone: var(--c-ok); }
+[data-tone="open"] { --tone: var(--c-open); }
+[data-tone="dim"] { --tone: var(--c-dim); }
+
+/* Trace terminal: what the model writes while it thinks. */
+.dk-term {
+  padding: var(--sp-8) var(--sp-12); border: var(--stroke-1) solid var(--c-line); border-radius: var(--radius-2);
+  background: var(--c-surface);
+}
+.dk-term__label {
+  margin-bottom: var(--sp-4); font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em;
+  text-transform: uppercase; color: var(--c-faint);
+}
+.dk-term__line { min-height: var(--lh-2); font: 400 var(--fs-2)/var(--lh-2) var(--font-mono); color: var(--c-text); white-space: pre-wrap; }
+.dk-term__line.is-hot { color: var(--c-alarm); font-weight: 600; }
+.dk-term__line.is-quiet { color: var(--c-dim); }
+/* A second example, set off from the lines above it. */
+.dk-term__line.is-apart { margin-top: var(--sp-6); }
+
+/* Provenance of a box's content, set on its bottom border (core/kit.js, legend): outside the
+   content, in the face of a label and not of the trace. The box must be positioned. */
+.dk-legend {
+  position: absolute; right: var(--sp-8); bottom: calc(var(--lh-0) / -2); padding: 0 var(--sp-3); background: var(--c-bg);
+  font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-faint); white-space: nowrap;
+}
+.dk-legend:empty { display: none; }
+/* On a trace the note stays readable above whatever a slide lays over the terminal. */
+.dk-trace > .dk-legend { z-index: 1; }
+
+/* A trace that a monitor reads (core/kit.js, trace): the terminal, the verdict in its top
+   right corner, the lens as a scan bar that travels down the lines, and a mark in the gutter
+   of a line the lens has passed (--dk-mark, 0 to 1): a check, or a pointer on a flagged line. */
+.dk-trace { position: relative; }
+.dk-trace__status {
+  position: absolute; top: var(--sp-6); right: var(--sp-8);
+  display: flex; align-items: center; gap: var(--sp-3);
+}
+.dk-trace__who {
+  font: 600 var(--fs-0)/var(--lh-1) var(--font-mono); letter-spacing: .08em; text-transform: uppercase;
+  color: var(--c-read);
+}
+.dk-trace__status .dk-flag { background: var(--c-surface); transform-origin: 100% 50%; }
+.dk-trace > .dk-lens { left: var(--sp-4); top: 0; width: calc(100% - 2 * var(--sp-4)); height: 8px; margin-top: -4px; opacity: 0; }
+.dk-trace .dk-term__line { position: relative; white-space: pre; }
+.dk-trace .dk-term__line::before {
+  content: ""; position: absolute; left: calc(-1 * var(--sp-8)); top: 12px; width: 20px; height: 20px;
+  background: var(--c-read); opacity: var(--dk-mark, 0);
+  clip-path: polygon(0% 55%, 15% 40%, 40% 65%, 85% 12%, 100% 27%, 40% 92%);
+}
+.dk-trace .dk-term__line.is-flag::before { background: var(--c-alarm); clip-path: polygon(0% 0%, 100% 50%, 0% 100%); }
+.dk-trace.is-alarm .dk-term { border-color: var(--c-alarm); }
+
+/* A line that decays into dots (core/kit.js, decay): a letter and its dot share one cell. */
+.dk-decay { font: 400 var(--fs-3)/var(--lh-3) var(--font-mono); color: var(--c-read); white-space: pre; }
+.dk-decay__cell { position: relative; display: inline-block; }
+.dk-decay__glyph { display: inline-block; }
+.dk-decay__dot {
+  position: absolute; left: 50%; top: 50%; width: 12px; height: 12px; margin: -6px 0 0 -6px;
+  border-radius: 50%; background: var(--c-hidden);
+}
+
+/* Meter: a labeled bar with a number. Fill width is the custom property --v. */
+.dk-meter {
+  display: grid; align-items: center; gap: var(--sp-6);
+  grid-template-columns: var(--meter-label, 420px) minmax(0, 1fr) var(--meter-value, 200px);
+}
+.dk-meter__label { font: 400 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-dim); }
+.dk-meter__track {
+  height: 40px; border: var(--stroke-1) solid var(--c-line); border-radius: var(--radius-1);
+  background: var(--c-surface-2); overflow: hidden;
+}
+.dk-meter__fill { display: block; height: 100%; width: var(--v, 0%); background: var(--tone, var(--c-read)); }
+.dk-meter__value { font: 600 var(--fs-4)/var(--lh-4) var(--font-mono); text-align: right; color: var(--tone, var(--c-text)); }
+
+/* Unit grid: one cell per case; a cell switches on with the class is-on. */
+.dk-grid { display: grid; grid-template-columns: repeat(var(--cols, 10), var(--cell, 32px)); gap: var(--gap, 12px); }
+.dk-grid i { width: var(--cell, 32px); height: var(--cell, 32px); border-radius: 50%; background: var(--c-line); }
+.dk-grid i.is-on { background: var(--tone, var(--c-read)); }
+
+/* Verdict chip. */
+.dk-flag {
+  display: inline-block; padding: 0 var(--sp-4); border: var(--stroke-1) solid var(--c-line); border-radius: var(--radius-1);
+  font: 600 var(--fs-0)/var(--lh-1) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--c-dim);
+}
+.dk-flag.is-flagged { border-color: var(--c-alarm); color: var(--c-alarm); }
+.dk-flag.is-clean { border-color: var(--c-ok); color: var(--c-ok); }
+
+/* Monitor lens: a scan bar. */
+.dk-lens {
+  position: absolute; display: block; width: 8px; border-radius: 4px; background: var(--c-read);
+  box-shadow: 0 0 24px var(--c-read);
+}
+
+/* Lattice: token columns, layer rows and the text row (core/kit.js, lattice). */
+.dk-lattice { display: block; overflow: visible; }
+.dk-lattice__link { stroke: var(--c-line); stroke-width: 2; }
+.dk-lattice__link.is-lit { stroke: var(--c-hidden); stroke-width: 4; }
+.dk-lattice__node { fill: var(--c-surface-2); stroke: var(--c-line); stroke-width: 2; }
+.dk-lattice__node.is-lit { fill: var(--c-hidden); stroke: var(--c-hidden); }
+.dk-lattice__token rect { fill: var(--c-surface); stroke: var(--c-line); stroke-width: 2; }
+.dk-lattice__token text { fill: var(--c-text); font: 400 28px var(--font-mono); text-anchor: middle; }
+.dk-lattice__token.is-read rect { stroke: var(--c-read); stroke-width: 4; }
+.dk-lattice__token.is-read text { fill: var(--c-read); }
+.dk-lattice__token.is-dot text { fill: var(--c-hidden); }
+
+/* Generic pieces. */
+.dk-card { padding: var(--sp-8); border: var(--stroke-1) solid var(--c-line); border-radius: var(--radius-2); background: var(--c-surface); }
+.dk-chip {
+  display: inline-block; padding: 0 var(--sp-4); border: var(--stroke-1) solid var(--tone, var(--c-line)); border-radius: 999px;
+  font: 600 var(--fs-0)/var(--lh-1) var(--font-mono); color: var(--tone, var(--c-dim));
+}
+.dk-num { font: 600 var(--fs-6)/var(--lh-6) var(--font-mono); color: var(--tone, var(--c-text)); }
+.dk-lead { font: 400 var(--fs-3)/var(--lh-3) var(--font-sans); color: var(--c-text); }
+.dk-body { font: 400 var(--fs-2)/var(--lh-2) var(--font-sans); color: var(--c-dim); }
+.dk-label { font: 400 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-dim); }
+.dk-quote { font: italic 400 var(--fs-3)/var(--lh-3) var(--font-serif); color: var(--c-text); }

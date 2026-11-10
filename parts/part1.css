@@ -1,0 +1,214 @@
+/* Part 1 styles.
+   Every selector starts with .p1- (or [data-part="1"]) and every @keyframes name with p1-,
+   so the three parts cannot collide. Colors, sizes and fonts come from core/tokens.css;
+   no text below var(--fs-0). Motion belongs to the timeline (ctx.step), not to CSS transitions. */
+
+/* ---------- slide 1: title ---------- */
+.p1-title { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; }
+.p1-title__course {
+  font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .12em; text-transform: uppercase;
+  color: var(--c-read); margin-bottom: var(--sp-6);
+}
+.p1-title__name {
+  max-width: 1200px; font: 600 var(--fs-7)/var(--lh-7) var(--font-serif); letter-spacing: -.02em;
+  color: var(--c-text); text-wrap: balance;
+}
+.p1-title__sub { margin-top: var(--sp-8); font: 400 var(--fs-3)/var(--lh-3) var(--font-sans); color: var(--c-dim); }
+/* The thought (kit.decay): its place on this slide. */
+.p1-title .dk-decay { margin: var(--sp-16) 0; }
+.p1-title__who { display: grid; grid-template-columns: repeat(3, max-content); column-gap: var(--sp-24); }
+.p1-title__person {
+  display: grid; row-gap: var(--sp-1); padding-left: var(--sp-6);
+  border-left: var(--stroke-2) solid var(--tone, var(--c-line));
+}
+.p1-title__speaker { font: 600 var(--fs-2)/var(--lh-2) var(--font-sans); color: var(--c-text); }
+.p1-title__part {
+  font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase;
+  color: var(--tone, var(--c-dim));
+}
+
+/* ---------- slide 2: prompt, written reasoning, answer ---------- */
+.p1-pad { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: var(--sp-6); }
+.p1-pad__flow {
+  display: grid; grid-template-columns: minmax(380px, max-content) 64px minmax(0, 1fr) 64px 300px; column-gap: var(--sp-4);
+  row-gap: var(--sp-6); align-items: stretch;
+}
+/* The note on the terminal's border says what a check means; the row gap above keeps it
+   clear of the definition under the terminal. */
+/* The second row of the flow: what the monitor is, under the reasoning it reads, and what a
+   flag can lead to, under the answer it holds back. */
+.p1-pad__def, .p1-pad__gate { grid-row: 2; font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
+.p1-pad__def { grid-column: 3; padding-left: var(--sp-12); }
+.p1-pad__def b { font-weight: 600; color: var(--c-read); }
+.p1-pad__gate { grid-column: 4 / span 2; text-align: right; }
+/* The paper's words keep to one line, so the caption breaks in front of them. */
+.p1-pad__gate q { quotes: "“" "”"; color: var(--c-text); white-space: nowrap; }
+.p1-pad__prompt, .p1-pad__answer { display: flex; flex-direction: column; }
+.p1-pad__tag {
+  font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase;
+  color: var(--c-faint);
+}
+.p1-pad__ask { margin: auto 0; font: 400 var(--fs-3)/var(--lh-3) var(--font-sans); color: var(--c-text); white-space: nowrap; }
+.p1-pad__arrow {
+  align-self: center; width: 64px; height: 24px; fill: none; stroke: var(--c-faint); stroke-width: 3;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.p1-pad__slot { flex: 1; display: grid; place-items: center; }
+.p1-pad__slot > * { grid-area: 1 / 1; }
+.p1-pad__value { font: 600 var(--fs-6)/var(--lh-6) var(--font-mono); color: var(--c-text); }
+.p1-pad__lock {
+  width: 88px; height: 88px; fill: none; stroke: var(--c-faint); stroke-width: 4;
+  stroke-linecap: round; stroke-linejoin: round;
+}
+.p1-pad__state { display: grid; justify-items: center; font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-faint); }
+.p1-pad__state > span { grid-area: 1 / 1; }
+.p1-pad__state .p1-pad__state-open { color: var(--c-ok); }
+.p1-pad__answer.p1-is-open { border-color: var(--c-ok); }
+/* The position paper: who signed it (one dot per author, a row per group of the author
+   list), then how many that makes and what they called the opportunity. */
+.p1-pad__paper {
+  display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: var(--sp-12); align-items: center;
+  padding: var(--sp-6) var(--sp-12);
+}
+.p1-pad__groups {
+  display: grid; grid-template-columns: max-content max-content max-content; column-gap: var(--sp-6); align-items: center;
+  padding-right: var(--sp-12); border-right: var(--stroke-1) solid var(--c-line);
+}
+.p1-pad__group-name { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
+.p1-pad__group-dots { display: flex; gap: var(--sp-2); }
+.p1-pad__group-dots i { display: block; width: 20px; height: 20px; border-radius: 50%; background: var(--c-dim); }
+/* Two digits wide from the start, so the column does not move while the counts run. */
+.p1-pad__group-n { min-width: 2ch; font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); color: var(--c-text); text-align: right; }
+.p1-pad__count { display: flex; align-items: baseline; column-gap: var(--sp-4); }
+/* The same for the total and the words beside it. */
+.p1-pad__n { min-width: 2ch; font: 600 var(--fs-4)/var(--lh-4) var(--font-mono); color: var(--c-text); text-align: right; }
+.p1-pad__unit { font: 400 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-dim); }
+.p1-pad__paper-title { font: 600 var(--fs-2)/var(--lh-2) var(--font-serif); color: var(--c-text); }
+.p1-pad__fragile { display: inline-block; }
+
+/* ---------- slide 3: the lattice and the chain that zigzags through the text row ---------- */
+.p1-mem { position: absolute; inset: 0; display: flex; flex-direction: column; justify-content: center; gap: var(--sp-8); }
+.p1-mem__main { display: grid; grid-template-columns: 120px max-content minmax(0, 1fr); column-gap: var(--sp-6); }
+.p1-mem__axis, .p1-mem__side, .p1-mem__board { position: relative; }
+.p1-mem__axis span {
+  position: absolute; right: var(--sp-6); font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim);
+  margin-top: calc(var(--lh-0) / -2);
+}
+/* Computation runs up the layers. */
+.p1-mem__axis-up { position: absolute; right: var(--sp-1); width: var(--stroke-1); background: var(--c-line); }
+.p1-mem__axis-up::after {
+  content: ""; position: absolute; left: -7px; top: -4px;
+  border-bottom: 14px solid var(--c-line); border-left: 8px solid transparent; border-right: 8px solid transparent;
+}
+.p1-mem__axis .p1-mem__axis-text { color: var(--c-read); font-weight: 600; }
+.p1-mem__board .dk-lattice { position: relative; width: 100%; height: auto; }
+.p1-mem__band {
+  position: absolute; left: 0; width: 0; border-radius: var(--radius-1);
+  background: color-mix(in srgb, var(--c-read) 24%, transparent);
+}
+.p1-mem__paths { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
+/* Attention: a faint link from each node to the next column, one layer up. Never downward. */
+.p1-mem__look { fill: none; stroke: var(--c-faint); stroke-opacity: .9; stroke-width: 2; stroke-dasharray: 3 7; stroke-linecap: round; }
+.p1-mem__leg { fill: none; stroke-width: 4; }
+.p1-mem__leg--climb { stroke: var(--c-hidden); }
+.p1-mem__leg--drop { stroke: var(--c-read); }
+.p1-mem__pulse { fill: var(--c-hidden); filter: drop-shadow(0 0 8px var(--c-hidden)); }
+.p1-mem__pulse.p1-is-text { fill: var(--c-read); filter: drop-shadow(0 0 8px var(--c-read)); }
+.p1-mem__board .dk-lens { left: 0; margin-left: -4px; opacity: 0; }
+.p1-mem__depth { position: absolute; left: 0; display: grid; }
+.p1-mem__depth-n { font: 600 var(--fs-6)/var(--lh-6) var(--font-mono); color: var(--c-hidden); }
+.p1-mem__depth-label { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
+/* What the count is a count of: the drawing's layers and tokens, not a measured depth. */
+.p1-mem__depth-of { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-faint); }
+.p1-mem__reads {
+  position: absolute; left: 0; font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-read);
+  margin-top: calc(var(--lh-0) * -1);
+}
+.p1-mem__quote { display: grid; justify-items: center; row-gap: var(--sp-2); text-align: center; }
+.p1-mem__quote .dk-quote { font-size: var(--fs-2); line-height: var(--lh-2); }
+/* Our gloss of the paper's term inside its sentence: upright, in the face and color of a note. */
+.p1-gloss { font: normal 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-faint); white-space: nowrap; }
+/* The hand-over to part 2, so it is set at the size of a cue and not of a footnote. */
+.p1-mem__caveat { font: 400 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-text); }
+.p1-mem__caveat b { font-weight: 600; color: var(--c-hidden); }
+
+/* ---------- slide 4: the thought, then two monitors on a grid of 100 hacks ---------- */
+.p1-hack { position: absolute; inset: 0; }
+/* The title quotes the thought that the terminal sets in red, the color of a flag: the same
+   words in the same color, not the teal of a title's emphasis. */
+[data-slide="p1-hack"] .dk-title em { color: var(--c-alarm); }
+.p1-hack__left {
+  position: absolute; left: 0; top: 0; bottom: var(--sp-3); width: 880px;
+  display: flex; flex-direction: column; justify-content: space-between;
+}
+.p1-hack__right {
+  position: absolute; right: 0; top: 0; bottom: var(--sp-3); width: 784px;
+  display: flex; flex-direction: column; justify-content: space-between;
+  --meter-label: 220px; --meter-value: 160px;
+}
+/* What the action monitor is not shown. */
+.p1-hack__veil {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  border: var(--stroke-1) dashed var(--c-faint); border-radius: var(--radius-2);
+  background: color-mix(in srgb, var(--c-bg) 60%, transparent);
+}
+.p1-hack__veil span {
+  padding: var(--sp-2) var(--sp-6); border-radius: var(--radius-1); background: var(--c-bg);
+  font: 600 var(--fs-1)/var(--lh-1) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--c-dim);
+}
+/* Under the thoughts: what the action monitor is shown instead. Slide 8 has the same two
+   panes, with the other one covered. The hacks in this pane are the two that recall is
+   measured on, not what followed the thoughts above; its label says "other episodes". */
+.p1-hack__acts { position: relative; }
+.p1-hack__acts .dk-term { padding-top: var(--sp-6); padding-bottom: var(--sp-6); }
+.p1-hack__other { color: var(--c-text); }
+.p1-hack__act { display: grid; grid-template-columns: 300px minmax(0, 1fr); column-gap: var(--sp-4); align-items: baseline; }
+.p1-hack__act b { font-weight: 600; }
+.p1-hack__act span { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); white-space: normal; }
+.p1-hack__sees { margin-top: var(--sp-2); font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
+.p1-hack__board { display: grid; grid-template-columns: max-content minmax(0, 1fr); column-gap: var(--sp-8); }
+.p1-hack__gridbox { position: relative; }
+.p1-hack__gridbox .dk-grid { --cell: 36px; --gap: 12px; }
+.p1-hack__gridbox .dk-grid i.p1-is-act { background: var(--c-dim); }
+.p1-hack__gridbox .dk-grid i.p1-is-cot { background: var(--c-read); }
+.p1-hack__gridbox .dk-grid i.p1-is-miss { background: transparent; box-shadow: inset 0 0 0 var(--stroke-2) var(--c-alarm); }
+.p1-hack__gridbox .dk-grid i.p1-is-flash { background: var(--c-alarm); }
+.p1-hack__scan {
+  position: absolute; left: -8px; right: -8px; top: 0; height: 8px; margin-top: -4px; border-radius: 4px;
+  background: var(--c-dim); opacity: 0;
+}
+.p1-hack__gridbox .dk-lens { left: -8px; top: 0; width: calc(100% + 16px); height: 8px; margin-top: -4px; opacity: 0; }
+.p1-hack__legend { display: flex; flex-direction: column; justify-content: space-between; }
+.p1-hack__total { font: 600 var(--fs-4)/var(--lh-4) var(--font-mono); color: var(--c-text); }
+.p1-hack__unit { font: 400 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-dim); }
+.p1-hack__means { margin-top: var(--sp-4); font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-faint); }
+/* Names what the two meters measure, and gives precision in the same order. */
+.p1-hack__precision { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
+.p1-hack__missed { font: 600 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-alarm); }
+.p1-hack__meters { display: grid; row-gap: var(--sp-2); }
+/* The two numbers of the slide, large enough for the back row. */
+.p1-hack__meters .dk-meter__value { font-size: var(--fs-5); line-height: var(--lh-5); }
+/* A small monitor watching a larger agent. In a wide font the two labels wrap before the
+   arrow between them loses its room. */
+.p1-hack__pair {
+  display: grid; grid-template-columns: minmax(0, max-content) minmax(144px, 1fr) minmax(0, max-content); column-gap: var(--sp-6);
+  align-items: center;
+}
+.p1-hack__actor { display: flex; align-items: center; gap: var(--sp-4); }
+.p1-hack__disc { display: block; flex: none; border-radius: 50%; }
+.p1-hack__actor--monitor .p1-hack__disc { width: 48px; height: 48px; background: var(--c-read); }
+.p1-hack__actor--agent .p1-hack__disc { width: 96px; height: 96px; background: var(--c-hidden); }
+.p1-hack__name { display: block; font: 600 var(--fs-2)/var(--lh-2) var(--font-sans); color: var(--c-text); }
+.p1-hack__role { display: block; font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
+.p1-hack__watch {
+  display: grid; justify-items: center; row-gap: var(--sp-1);
+  font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--c-read);
+}
+.p1-hack__gaze {
+  position: relative; display: block; width: 100%; height: 4px;
+  background: repeating-linear-gradient(90deg, var(--c-read) 0 12px, transparent 12px 20px);
+}
+.p1-hack__gaze::after {
+  content: ""; position: absolute; right: -4px; top: -8px;
+  border-left: 16px solid var(--c-read); border-top: 10px solid transparent; border-bottom: 10px solid transparent;
+}

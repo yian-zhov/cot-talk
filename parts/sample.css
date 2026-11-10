@@ -1,0 +1,22 @@
+/* Styles for the reference slide (parts/sample.js). Prefix: .sm-
+   A part file follows the same rules with its own prefix: tokens only, nothing below --fs-0. */
+
+.sm-wrap {
+  display: grid; grid-template-columns: 520px minmax(0, 1fr) 360px; gap: var(--sp-12);
+  height: 100%; align-items: center;
+}
+.sm-hacks { display: grid; gap: var(--sp-12); --meter-label: 240px; --meter-value: 160px; }
+.sm-hack { display: grid; gap: var(--sp-3); }
+.sm-hack__name { font: 600 var(--fs-2)/var(--lh-2) var(--font-mono); color: var(--c-text); }
+
+.sm-ring { position: relative; width: 360px; height: 360px; }
+.sm-ring canvas { display: block; width: 360px; height: 360px; }
+.sm-ring__text { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+.sm-ring__num { font: 600 var(--fs-6)/var(--lh-6) var(--font-mono); color: var(--c-text); }
+.sm-ring__label { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
+
+/* Kit sheet (parts/kit-sheet.js). Prefix: .ks- */
+.ks-wrap { display: grid; grid-template-columns: 760px minmax(0, 1fr); gap: var(--sp-16); height: 100%; align-items: center; }
+.ks-col { display: grid; gap: var(--sp-6); --meter-label: 200px; --meter-value: 140px; }
+.ks-col--lattice { position: relative; justify-items: start; }
+.ks-col--lattice .dk-lens { left: 0; top: 0; height: 100%; }
