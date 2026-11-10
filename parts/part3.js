@@ -750,7 +750,7 @@
               <div class="p3-trk__scan">${kit.lens({ key: 'run' })}</div>
               <div class="p3-trk__ring">
                 <span class="p3-trk__ships">ships</span>
-                <span class="p3-trk__tab">reported in its system card</span>
+                <span class="p3-trk__tab">recorded in its system card</span>
               </div>
             </div>
             ${kit.legend({ key: 'run' })}
