@@ -1,4 +1,4 @@
-// Part 2: The cracks (Speaker 2). Slides 5-7.
+// Part 2: Where it fails Slides 5-7.
 // SPEC.md section 4 describes the slides; parts/sample.js shows the API.
 // Every number and quote is read from the fact table (shared/facts.js, and the facts below).
 (() => {
@@ -825,7 +825,7 @@
       </div>
       <div class="p2-dots__under">
         ${holdsHtml()}
-        <p class="p2-dots__next">If the window can close, can we keep it open?</p>
+        <p class="p2-dots__next">If training can make it unreadable, can we prevent that?</p>
       </div>
     </div></div>`;
   };
@@ -964,7 +964,7 @@
     grow(latent, 'logic', solved + 1000, oneDecimal);
     grow(latent, 'math', solved + 1500, oneDecimal);
     // Last, the question that hands over to Part 3, in that part's color. It follows from
-    // the picture (words gone, so the window can close) and not from the main line, which
+    // the picture (words gone, so nothing is left to read) and not from the main line, which
     // says that today's large models still need words: "So can ..." read as a non sequitur.
     latent.tween('.p2-dots__next', { opacity: [0, 1] }, { at: solved + 2600, dur: dur.enter });
     latent.hold(400);

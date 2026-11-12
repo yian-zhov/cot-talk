@@ -3,7 +3,7 @@
    so the three parts cannot collide. Colors, sizes and fonts come from core/tokens.css;
    no text below var(--fs-0). Motion belongs to the timeline (ctx.step), not to CSS transitions. */
 
-/* ---- shared by slides 8 to 11: one of the part's three ways to keep the window open ---- */
+/* ---- shared by slides 8 to 11: one of the part's three ways to keep the reasoning readable ---- */
 .p3-keep { display: flex; align-items: baseline; justify-content: center; gap: var(--sp-6); color: var(--c-open); }
 .p3-keep__tag { font: 600 var(--fs-0)/var(--lh-2) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
 .p3-keep__move { font: 600 var(--fs-2)/var(--lh-2) var(--font-sans); }
@@ -250,8 +250,8 @@
   transform-origin: 100% 50%;
 }
 
-/* The closing row: the paper's sentence with its authors, and the way to keep the window
-   open that follows from the slide. */
+/* The closing row: the paper's sentence with its authors, and the way to keep the reasoning
+   readable that follows from the slide. */
 .p3-trk__close { display: grid; row-gap: var(--sp-3); justify-items: center; text-align: center; }
 .p3-trk__quote { font: italic 400 var(--fs-2)/var(--lh-2) var(--font-serif); color: var(--c-text); }
 .p3-trk__by { margin-left: var(--sp-3); font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); white-space: nowrap; }

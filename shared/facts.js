@@ -32,7 +32,6 @@ Deck.addFacts({
     text: 'any sufficiently long chain of serial steps of cognition must pass through the chain of thought',
     src: 'korbak2025', where: 'Sec. 1.1, Fig. 1',
   },
-  'korbak.no_guarantee': { text: 'does not guarantee monitorability', src: 'korbak2025', where: 'Sec. 1.1' },
   // The scope of slide 3's rule, which slide 7 needs: it is a property of the architecture in
   // use today, and the authors say it can change.
   'korbak.today': { text: 'underlies nearly all frontier AI systems', src: 'korbak2025', where: 'Sec. 1.1' },

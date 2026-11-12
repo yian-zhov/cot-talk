@@ -1,4 +1,4 @@
-// Part 1: The window (Speaker 1). Slides 1-4.
+// Part 1: Reading the reasoning Slides 1-4.
 // SPEC.md section 3 describes each slide; parts/sample.js shows the registration API.
 // Slide 8 (part 3) brings slide 4's terminal back: both draw kit.trace from the lines in
 // shared/motifs.js (hackTrace), and every line is a fact. Slide 11 brings back the title
@@ -26,17 +26,12 @@
   });
   // Facts that only slide 2 needs: the motive that comes before the monitor. The worry on
   // screen quotes 'p1.korbak_misbehave'; the title and the first cue rest on
-  // 'p1.korbak_before'; the window is our image, not the paper's word, and the sentence it
-  // stands for is 'p1.korbak_insight'. Each was searched for as a whole string in the arXiv
-  // HTML full text (2507.11473v2, the copy downloaded on 2026-11-09).
+  // 'p1.korbak_before'. Each was searched for as a whole string in the arXiv HTML full text
+  // (2507.11473v2, the copy downloaded on 2026-11-09).
   Deck.addFacts({
     'p1.korbak_misbehave': { text: 'intent to misbehave', src: 'korbak2025', where: 'abstract; Sec. 1' },
     'p1.korbak_before': {
       text: 'explicitly trained to perform extended reasoning in CoT before taking actions or producing final outputs',
-      src: 'korbak2025', where: 'Sec. 1',
-    },
-    'p1.korbak_insight': {
-      text: 'by studying the CoT, we can gain some insight into how our AI agents think',
       src: 'korbak2025', where: 'Sec. 1',
     },
   });
@@ -56,21 +51,17 @@
   // ---------------------------------------------------------------- slide 1: title
   // One illustrative thought, the same arithmetic slide 2 types into its terminal.
   const THOUGHT = Deck.motifs.thought;
-  const PART_TONES = Object.freeze({ 1: 'read', 2: 'hidden', 3: 'open' });
   const TITLE = Object.freeze({
     typeAt: 1900, perGlyph: 32, rest: 1400, perDecay: 64, seed: 7,
     // The idle wave along the dots: time to reach full depth, ms per radian, lag per dot, depth.
     wave: Object.freeze({ ramp: 1200, pace: 900, lag: 0.35, depth: 0.7 }),
   });
 
-  // The one place that shows a real name: each stands under the label ("Speaker 1") that the
-  // corner of every slide and the hand-off chip show in its place.
-  const speakers = () => Object.entries(Deck.meta.parts).map(([n, part]) => `
-    <div class="p1-title__person" data-tone="${PART_TONES[n]}">
-      <span class="p1-title__label">${part.label}</span>
-      <span class="p1-title__speaker">${part.speaker}</span>
-      <span class="p1-title__part">Part ${n} · ${part.name}</span>
-    </div>`).join('');
+  // The one place that shows a real name. The three authors share the talk, so each name
+  // carries the same mark. The slide has no line that explains the mark.
+  const EQUAL_MARK = '*';
+  const authors = () => Deck.meta.authors.map((name) => `
+    <span class="p1-title__person">${name}<span class="p1-title__mark">${EQUAL_MARK}</span></span>`).join('');
 
   Deck.register({
     id: 'p1-title',
@@ -86,7 +77,7 @@
         <h1 class="p1-title__name">${wrapWord(wrapWord(Deck.meta.title, 'Thoughts', 'data-tint="thoughts"'), 'Words', 'data-tint="words"')}</h1>
         <p class="p1-title__sub">${Deck.meta.subtitle}</p>
         ${kit.decay({ key: 'thought', text: THOUGHT, label: 'A line of reasoning that turns into dots' })}
-        <div class="p1-title__who">${speakers()}</div>
+        <div class="p1-title__who">${authors()}</div>
       </div>`,
     setup: (ctx) => {
       const glyphs = ctx.qa('.dk-decay__glyph');
@@ -144,11 +135,6 @@
   // The monitor's check also stands beside the line with the slip in it: it is not a grade.
   // The note is about the trace, so it goes on the terminal's border, not among the lines.
   const CHECK_IS = 'a check: nothing suspicious, not “correct”';
-  // Why anyone reads the reasoning, before a monitor is named: the paper's worry (quoted),
-  // then what the written reasoning is to us. The window is our image (the name of Part 1),
-  // not the paper's word, so it is set as a tag on the trace's top border and says so; the
-  // paper's sentence behind it is 'p1.korbak_insight'.
-  const WINDOW_IS = 'our metaphor: a window into its thinking';
   // Who signed the position paper: the four largest groups of its author list, then the rest.
   // One dot per author, so the 41 on the card is the number of dots.
   const SIGNED = (() => {
@@ -172,8 +158,8 @@
   };
   const arrow = (key) => `<svg class="p1-pad__arrow" data-arrow="${key}" viewBox="0 0 64 24"><path d="M2 12h58M48 3l12 9-12 9"/></svg>`;
 
-  // When the entrance has typed the reasoning, and when the window tag arrives (and with it
-  // the first cue), in ms. Computed here because the cue is registered before setup() runs;
+  // When the entrance has typed the reasoning, and when the trace's frame turns teal (and with
+  // it the first cue arrives), in ms. Computed here because the cue is registered before setup() runs;
   // setup() checks the result against its own timeline, so the two cannot drift apart.
   const PAD_AT = (() => {
     const typeMs = (s, cps) => Math.round((s.length / cps) * 1000);
@@ -185,7 +171,7 @@
       return paused + Math.round(((line.text.length - line.beat.length) / PAD.cps) * 1000);
     }, traceIn);
     const answered = typed + 200 + DUR.enter + DUR.enter;
-    return Object.freeze({ typed, window: answered + 200 });
+    return Object.freeze({ typed, written: answered + 200 });
   })();
 
   // A line types; a line with a beat stops after it, then goes on (the self-correction).
@@ -205,9 +191,9 @@
     part: 1,
     title: 'Reasoning models write their thinking before they answer',
     cues: [
-      { text: 'Thinking first, answer after: the words are a window', at: PAD_AT.window },
+      { text: 'Thinking first, answer after: the steps are written down', at: PAD_AT.written },
       { text: 'These thoughts are words, so a monitor can read them', step: 1 },
-      { text: `${text('korbak.authors')} across labs and institutes: “new and fragile”`, step: 2, at: SIGNED.fragileAt },
+      { text: `${text('korbak.authors')} from rival labs: training may make thoughts unreadable`, step: 2, at: SIGNED.fragileAt },
     ],
     cite: [{ src: 'korbak2025', where: 'title; author list; Sec. 1' }],
     figure: 'illustrative',
@@ -222,7 +208,6 @@
           ${arrow('in')}
           ${kit.trace({
     key: 'pad', label: 'Reasoning, written out', lines: PAD.lines.map((l) => l.key), verdict: 'clean', note: CHECK_IS,
-    inner: `<span class="p1-pad__window">${WINDOW_IS}</span>`,
   })}
           ${arrow('out')}
           <div class="p1-pad__answer dk-card">
@@ -257,8 +242,8 @@
       const lift = Math.round((paperCard.offsetHeight + rowGap(ctx.q('.p1-pad'))) / 2);
 
       // Enter: the worry first, then the model writes its reasoning and the answer waits;
-      // once the words stand, the tag on the trace's border names what they are to us.
-      const enter = ctx.step({ label: 'the worry; written reasoning, a window; the answer waits' });
+      // once the words stand, the trace's frame turns teal: the steps are written down, readable.
+      const enter = ctx.step({ label: 'the worry; the reasoning is written out; the answer waits' });
       enter.show('.p1-pad__why', { at: 0, rise: 0 });
       enter.tween('.p1-pad__prompt', { opacity: [0, 1], x: [-48, 0] }, { at: 200 });
       enter.show('[data-arrow="in"]', { at: 500, rise: 0 });
@@ -267,8 +252,7 @@
       if (enter.end !== PAD_AT.typed) throw Deck.fail(`part 1: p1-scratchpad types its reasoning by ${enter.end} ms, PAD_AT says ${PAD_AT.typed}`);
       enter.show('[data-arrow="out"]', { at: enter.end + 200, rise: 0 });
       enter.show('.p1-pad__answer', { at: enter.end });
-      enter.show('.p1-pad__window', { at: PAD_AT.window, rise: 0 });
-      enter.cls(trace, 'p1-is-window', { at: PAD_AT.window });
+      enter.cls(trace, 'p1-is-readable', { at: PAD_AT.written });
       enter.hold(DUR.micro);
 
       // Think, be read, act: the answer is released only after the lens has passed every line.
@@ -290,7 +274,7 @@
 
       // The position paper: its authors arrive group by group, one dot each, and the count on
       // the card is the number of dots so far.
-      const paper = ctx.step({ label: 'who signed the position paper: new and fragile' });
+      const paper = ctx.step({ label: 'who signed the position paper: training could make the thoughts unreadable' });
       paper.tween('.p1-pad__flow', { y: [lift, 0] }, { dur: DUR.move, ease: 'inOut' });
       // The card waits until the flow and its two captions have moved out of its place.
       paper.show(paperCard, { at: PAD.cardAt });
@@ -367,7 +351,7 @@
         </div>
         <figure class="p1-mem__quote">
           <blockquote class="dk-quote">“${glossed(text('korbak.externalized'), 'chain of thought', 'the written reasoning')}”</blockquote>
-          <figcaption class="p1-mem__caveat">The authors’ caveat: this <b>“${text('korbak.no_guarantee')}”</b></figcaption>
+          <figcaption class="p1-mem__caveat">The authors’ caveat: having to be written down does not mean a monitor <b>can read</b> it</figcaption>
         </figure>
       </div>`,
     setup: (ctx) => {

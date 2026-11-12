@@ -8,8 +8,7 @@
   const root = byId('dk-root');
   const host = byId('dk-slides');
   const ui = Object.freeze({
-    speaker: byId('dk-speaker'), page: byId('dk-page'), dots: byId('dk-dots'),
-    handoff: byId('dk-handoff'), progress: byId('dk-progress'),
+    page: byId('dk-page'), dots: byId('dk-dots'), progress: byId('dk-progress'),
   });
   const clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
   const plain = (html) => String(html).replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim();
@@ -44,19 +43,10 @@
 
   const updateChrome = () => {
     const slide = mounted[pos.index];
-    const part = D.meta.parts[slide.def.part];
-    const next = mounted[pos.index + 1];
-    const nextPart = next ? D.meta.parts[next.def.part] : null;
-    const lastStep = pos.step === slide.steps.length - 1;
-    const handsOver = Boolean(part && nextPart && lastStep && next.def.part !== slide.def.part);
-    // The chrome shows a part's label; the real name stands on the title slide alone.
-    ui.speaker.textContent = part ? part.label : '';
     ui.page.textContent = `${pos.index + 1} / ${mounted.length}`;
     ui.dots.innerHTML = slide.steps.length > 1
       ? slide.steps.map((_, i) => `<i class="${i <= pos.step ? 'is-done' : ''}"></i>`).join('')
       : '';
-    ui.handoff.hidden = !handsOver;
-    ui.handoff.textContent = handsOver ? `Next: ${nextPart.label}` : '';
     ui.progress.querySelectorAll('[data-index]').forEach((cell) => {
       const i = Number(cell.dataset.index);
       cell.classList.toggle('is-done', i < pos.index);
@@ -133,7 +123,7 @@
   const fingerprint = () => {
     const section = mounted[pos.index].section;
     const canvases = Array.from(section.querySelectorAll('canvas')).map((c) => c.toDataURL());
-    const html = [section, ui.page.parentElement, ui.handoff, ui.progress].map((node) => node.outerHTML.replace(/ class=""/g, ''));
+    const html = [section, ui.page.parentElement, ui.progress].map((node) => node.outerHTML.replace(/ class=""/g, ''));
     return [...html, ...canvases].join('\n');
   };
 

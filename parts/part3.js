@@ -1,4 +1,4 @@
-// Part 3: Keeping it open (Speaker 3). Slides 8-11.
+// Part 3: Keeping it readable Slides 8-11.
 // SPEC.md section 5 describes the slides; parts/sample.js shows the registration API.
 // Every quote and number on screen is read from the fact table by key (shared/facts.js, and
 // the facts below that only this part needs).
@@ -62,7 +62,7 @@
       src: 'emmons2025', where: 'Sec. 3.1',
     },
     // Slide 10: what the paper of slide 2 asks of developers. Behind the title and the third
-    // way to keep the window open: the heading of its Sec. 4 and the sentence under item 3.
+    // way to keep the reasoning readable: the heading of its Sec. 4 and the sentence under item 3.
     'p3.korbak_track': {
       text: 'AI Developers Should Track CoT Monitorability of Their Models and Treat it as a Contributor to Model Safety',
       src: 'korbak2025', where: 'Sec. 4, heading',
@@ -431,7 +431,7 @@
       press.hold(300);
 
       // Click 2: the board leaves and Strathern's sentence stands alone; under it, what the
-      // paper advises: the first of this part's three ways to keep the window open.
+      // paper advises: the first of this part's three ways to keep the reasoning readable.
       const law = ctx.step({ label: 'a measure becomes a target; the advice' });
       law.tween('.p3-tw__board', { opacity: [1, 0] }, { dur: dur.move });
       law.show('.p3-tw__law-quote', { at: 400, dur: dur.reveal, rise: 24 });
@@ -636,7 +636,7 @@
       // after the other, and each leaves an empty chip; with nothing written the column above
       // it has nothing to go on and goes dark with it, and the hinted answer does not come
       // out. After a pause: what the authors conclude, and the second of the part's three
-      // ways to keep the window open.
+      // ways to keep the reasoning readable.
       const hide = ctx.step({ label: 'the steps unwritten: the chain breaks; a layer of defense' });
       hide.tween('[data-hint="hard"]', { opacity: [1, 0.5] }, { dur: dur.enter });
       hide.show('[data-hint="unwritten"]', { at: 100 });
@@ -680,7 +680,7 @@
   // are there at checkpoints 1 to 3, half of them are dots at 4, and at 5, the one about to
   // ship, nothing is left to read. Once that counts, an earlier checkpoint ships and its
   // system card says so. The slide ends on the paper's last warning and on the third way to
-  // keep the window open.
+  // keep the reasoning readable.
   // The run is a drawing and no number on it is measured, so the first line of the picture
   // says so before anything else arrives, in the amber of the footer tags that mark what is
   // ours: the example and the argument are the paper's, and the paper reports no such run. The
@@ -882,7 +882,7 @@
       // Click 2: it counts. The frame goes back to the last checkpoint whose reasoning is
       // still in words and takes the part's color; the rows after it dim; a tab on the
       // frame says where the reading goes. Then the picture makes room for the paper's
-      // sentence and for the third of the part's three ways to keep the window open.
+      // sentence and for the third of the part's three ways to keep the reasoning readable.
       const keep = ctx.step({ label: 'it counts: an earlier checkpoint ships, on record; the third way' });
       keep.tween(ring, { y: [last * pitch, RUN.kept * pitch] }, { at: RUN.moveAt, dur: dur.move, ease: 'inOut' });
       keep.cls(ring, 'is-dark', { at: RUN_AT.back - dur.micro, on: false });
@@ -923,7 +923,7 @@
   const CLOSE_RECAP = Object.freeze([
     { tone: 'read', part: 1, words: 'It can tell us' },
     { tone: 'hidden', part: 2, words: 'It can leave things out' },
-    { tone: 'open', part: 3, words: 'It can be kept open' },
+    { tone: 'open', part: 3, words: 'It can be kept readable' },
   ]);
   const closeBar = (key, x, y, width, kind) =>
     `<rect class="p3-cl__bar${kind ? ` is-${kind}` : ''}" data-bar="${key}" x="${x}" y="${y}" width="${width}" height="12" rx="6"/>`;
@@ -970,7 +970,7 @@
     html: `
       <div class="p3-cl">
         <div class="p3-cl__recap">
-          <p class="p3-cl__thesis">Written reasoning is a window: <em class="c-read">real</em>, and <em class="c-hidden">fragile</em>.</p>
+          <p class="p3-cl__thesis">Written reasoning is <em class="c-read">real</em> evidence, and <em class="c-hidden">fragile</em>.</p>
           <div class="p3-cl__tiles">${CLOSE_RECAP.map(closeTile).join('')}</div>
           <div class="p3-cl__keeps">${KEEP.map((_, i) => keepHtml(i + 1)).join('')}</div>
         </div>
@@ -1008,8 +1008,8 @@
       };
 
       // Enter: the three parts, one picture and one line each; then, under the third tile's
-      // claim, the three ways to keep the window open, as slides 8, 9 and 10 left them.
-      const recap = ctx.step({ label: 'three callbacks, three ways to keep it open' });
+      // claim, the three ways to keep the reasoning readable, as slides 8, 9 and 10 left them.
+      const recap = ctx.step({ label: 'three callbacks, three ways to keep it readable' });
       recap.show('.p3-cl__thesis', { at: 200, dur: dur.move });
       recap.show('.p3-cl__tile', { at: CLOSE.tilesAt, stagger: CLOSE.perTile });
       [['1a', '1b', '1c'], ['2a', '2b', '2c'], ['3a', '3b', '3c']].forEach((bars, tile) => {

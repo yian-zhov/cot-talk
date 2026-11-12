@@ -33,7 +33,7 @@ body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; text-
 
 .dk-stage { position: relative; min-height: 0; min-width: 0; }
 
-/* Cues: at most three short prompts for the speaker, each shown at its step. */
+/* Cues: at most three short prompts for the presenter, each shown at its step. */
 .dk-cues {
   list-style: none; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: var(--sp-12);
   height: calc(var(--lh-1) * 2); overflow: hidden;
@@ -63,17 +63,11 @@ body { font-family: var(--font-sans); -webkit-font-smoothing: antialiased; text-
 .dk-figure-tag.is-reported { border-color: var(--c-dim); color: var(--c-dim); }
 .dk-cite { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
-/* --- chrome: current speaker's label, step dots, page number, progress by part --- */
+/* --- chrome: step dots, page number, progress by part --- */
 .dk-chrome {
   position: absolute; right: var(--sp-24); bottom: var(--sp-6); height: var(--lh-0);
   display: flex; align-items: center; gap: var(--sp-4);
   font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-faint); white-space: nowrap;
-}
-.dk-speaker { color: var(--c-dim); font-weight: 600; }
-/* Shown on the last step of a part's last slide: who speaks next, by label. */
-.dk-handoff {
-  position: absolute; right: var(--sp-24); top: 56px; padding: 0 var(--sp-4); border-radius: var(--radius-1);
-  font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-bg); background: var(--c-read);
 }
 .dk-dots { display: flex; gap: var(--sp-2); }
 .dk-dots i { width: 12px; height: 12px; border-radius: 50%; border: var(--stroke-1) solid var(--c-faint); }

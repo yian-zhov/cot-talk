@@ -42,7 +42,7 @@
 
   Deck.register({
     id: 'sample',                       // lowercase; a part's ids start with p1-, p2- or p3-
-    part: 0,                            // 1, 2 or 3 in a part file; decides the speaker label in the corner
+    part: 0,                            // 1, 2 or 3 in a part file; decides the kicker ("Part N · name") and the progress segment
     kicker: 'Sample slide · not in the talk',   // optional; default is "Part N · name"
     title: 'Reading thoughts beats watching actions, <em>for both hacks</em>',   // one conclusion sentence
     cues: [                             // at most 3, about 10 words each; `step` = when it appears
