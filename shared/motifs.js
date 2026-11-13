@@ -8,18 +8,26 @@ Deck.motifs = Object.freeze({
   // more before they turn into the closing question.
   thought: '17 × 20 = 340. 17 × 4 = 58. Hmm, wait: 68. So 340 + 68 = 408.',
 
+  // The question that this thought answers. Slide 2 asks it. Slide 6 asked it again, of the
+  // run whose answer needs the written steps, until the cold read of slides 5 to 7 (SPEC.md,
+  // the end of section 7.28); that row now has a product of its own.
+  ask: 'What is 17 × 24?',
+
   // Slide 4's terminal, top to bottom: what a line says (a fact key), how it is toned,
   // whether the monitor flags it, and whether it stands apart from the lines above it. Two
-  // examples from two tasks: the first two lines, then the last one. `note` says which is
-  // which, on the terminal's border and not among the agent's thoughts. Slide 4 types the
-  // lines and has them read; slide 8 opens on the result, in the same place
-  // (tools/selftest.mjs compares the two), and then rewrites it.
+  // examples from two tasks: the first two lines, then the last one. `sourced` says which is
+  // which and where each is from: the first reworded (Fig. 1), the last quoted (Fig. 9).
+  // Both marks stand in the footer's cite on the two slides that show the terminal, and
+  // nowhere on the picture (until SPEC.md section 7.29 a note on the terminal's border said
+  // it). Slide 4 types the lines and has them read; slide 8 opens on the result, in the
+  // same place (tools/selftest.mjs compares the two, and reads both marks in both
+  // footers), and then rewrites it.
   hackTrace: Object.freeze({
     key: 'hack',
     label: 'What the agent thinks',
     verdict: 'flagged',
     width: 880,
-    note: 'baker.trace_note',
+    sourced: Object.freeze({ reworded: 'Fig. 1 (reworded)', quoted: '9 (quoted)' }),
     lines: Object.freeze([
       Object.freeze({ key: 'fig1a', fact: 'baker.trace_fig1a', flag: true }),
       Object.freeze({ key: 'fig1b', fact: 'baker.trace_fig1b' }),

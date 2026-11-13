@@ -22,7 +22,7 @@
 /* A second example, set off from the lines above it. */
 .dk-term__line.is-apart { margin-top: var(--sp-6); }
 
-/* Provenance of a box's content, set on its bottom border (core/kit.js, legend): outside the
+/* A note about a box's content, set on its bottom border (core/kit.js, legend): outside the
    content, in the face of a label and not of the trace. The box must be positioned. */
 .dk-legend {
   position: absolute; right: var(--sp-8); bottom: calc(var(--lh-0) / -2); padding: 0 var(--sp-3); background: var(--c-bg);

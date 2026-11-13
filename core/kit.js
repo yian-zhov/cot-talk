@@ -23,9 +23,11 @@
     .map((line) => `<div class="dk-term__line${line.apart ? ' is-apart' : ''}" data-line="${line.key}"></div>`).join('')}
     </div>`;
 
-  // Where a box's content comes from, set on the box's bottom border (the box is positioned):
-  // which part is a source's and which is ours. It sits on the frame, outside the content, so
-  // that a note about a trace is never read as part of the trace.
+  // A note about a box's content, set on the box's bottom border (the box is positioned):
+  // what a mark in it means, or which model its numbers are from. It sits on the frame,
+  // outside the content, so that a note about a trace is never read as part of the trace.
+  // Where content comes from, and whether it is a source's or ours, is not said here: the
+  // footer says it, in its tags and its cite (SPEC.md section 7.29).
   const legend = ({ key, text = '' }) => `<span class="dk-legend" data-legend="${key}">${text}</span>`;
 
   // A horizontal meter: animate the fill with tl.tween(fill, { '--v': ['0%', '95%'] })
@@ -52,8 +54,8 @@
   // A trace that a monitor reads (slides 2, 4 and 8): kit.term, the monitor's verdict chip in
   // the top right corner, and its lens as a scan bar that travels down the lines. A line the
   // lens has passed gets a mark in its gutter: a check, or a pointer on a flagged line.
-  // `width` (stage pixels) fixes the block's width; `note` is the text of the provenance
-  // legend on its border (a slide may type it later); `inner` is extra markup inside the block.
+  // `width` (stage pixels) fixes the block's width; `note` is the text of the legend on its
+  // border (a slide may type it later); `inner` is extra markup inside the block.
   const trace = ({ key, label, lines, verdict, who = 'monitor', width, note = '', inner = '' }) => `
     <div class="dk-trace" data-trace="${key}"${attrs({ style: width ? `width:${width}px` : undefined })}>
       ${term({ label, lines })}
@@ -104,10 +106,9 @@
   };
 
   // Shows a trace as a monitor left it, from the first frame of a step: every line typed and
-  // toned, the gutter marks set, the verdict stamped, the provenance legend on its border.
-  // Slide 8 opens on slide 4's end this way. A line without `text` (and tone) is filled by the
-  // slide itself.
-  const setTrace = (step, el, { lines, verdict, state, alarm = false, note }) => {
+  // toned, the gutter marks set, the verdict stamped. Slide 8 opens on slide 4's end this
+  // way. A line without `text` (and tone) is filled by the slide itself.
+  const setTrace = (step, el, { lines, verdict, state, alarm = false }) => {
     const parts = traceParts(el);
     lines.forEach(({ key, text, tone, flag: flagged = false, mark = flagged }) => {
       const row = parts.line(key);
@@ -121,10 +122,6 @@
     step.cls(parts.chip, state);
     step.tween(parts.chip, { opacity: [1, 1], scale: [1, 1] }, { dur: 0 });
     if (alarm) step.cls(el, 'is-alarm');
-    if (note !== undefined) {
-      step.type(parts.note, note, { dur: 0 });
-      step.tween(parts.note, { opacity: [1, 1] }, { dur: 0 });
-    }
   };
 
   // A line of text whose letters can fall away into dots and come back (slides 1 and 11): one

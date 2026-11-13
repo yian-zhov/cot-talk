@@ -21,13 +21,6 @@ Deck.addSources({
     title: 'Reasoning Models Don\'t Always Say What They Think',
     ref: 'arXiv:2505.05410',
   },
-  gazzaniga1998: {
-    short: 'Gazzaniga 1998',
-    authors: 'Gazzaniga',
-    title: 'The Split Brain Revisited',
-    ref: 'Sci. Am. 279(1)',
-    full: 'Scientific American 279(1), 50-55, July 1998',
-  },
   pfau2024: {
     short: 'Pfau et al. 2024',
     authors: 'Pfau, Merrill, Bowman',

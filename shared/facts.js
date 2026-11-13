@@ -58,10 +58,9 @@ Deck.addFacts({
   // The lines of slide 4's terminal, which returns on slide 8 (shared/motifs.js lists them in
   // order). Two examples from two tasks: a paraphrase of Fig. 1 around the agent's own two
   // words, and, set apart, the thought of App. A, Fig. 9, which the caption quotes without a
-  // full stop. Which is which is said on the terminal's border ('baker.trace_note'), outside
-  // the box of the agent's thoughts.
+  // period. Which is which is said in the footer of the two slides that show the terminal
+  // (`sourced` of the motif in shared/motifs.js), not on the picture.
   'baker.trace_fig1b': { text: 'make verify always return true.', src: 'baker2025', where: 'Fig. 1 caption (paraphrase)' },
-  'baker.trace_note': { text: 'top: Fig. 1, paraphrased · bottom: Fig. 9, verbatim', src: 'baker2025', where: 'Fig. 1; App. A, Fig. 9' },
   // The task, and what the two systemic hacks are: behind slide 4's first cue and the glosses
   // in its actions pane.
   'baker.task': { text: 'the agent is tasked with implementing new functionality such that all unit tests pass', src: 'baker2025', where: 'Sec. 2' },
@@ -108,15 +107,6 @@ Deck.addFacts({
   'chen.model_claude': { text: 'Claude 3.7 Sonnet', src: 'chen2025', where: 'Sec. 3, Fig. 1' },
   'chen.model_r1': { text: 'DeepSeek R1', src: 'chen2025', where: 'Sec. 3, Fig. 1' },
   'chen.scope': { text: '6 kinds of hint, on MMLU and GPQA', src: 'chen2025', where: 'Sec. 2.2; Fig. 1' },
-
-  // Gazzaniga 1998. The wording is the author's own caption of the figure from this article,
-  // on his page. The article itself was read on 2026-11-12 (SPEC.md, 7.20; until then only the
-  // caption had been, 7.1): it gives the patient's answer in indirect speech only, so the
-  // caption stays the source of the quote.
-  'gazzaniga.quote': {
-    text: 'Oh the chicken claw goes with the chicken and you need a shovel to clean out the chicken shed.',
-    src: 'gazzaniga1998', where: 'interpreter figure, as the author captions it',
-  },
 
   // Pfau et al. 2024: a 34M-parameter Llama trained from random initialization
   'pfau.3sum_filler': { value: 100, text: '100%', src: 'pfau2024', where: 'Sec. 4.2, Fig. 2 (3SUM, length 12)' },
