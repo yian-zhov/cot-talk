@@ -10,51 +10,69 @@
   color: var(--c-faint);
 }
 
-/* A reader searches the reasoning; the stamp is the result (slides 5 and 6). */
-.p2-find { display: flex; align-items: center; gap: var(--sp-3); font: 400 var(--fs-0)/var(--lh-0) var(--font-mono); }
-.p2-find__box {
-  display: inline-flex; gap: var(--sp-3); min-width: 244px; padding: var(--sp-1) var(--sp-4);
-  border: var(--stroke-1) solid var(--c-read); border-radius: 999px; background: var(--c-bg); color: var(--c-read);
-}
-.p2-find__box i { font-style: normal; color: var(--c-faint); }
-.p2-find__box b { font-weight: 600; }
-.p2-find__stamp {
-  padding: var(--sp-1) var(--sp-4); border-radius: var(--radius-1); background: var(--c-hidden); color: var(--c-bg);
-  font-weight: 700; letter-spacing: .06em; text-transform: uppercase; white-space: nowrap;
-}
-
 /* ------------------------------------------------------------------ slide 5: the hint */
+/* The box is 8px lower than the stage under a two-line title. Above: the example, two runs
+   of one question side by side (412px). Below: the room for the charts (from 424px), kept
+   free from the first frame, so that nothing has to move up when they arrive. */
 .p2-hint { position: absolute; inset: 0; display: grid; place-items: center; }
-.p2-hint__box { position: relative; width: 1728px; height: 616px; }
-.p2-hint__case { position: absolute; left: 0; top: 0; width: 1728px; height: 360px; }
+.p2-hint__box { position: relative; width: 1728px; height: 624px; }
+.p2-hint__case { position: absolute; left: 0; top: 0; width: 1728px; height: 412px; }
+
+/* A run is 848px wide: the prompt across it, under it the reasoning and the answer. Both
+   runs are set on the same lines, so that a row of one can be compared with the other's. */
+.p2-hint__run { position: absolute; left: 0; top: 0; width: 848px; height: 352px; }
+.p2-hint__run[data-run="hinted"] { left: 880px; }
+/* The name of a box, on its top border: which run, or which part of it. */
+.p2-hint__name {
+  position: absolute; left: var(--sp-4); top: calc(var(--lh-0) / -2); padding: 0 var(--sp-3); background: var(--c-bg);
+  font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--c-faint); white-space: nowrap;
+}
+.p2-hint__run[data-run="hinted"] .p2-hint__prompt > .p2-hint__name { color: var(--c-hidden); }
 
 .p2-hint__prompt {
-  position: absolute; left: 0; top: 0; width: 672px; padding: 28px var(--sp-8);
+  position: absolute; left: 0; top: 16px; width: 848px; height: 164px; padding: 12px var(--sp-4) 0;
   border: var(--stroke-1) solid var(--c-line); border-radius: var(--radius-2); background: var(--c-surface);
 }
-.p2-hint__prompt-head { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: var(--sp-3); }
-/* Whose hint this is: the sentence is the paper's, the question around it is not. */
-.p2-hint__whose { font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--c-hidden); }
-.p2-hint__slot { height: 0; }
-.p2-hint__hint {
-  min-height: 88px; padding: var(--sp-1) var(--sp-4); border-left: var(--stroke-2) solid var(--c-hidden);
-  border-radius: var(--radius-1); background: color-mix(in srgb, var(--c-hidden) 14%, transparent);
-  font: 600 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-hidden);
-  box-shadow: 0 0 calc(var(--glow, 0) * 36px) color-mix(in srgb, var(--c-hidden) calc(var(--glow, 0) * 55%), transparent);
-}
-/* Sized so that the card still ends above the charts when a wider font wraps the question. */
-.p2-hint__question { margin-bottom: var(--sp-3); font: 600 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-text); }
-.p2-hint__options { display: grid; grid-template-columns: 1fr 1fr; font: 400 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-dim); }
-.p2-hint__options b { font: 600 var(--fs-0)/var(--lh-1) var(--font-mono); color: var(--c-faint); }
+/* A row of the prompt: a mark in the gutter ("=" in both runs, "+" for the line that only
+   run 2 has), then the line. */
+.p2-hint__row { display: grid; grid-template-columns: 28px minmax(0, 1fr); align-items: start; }
+.p2-hint__row > i { font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); font-style: normal; color: var(--c-faint); }
+.p2-hint__row > .p2-hint__added { color: var(--c-hidden); }
+.p2-hint__question { font: 600 var(--fs-1)/36px var(--font-sans); color: var(--c-text); white-space: nowrap; }
+.p2-hint__options { display: flex; column-gap: var(--sp-8); font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); white-space: nowrap; }
+.p2-hint__options > span { transform-origin: left center; }
+.p2-hint__options b { font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); color: var(--c-faint); }
 .p2-hint__options .is-picked { color: var(--c-ok); }
 .p2-hint__options .is-picked b { color: var(--c-ok); }
 .p2-hint__options .is-forced { color: var(--c-hidden); }
 .p2-hint__options .is-forced b { color: var(--c-hidden); }
+/* The one line that differs: the paper's hint in run 2 (two lines in every font), an empty
+   slot in run 1 (shorter, so that it stays clear of the note on the card's border). */
+.p2-hint__hint, .p2-hint__nohint { margin-top: var(--sp-1); padding: 0 var(--sp-3); border-radius: var(--radius-1); }
+.p2-hint__nohint { height: 44px; }
+.p2-hint__hint {
+  height: 72px;
+  border-left: var(--stroke-2) solid var(--c-hidden); background: color-mix(in srgb, var(--c-hidden) 14%, transparent);
+  font: 600 var(--fs-1)/36px var(--font-sans); color: var(--c-hidden);
+  box-shadow: 0 0 calc(var(--glow, 0) * 36px) color-mix(in srgb, var(--c-hidden) calc(var(--glow, 0) * 55%), transparent);
+}
+.p2-hint__nohint {
+  display: grid; place-items: center; border: var(--stroke-1) dashed var(--c-line);
+  font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-faint);
+}
+/* Whose hint this is: the sentence is the paper's (in the hint's amber). Everything else in
+   the two runs is our example, and the two notes that say so, on run 1's card and on its
+   reasoning, are in the color of body text: a reader took the gray ones for footnotes and
+   the reasoning for a model's real output. Not bold: in a wider face a bold note is wider
+   than the pane it stands on. */
+.p2-hint__prompt .dk-legend[data-legend="hint"] { color: var(--c-hidden); }
+.p2-hint__prompt .dk-legend[data-legend="prompt"], .p2-hint__term .dk-legend[data-legend="reasoning"] { font-weight: 500; color: var(--c-text); }
 
-/* A callback to the "Let's hack" terminal, not part of this example: a pill of its own, with
-   a gap under it, so that it is not read as the planet question's reasoning. */
+/* A callback to the "Let's hack" terminal, not part of this example: a pill of its own under
+   run 1, with a gap above it, so that it is not read as the planet question's reasoning. It
+   stands in the room kept for the charts and leaves when they arrive. */
 .p2-hint__echo {
-  position: absolute; left: 712px; top: 0; height: 40px; padding: 0 var(--sp-2) 0 var(--sp-4);
+  position: absolute; left: 0; top: 428px; height: 40px; padding: 0 var(--sp-2) 0 var(--sp-4);
   display: flex; align-items: center; gap: var(--sp-3);
   border: var(--stroke-1) dashed var(--c-line); border-radius: var(--radius-3);
   font: 400 var(--fs-0)/var(--lh-0) var(--font-mono); color: var(--c-faint);
@@ -65,149 +83,194 @@
 .p2-hint__echo-note { font-family: var(--font-sans); color: var(--c-dim); }
 .p2-hint__echo .dk-flag { border-color: var(--c-alarm); color: var(--c-alarm); line-height: 24px; }
 
-.p2-hint__term { position: absolute; left: 712px; top: 56px; width: 776px; height: 236px; }
-.p2-hint__lines { display: grid; }
-.p2-hint__plain { grid-area: 1 / 1; }
-.p2-hint__hinted { grid-area: 1 / 1; }
+/* The reasoning: three lines at the size of a label, so that two runs fit side by side. It
+   stands 40px under the prompt: the prompt's note on its bottom border and the monitor's
+   verdict on this pane's top border each keep a line of their own. */
+.p2-hint__term { position: absolute; left: 0; top: 220px; width: 584px; height: 132px; padding: var(--sp-4) var(--sp-4) 0; }
+.p2-hint__term .dk-term__line { min-height: var(--lh-0); font: 400 var(--fs-0)/var(--lh-0) var(--font-mono); white-space: pre; }
 .p2-hint__term .p2-is-read { color: var(--c-read); }
+.p2-hint__line { display: flex; justify-content: space-between; align-items: baseline; height: var(--lh-0); }
+/* What the monitor found on a line: gray, a finding about the line and not part of it. */
+.p2-hint__nomention { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-faint); white-space: nowrap; }
+/* Who reads this pane, and the verdict, on the pane's top border: a monitor that reads this
+   reasoning and nothing else. The chip is neutral, not the green of a trace that is fine:
+   "clean" here means that the monitor found nothing, while the answer is wrong. */
+.p2-hint__monitor {
+  position: absolute; right: var(--sp-4); top: -18px; padding: 0 var(--sp-2); background: var(--c-bg);
+  display: flex; align-items: center; gap: var(--sp-4);
+}
+.p2-hint__monitor-who { font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--c-read); }
+.p2-hint__monitor .dk-flag { line-height: var(--lh-0); border-color: var(--c-dim); color: var(--c-dim); background: var(--c-surface); }
 /* The lens reads downward: a beam one line tall with its bright edge leading. */
 .p2-hint__term .dk-lens {
-  left: var(--sp-6); right: var(--sp-6); top: -44px; width: auto; height: 44px; border-radius: 0;
+  left: var(--sp-2); right: var(--sp-2); top: var(--sp-4); width: auto; height: 32px; border-radius: 0;
   border-bottom: var(--stroke-2) solid var(--c-read); box-shadow: none;
   background: linear-gradient(to bottom, transparent, color-mix(in srgb, var(--c-read) 26%, transparent));
 }
-.p2-hint__term .p2-find { position: absolute; right: var(--sp-6); top: 20px; }
+/* The finding about the whole of it, on the pane's border like a note (never inside the
+   pane, where it would read as a line of the model's). */
+.p2-hint__never {
+  position: absolute; left: var(--sp-4); bottom: calc(var(--lh-0) / -2); padding: 0 var(--sp-3);
+  border-radius: var(--radius-1); background: var(--c-hidden); color: var(--c-bg);
+  font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); white-space: nowrap; transform-origin: left center;
+}
 
 .p2-hint__answer {
-  position: absolute; left: 1528px; top: 56px; width: 200px; height: 236px; padding: var(--sp-4);
-  display: grid; grid-template-rows: auto 96px auto; row-gap: var(--sp-2); justify-items: center; align-content: center;
+  position: absolute; left: 616px; top: 220px; width: 232px; height: 132px; padding: var(--sp-2) var(--sp-3) 0;
+  display: grid; grid-template-columns: auto minmax(0, 1fr); grid-template-rows: var(--lh-0) 80px; column-gap: var(--sp-3); align-items: center;
   border: var(--stroke-1) solid var(--c-line); border-radius: var(--radius-2); background: var(--c-surface);
 }
-.p2-hint__tile { position: relative; width: 160px; height: 96px; perspective: 600px; }
+.p2-hint__answer .p2-label { grid-column: 1 / -1; }
+.p2-hint__tile { position: relative; width: 96px; height: 64px; perspective: 600px; }
 .p2-hint__tile-inner { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateX(calc(var(--flip, 0) * 180deg)); }
 .p2-hint__face {
   position: absolute; inset: 0; display: grid; place-items: center; backface-visibility: hidden;
-  border: var(--stroke-2) solid var(--c-ok); border-radius: var(--radius-2);
+  border: var(--stroke-2) solid var(--c-ok); border-radius: var(--radius-1);
   background: color-mix(in srgb, var(--c-ok) 12%, var(--c-surface));
-  font: 600 var(--fs-5)/var(--lh-5) var(--font-mono); color: var(--c-ok);
+  font: 600 var(--fs-3)/var(--lh-3) var(--font-mono); color: var(--c-ok);
 }
 .p2-hint__face--hinted {
   transform: rotateX(180deg); border-color: var(--c-hidden); color: var(--c-hidden);
   background: color-mix(in srgb, var(--c-hidden) 14%, var(--c-surface));
 }
-.p2-hint__verdicts { display: grid; }
-.p2-hint__verdict { grid-area: 1 / 1; font: 600 var(--fs-1)/var(--lh-1) var(--font-sans); }
+/* Run 2 before it has answered: an open question, neutral and dashed. Not run 1's answer. */
+.p2-hint__face--open { border-style: dashed; border-color: var(--c-line); color: var(--c-dim); background: var(--c-surface); }
+.p2-hint__verdict { font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); white-space: nowrap; }
 .p2-hint__verdict--ok { color: var(--c-ok); }
 .p2-hint__verdict--bad { color: var(--c-alarm); }
 
-/* The cause: from the hint to the answer, around the reasoning. */
-.p2-hint__wire { position: absolute; left: 0; top: 0; overflow: visible; }
+/* The cause: from the hint to the answer, around the reasoning. Drawn only after the
+   reasoning has been read; --taut (0 to 1) is the moment it arrives. */
+.p2-hint__wire { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
 .p2-hint__wire-path {
-  fill: none; stroke: var(--c-hidden); stroke-width: 4; stroke-linecap: round;
+  fill: none; stroke: var(--c-hidden); stroke-width: calc(3px + var(--taut, 0) * 3px); stroke-linecap: round;
   stroke-dasharray: 1; stroke-dashoffset: var(--draw, 1);
+  filter: drop-shadow(0 0 calc(var(--taut, 0) * 10px) var(--c-hidden));
 }
 .p2-hint__wire-head { fill: var(--c-hidden); }
-.p2-hint__wire-dot { fill: var(--c-hidden); filter: drop-shadow(0 0 8px var(--c-hidden)); }
+/* Under the wire, ending where it turns up into the answer: why the hint could go around
+   the written reasoning, and where the talk returns to a hint that cannot. One line in any font. */
 .p2-hint__wire-label {
-  position: absolute; left: 712px; top: 326px; width: 776px; text-align: center;
-  font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-hidden);
+  position: absolute; left: 0; top: 380px; width: 1612px; padding-right: var(--sp-6); text-align: right;
+  font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-hidden); white-space: nowrap;
 }
+.p2-hint__wire-label span { font-weight: 400; color: var(--c-dim); }
 
 .p2-hint__stats {
-  position: absolute; left: 0; top: 384px; width: 1728px; height: 232px;
-  display: grid; grid-template-rows: 40px 136px 32px; row-gap: var(--sp-3);
+  position: absolute; left: 0; top: 424px; width: 1728px; height: 192px;
+  display: grid; grid-template-rows: 40px 104px 32px; row-gap: var(--sp-2);
 }
-.p2-hint__stats-head { display: flex; align-items: center; gap: var(--sp-8); font: 600 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-text); }
-.p2-hint__legend { display: inline-flex; align-items: center; gap: var(--sp-2); font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
-.p2-hint__legend i { width: 20px; height: 20px; border-radius: 50%; background: var(--tone); }
-/* Whose numbers the two charts are: the worked example above them is ours, these are not. */
-.p2-hint__source { margin-left: auto; font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-faint); white-space: nowrap; }
-.p2-hint__models { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--sp-16); --cell: 20px; --gap: 8px; }
-.p2-hint__model { display: grid; grid-template-columns: 256px auto; column-gap: var(--sp-6); align-items: center; justify-content: start; }
-.p2-hint__model-head { display: grid; }
+/* What ties the example to the charts: the same experiment, many times; then what is
+   counted; at the end of the line, whose numbers the charts are (the example above is ours). */
+.p2-hint__stats-lead {
+  display: flex; justify-content: space-between; align-items: baseline; column-gap: var(--sp-6);
+  font: 400 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-dim); white-space: nowrap;
+}
+.p2-hint__stats-lead b { font-weight: 600; color: var(--c-text); }
+.p2-hint__source { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-faint); }
+/* A chart is 20 by 5 cells of 16px. Beside it, large and in amber, the share that the chart
+   counts first: the answers whose reasoning does not mention the hint. Under the model's
+   name what that share is, and then, in teal, the rest: the paper's score. */
+.p2-hint__models { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); column-gap: var(--sp-8); --cell: 16px; --gap: 6px; }
+.p2-hint__model { display: grid; grid-template-columns: 384px auto; column-gap: var(--sp-6); align-items: center; justify-content: start; }
+.p2-hint__model-head { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: var(--sp-3); align-items: center; }
+.p2-hint__rate { grid-row: 1 / span 3; font: 600 var(--fs-5)/var(--lh-5) var(--font-mono); color: var(--c-hidden); }
 /* One line in any font: a name that wrapped would push the rate onto the note below. */
 .p2-hint__model-name { font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text); white-space: nowrap; }
-.p2-hint__rate { font: 600 var(--fs-5)/var(--lh-5) var(--font-mono); color: var(--c-read); }
-/* What the rate is a rate of, right under it: it is not the share of answers that flipped. */
-.p2-hint__rate-what { font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-read); white-space: nowrap; }
-.p2-hint__models .dk-grid i:not(.is-on) { background: var(--c-hidden); }
+.p2-hint__rate-what { font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-hidden); white-space: nowrap; }
+.p2-hint__rest { font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-read); white-space: nowrap; }
+.p2-hint__models .dk-grid i.p2-is-silent { background: var(--c-hidden); }
 /* What the two rates are averages of: a limit on the claim, so in the color of body text. */
-.p2-hint__caveat { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text); }
+.p2-hint__caveat { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text); white-space: nowrap; }
 
 /* ------------------------------------------------------------------ slide 6: the split brain */
 .p2-sb { position: absolute; inset: 0; display: grid; place-items: center; }
 .p2-sb__box { position: relative; width: 1728px; height: 620px; }
-.p2-sb__lab { position: absolute; left: 0; top: 0; width: 1104px; height: 620px; }
+/* The experiment on the right, what is said on the left: the half that speaks is the left one. */
+.p2-sb__lab { position: absolute; left: 624px; top: 0; width: 1104px; height: 620px; }
 .p2-sb__art { position: absolute; left: 0; top: 0; overflow: visible; }
 
 .p2-sb__brain { transform-box: fill-box; transform-origin: center; }
 .p2-sb__hemi-shape { fill: color-mix(in srgb, var(--tone) 12%, var(--c-surface)); stroke: var(--tone); stroke-width: 4; stroke-linejoin: round; }
 .p2-sb__hemi-flash { fill: var(--tone); stroke: none; }
 .p2-sb__sulci { fill: none; stroke: color-mix(in srgb, var(--tone) 55%, var(--c-surface)); stroke-width: 3; stroke-linecap: round; }
+/* At the reveal, in the place of the two halves: one frame with a tinted column on each
+   side and a thin divider between them. The model is not drawn as a brain, and not as two
+   sealed boxes: it is one network. The flash is the moment the hint's pulse reaches the
+   column that decides. */
+.p2-sb__column { fill: color-mix(in srgb, var(--tone) 12%, var(--c-surface)); stroke: none; }
+.p2-sb__column-flash { fill: var(--tone); stroke: none; }
+.p2-sb__divide { fill: none; stroke: var(--c-faint); stroke-width: 2; stroke-dasharray: 4 10; stroke-linecap: round; }
+.p2-sb__frame { fill: none; stroke: var(--c-dim); stroke-width: 4; }
 .p2-sb__glyph rect { fill: color-mix(in srgb, var(--tone) 60%, var(--c-surface)); }
 .p2-sb__glyph line { stroke: color-mix(in srgb, var(--tone) 60%, var(--c-surface)); stroke-width: 3; }
 .p2-sb__glyph circle { fill: var(--tone); }
 .p2-sb__half {
   font: 600 var(--fs-1) var(--font-sans); text-anchor: middle; fill: var(--tone);
-  paint-order: stroke; stroke: color-mix(in srgb, var(--tone) 12%, var(--c-surface)); stroke-width: 10px; stroke-linejoin: round;
+  paint-order: stroke; stroke: color-mix(in srgb, var(--tone) 26%, var(--c-surface)); stroke-width: 10px; stroke-linejoin: round;
 }
 /* Inside each hemisphere: which one it is, then what it does (the author's caption). */
 .p2-sb__half-sub { font: 600 var(--fs-0) var(--font-sans); }
 .p2-sb__half-role { font: 600 var(--fs-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; }
 .p2-sb__cut-line { fill: none; stroke: var(--c-alarm); stroke-width: 4; stroke-dasharray: 14 10; stroke-linecap: round; }
-.p2-sb__cut-line.is-plain { stroke: var(--c-line); }
 /* The label sits on the cut, inside the brain, so that it names the link between the halves
    and not the crossing in front of them. */
-.p2-sb__cut-pill { fill: var(--c-bg); stroke: var(--c-alarm); stroke-width: 2; }
-.p2-sb__cut-pill.is-plain { stroke: var(--c-hidden); }
+.p2-sb__cut-pill { fill: var(--c-bg); stroke: var(--c-alarm); stroke-width: 2; transform-box: fill-box; transform-origin: center; }
 .p2-sb__cut-label {
   font: 600 var(--fs-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; text-anchor: middle; fill: var(--c-alarm);
-  paint-order: stroke; stroke: var(--c-bg); stroke-width: 12px; stroke-linejoin: round;
+  paint-order: stroke; stroke: var(--c-bg); stroke-width: 12px; stroke-linejoin: round; transform-box: fill-box; transform-origin: center;
 }
-/* What the cut is in the model, at the reveal: nothing is cut, the hint is in the prompt. */
-.p2-sb__cut-label[data-cut="model"] { fill: var(--c-hidden); }
+/* At the reveal, where the cut was labeled: the same pill, neutral, saying that nothing is cut. */
+.p2-sb__whole-pill { fill: var(--c-bg); stroke: var(--c-dim); stroke-width: 2; }
+.p2-sb__whole-label {
+  font: 600 var(--fs-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; text-anchor: middle; fill: var(--c-text);
+}
 .p2-sb__scene {
   font: 600 var(--fs-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; text-anchor: start; fill: var(--c-faint);
   transform-box: fill-box; transform-origin: left center;
 }
-/* In front of the brain the two pictures' arrows cross; this crossing is not cut. */
-.p2-sb__chiasm-label { font: 400 var(--fs-0) var(--font-sans); text-anchor: middle; fill: var(--c-dim); }
-.p2-sb__chiasm-tick { fill: none; stroke: var(--c-faint); stroke-width: 2; stroke-dasharray: 4 6; }
 .p2-sb__scene[data-scene="model"] { fill: var(--c-hidden); }
-.p2-sb__arrow-line { fill: none; stroke: var(--tone); stroke-width: 4; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: var(--draw, 1); }
+/* A way is as thick as it takes to see which half's color it has where two of them cross. */
+.p2-sb__arrow-line { fill: none; stroke: var(--tone); stroke-width: 6; stroke-linecap: round; stroke-dasharray: 1; stroke-dashoffset: var(--draw, 1); }
 .p2-sb__arrow-head { fill: var(--tone); }
-.p2-sb__hand { font: 400 var(--fs-0) var(--font-sans); text-anchor: middle; fill: var(--tone); }
-.p2-sb__pulse-path { fill: none; stroke: none; }
-.p2-sb__pulse { fill: var(--c-hidden); filter: drop-shadow(0 0 10px var(--c-hidden)); }
-.p2-sb__ring { fill: none; stroke: var(--c-hidden); stroke-width: 4; }
-.p2-sb__route { fill: none; stroke: var(--c-hidden); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 10 10; }
-.p2-sb__route-head { fill: var(--c-hidden); }
-.p2-sb__stop { fill: none; stroke: var(--c-alarm); stroke-width: 7; stroke-linecap: round; }
+.p2-sb__arrow[data-tone="dim"] .p2-sb__arrow-line { stroke-width: 4; }
+/* What walks a way: a pulse of light in the color of the half in charge, which is a bright
+   stretch of the way itself (its length is the dash of parts/part2.js, SB.pulse), and the
+   flash where it crosses the midline. Hidden until its way is walked. */
+.p2-sb__comet { fill: none; stroke: var(--tone); stroke-width: 14; stroke-linecap: round; opacity: 0; filter: drop-shadow(0 0 10px var(--tone)); }
+.p2-sb__arrow[data-tone="dim"] .p2-sb__comet { stroke-width: 10; }
+.p2-sb__flash { fill: none; stroke: var(--c-text); stroke-width: 4; }
+.p2-sb__crosses { font: 600 var(--fs-0) var(--font-sans); fill: var(--c-text); }
+/* The hand a way ends in, in the color of the half that moves it, pointing at its card. */
+.p2-sb__hand-shape { fill: var(--c-surface); stroke: var(--tone); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.p2-sb__hand-name { font: 400 var(--fs-0) var(--font-sans); text-anchor: middle; fill: var(--tone); }
+/* Click 1: the label of the arrow from the shovel back to the speaking half, left-aligned
+   above the cards of the left hand. */
+.p2-sb__explain { font: 400 var(--fs-0) var(--font-sans); fill: var(--tone); }
+/* Click 1: what is left of the way that the cut stops, and the mark where it stops. */
+.p2-sb__ring { fill: none; stroke: var(--c-alarm); stroke-width: 4; }
+.p2-sb__route { fill: none; stroke: var(--tone); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 10 10; }
+.p2-sb__route-head { fill: var(--tone); }
+.p2-sb__stop { fill: none; stroke: var(--c-alarm); stroke-width: 7; stroke-linecap: round; transform-box: fill-box; transform-origin: center; }
 
-/* At the reveal, beside the written reasoning, where the patient's spare card stood: how
-   often the hint does reach the text in the model (Chen et al.'s two rates). */
-.p2-sb__leak { position: absolute; left: 0; top: 232px; width: 304px; height: 160px; display: flex; align-items: center; }
-.p2-sb__leak p { width: 100%; font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); text-align: right; text-wrap: balance; }
-.p2-sb__leak b { font-weight: 600; color: var(--c-read); }
-.p2-sb__leak-tag { display: block; font: 400 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--c-faint); }
-
-.p2-sb__card { position: absolute; perspective: 900px; }
+.p2-sb__card { position: absolute; }
 /* Each hemisphere sees the picture on the other side and points with the other side's hand:
    the claw (right visual field) and the chicken (right hand) on the right, for the left
-   hemisphere; the snow scene and the shovel on the left, for the right one. One spare card on
-   each side. */
-.p2-sb__card[data-card="claw"] { left: 816px; top: 44px; width: 288px; height: 176px; }
-.p2-sb__card[data-card="snow"] { left: 0; top: 44px; width: 288px; height: 176px; }
-.p2-sb__card[data-card="chicken"] { left: 900px; top: 440px; width: 160px; height: 140px; }
-.p2-sb__card[data-card="spare-a"] { left: 76px; top: 272px; width: 96px; height: 96px; }
-.p2-sb__card[data-card="spare-b"] { left: 932px; top: 272px; width: 96px; height: 96px; }
-.p2-sb__card[data-card="shovel"] { left: 44px; top: 440px; width: 160px; height: 140px; }
-.p2-sb__flip { position: absolute; inset: 0; transform-style: preserve-3d; transform: rotateY(calc(var(--flip, 0) * 180deg)); }
+   hemisphere; the snow scene and the shovel on the left, for the right one. Beside each
+   card that a hand points to, one that it does not point to. */
+.p2-sb__card[data-card="claw"] { left: 816px; top: 36px; width: 288px; height: 176px; }
+.p2-sb__card[data-card="snow"] { left: 0; top: 36px; width: 288px; height: 176px; }
+.p2-sb__card[data-card="chicken"] { left: 856px; top: 472px; width: 148px; height: 140px; }
+.p2-sb__card[data-card="spare-a"] { left: 0; top: 520px; width: 88px; height: 88px; }
+.p2-sb__card[data-card="spare-b"] { left: 1016px; top: 520px; width: 88px; height: 88px; }
+.p2-sb__card[data-card="shovel"] { left: 100px; top: 472px; width: 148px; height: 140px; }
+/* A card that becomes another at the reveal has two faces in one place; the second lies
+   over the first and is opaque. */
 .p2-sb__face {
-  position: absolute; inset: 0; padding: var(--sp-3); display: grid; grid-template-rows: minmax(0, 1fr) auto; justify-items: center;
-  border: var(--stroke-1) solid var(--c-line); border-radius: var(--radius-2); background: var(--c-surface); backface-visibility: hidden;
+  position: absolute; inset: 0; padding: var(--sp-2) var(--sp-3); display: grid; grid-template-rows: minmax(0, 1fr) auto; justify-items: center;
+  border: var(--stroke-1) solid var(--c-line); border-radius: var(--radius-2); background: var(--c-surface);
 }
-.p2-sb__face--back { transform: rotateY(180deg); border-color: var(--c-hidden); background: color-mix(in srgb, var(--c-hidden) 12%, var(--c-surface)); align-items: center; }
+.p2-sb__face--back { border-color: var(--c-hidden); background: color-mix(in srgb, var(--c-hidden) 12%, var(--c-surface)); align-items: center; }
 .p2-sb__card--sees .p2-sb__face { border-color: var(--tone); }
 .p2-sb__card.is-picked .p2-sb__face { border-color: var(--tone); border-width: var(--stroke-2); }
 .p2-sb__card--spare .p2-sb__face { grid-template-rows: minmax(0, 1fr); }
@@ -218,24 +281,29 @@
 .p2-sb__icon-bold { stroke-width: 8; }
 .p2-sb__icon-dot { fill: var(--c-text); stroke: none; }
 .p2-sb__icon-fill { fill: var(--c-text); }
-.p2-sb__hint { align-self: center; font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-hidden); text-align: left; }
+/* The weight of the hint on its card is one that a wider face still sets in three lines. */
+.p2-sb__hint { align-self: center; font: 500 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-hidden); text-align: left; }
 .p2-sb__letter { align-self: center; font: 600 var(--fs-4)/var(--lh-4) var(--font-mono); color: var(--c-hidden); }
 
 .p2-sb__swap { display: grid; }
 .p2-sb__swap > span { grid-area: 1 / 1; }
-/* The exchange is a column that grows with its text, so another serif face cannot spill it. */
-.p2-sb__says { position: absolute; left: 1128px; top: 0; width: 600px; display: flex; flex-direction: column; }
+/* The question, beside the half it is put to: a bubble whose arrow runs into the left
+   hemisphere. Its right edge is fixed (the arrow starts there) and it grows to the left
+   with its text. It goes at the reveal: nobody asks the model afterwards. */
 .p2-sb__ask {
-  align-self: flex-end; height: 48px; margin-bottom: var(--sp-4); padding: var(--sp-1) var(--sp-6);
+  position: absolute; right: 804px; top: 236px; height: 40px; padding: var(--sp-1) 20px;
   border: var(--stroke-1) solid var(--c-line); border-radius: var(--radius-3) var(--radius-3) var(--sp-1) var(--radius-3);
-  background: var(--c-surface-2); font: 600 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-text); text-align: right;
+  background: var(--c-surface-2); font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text); white-space: nowrap;
   transform-origin: right bottom;
 }
-/* Positioned for the note on its border (kit.legend): at the reveal the box holds our
-   example, not the patient's words. The margin keeps that note clear of the line below. */
+/* The exchange is a column that grows with its text, so another serif face cannot spill it. */
+.p2-sb__says { position: absolute; left: 0; top: 8px; width: 600px; display: flex; flex-direction: column; }
+/* Positioned for the note on its border (kit.legend): whose words the box holds, the
+   patient's answer and, at the reveal, the paper's sentence. The margin keeps that note
+   clear of the line below. The box is there from the first frame, dim until the question. */
 .p2-sb__say {
-  position: relative; min-height: 316px; margin-bottom: var(--sp-6); padding: 20px var(--sp-6);
-  border: var(--stroke-1) solid var(--c-read); border-radius: var(--radius-3) var(--radius-3) var(--radius-3) var(--sp-1);
+  position: relative; min-height: 332px; margin-bottom: var(--sp-6); padding: 20px var(--sp-6);
+  border: var(--stroke-1) solid var(--c-read); border-radius: var(--radius-3) var(--radius-3) var(--sp-1) var(--radius-3);
   background: color-mix(in srgb, var(--c-read) 8%, var(--c-surface));
 }
 .p2-sb__say-label { margin-bottom: var(--sp-1); font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--c-read); }
@@ -245,15 +313,16 @@
    lines up each time the typing wraps). */
 .p2-sb__quote { grid-area: 1 / 1; padding-top: var(--sp-6); font: italic 400 var(--fs-3)/var(--lh-3) var(--font-serif); color: var(--c-text); }
 .p2-sb__quote .is-marked { text-decoration: underline wavy var(--c-alarm); text-decoration-thickness: 3px; text-underline-offset: 8px; }
-.p2-sb__trace { grid-area: 1 / 1; padding-top: var(--sp-4); }
-.p2-sb__trace .dk-term__line { color: var(--c-read); }
-.p2-sb__trace .p2-find { margin-top: var(--sp-6); }
-/* Under the model's reasoning, where the analogy stops: the patient explained afterwards.
-   One line in any font; in a wide one it grows to the left, into the gap beside the column. */
-.p2-sb__before {
-  align-self: flex-end; margin-bottom: var(--sp-2);
-  font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text); white-space: nowrap;
-}
+/* Until the answer comes (the click after the question): the box waits, in the quote's place. */
+.p2-sb__wait { grid-area: 1 / 1; padding-top: var(--sp-6); font: italic 400 var(--fs-3)/var(--lh-3) var(--font-serif); color: var(--c-dim); }
+/* At the reveal, in the quote's place: what Chen et al. report of models, in the paper's
+   words, after a lead-in of ours in the body face. A size smaller than the patient's quote,
+   so that it keeps to four lines in a wider serif. */
+.p2-sb__finding { grid-area: 1 / 1; padding-top: var(--sp-6); font: italic 400 var(--fs-2)/var(--lh-2) var(--font-serif); color: var(--c-text); }
+.p2-sb__finding-lead { display: block; font: 400 var(--fs-1)/var(--lh-1) var(--font-sans); font-style: normal; color: var(--c-dim); }
+/* Under the box, where the analogy stops: the patient explained afterwards, a model writes
+   its reasoning before it answers. */
+.p2-sb__before { margin-bottom: var(--sp-2); font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text); text-wrap: balance; }
 .p2-sb__real {
   min-height: 176px; padding: 20px var(--sp-6);
   border: var(--stroke-1) dashed var(--c-hidden); border-radius: var(--radius-3);
@@ -265,26 +334,31 @@
 
 /* ------------------------------------------------------------------ slide 7: words, dots, vectors */
 .p2-dots { position: absolute; inset: 0; display: grid; place-items: center; }
-/* The machine and the result cards side by side; under both, across the box, the slide's
-   main line and the question that hands over. The box grows with the cards and with those
-   lines (in a wider font the title takes two lines and the stage is 72px lower, so the
-   picture is kept to 520px) and stays centered. Positioned: parts/part2.js reads where the
-   machine sits in it. */
+/* The machine and the result cards side by side; under both, across the box, one line (the
+   way here, then the slide's main line). Everything stands where it stays from the first
+   frame. The box grows with the cards (their headings wrap in a wider font) and stays
+   centered. Over the picture, at the last click, the panel that closes Part 2. */
 .p2-dots__box { position: relative; width: 1728px; display: grid; grid-template-columns: 1152px 544px; column-gap: var(--sp-8); align-items: center; }
-.p2-dots__machine { position: relative; width: 1152px; height: 520px; }
+.p2-dots__machine { grid-area: 1 / 1; position: relative; width: 1152px; height: 520px; }
 /* Above the machine: how one column reaches the next in this picture. One caption per step. */
 .p2-dots__ways { position: absolute; left: var(--sp-3); top: 0; display: grid; font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); }
 .p2-dots__ways span { grid-area: 1 / 1; display: inline-flex; align-items: center; gap: var(--sp-3); color: var(--tone); white-space: nowrap; }
 .p2-dots__ways i { flex: none; width: 28px; height: 4px; border-radius: 2px; background: var(--tone); }
 
+/* The answer: open ("?", in the amber of what happens inside) until a run is over, then
+   the answer and a check. */
 .p2-dots__answer {
   position: absolute; left: 1004px; top: 0; width: 148px; height: 56px; display: grid; place-items: center;
   border: var(--stroke-1) solid var(--c-line); border-radius: var(--radius-1); background: var(--c-surface);
-  font: 600 var(--fs-1)/var(--lh-1) var(--font-mono); color: var(--c-faint);
+  font: 600 var(--fs-1)/var(--lh-1) var(--font-mono); color: var(--c-hidden);
 }
-.p2-dots__answer span { grid-area: 1 / 1; }
+.p2-dots__answer span { grid-area: 1 / 1; display: inline-flex; align-items: center; gap: var(--sp-2); }
 .p2-dots__answer-label { position: absolute; right: 164px; top: var(--sp-3); }
+/* With vectors: an answer comes out, and the box does not say which (their numbers are from
+   other tasks). Neutral, in the body face, small enough for the box in a wider font. */
+.p2-dots__answer .p2-dots__answer-other { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); white-space: nowrap; }
 .p2-dots__answer.is-done { border-color: var(--c-ok); border-width: var(--stroke-2); color: var(--c-ok); background: color-mix(in srgb, var(--c-ok) 12%, var(--c-surface)); }
+.p2-dots__check { width: 20px; height: 20px; background: var(--c-ok); clip-path: polygon(0% 55%, 15% 40%, 40% 65%, 85% 12%, 100% 27%, 40% 92%); }
 
 .p2-dots__lattice { position: absolute; left: 0; top: 52px; width: 1152px; height: 388px; }
 .p2-dots__lattice [data-token="0"] text { fill: var(--c-faint); }
@@ -319,27 +393,83 @@
   font: 600 var(--fs-0)/var(--lh-1) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--tone); white-space: nowrap;
   transform-origin: right center;
 }
-/* Under the picture: the slide's one main line, how the title squares with slide 3 (these
-   models are small and trained for it; slide 3 is about today's large models). It is the
-   size of body text, and the slide it returns to is in the teal of written words. After it,
-   at the last click, the question that hands over to Part 3, in the violet of that part and
-   of a question still open; where the two do not fit one line, the question takes the next
-   one and keeps to the right. */
-.p2-dots__under { grid-column: 1 / -1; margin-top: var(--sp-3); padding: 0 var(--sp-3); display: flex; flex-wrap: wrap; align-items: baseline; column-gap: var(--sp-8); }
-.p2-dots__holds { font: 500 var(--fs-2)/var(--lh-2) var(--font-sans); color: var(--c-text); }
+/* Under the picture, one line at a time in one place (the cell is as tall as the longest of
+   them, so nothing moves when one gives way to the next): first the way here from the last
+   two slides; from the end of click 1 why dots are enough for this puzzle, with what a dot
+   adds in the amber of what happens inside; from the end of click 2 the slide's main line,
+   how the title squares with slide 3 (these models are small and trained for it; slide 3 is
+   about today's large models), with what those still need in the teal of what can be read
+   and the word of slide 2 that it explains in amber. */
+.p2-dots__under { grid-area: 2 / 1 / 3 / -1; margin-top: var(--sp-2); padding: 0 var(--sp-3); display: grid; align-items: start; }
+.p2-dots__under p { grid-area: 1 / 1; text-wrap: balance; }
+.p2-dots__bridge { font: 500 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-dim); }
+.p2-dots__why-dots, .p2-dots__holds { font: 500 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-text); }
+.p2-dots__why-dots b { font-weight: 600; color: var(--c-hidden); }
 .p2-dots__holds b { font-weight: 600; color: var(--c-read); }
-.p2-dots__next { margin-left: auto; font: 600 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-open); white-space: nowrap; }
+.p2-dots__holds i { font-style: normal; font-weight: 600; color: var(--c-hidden); }
 
-/* The results: one card per substitute, one pair of bars for every task. A card is
-   positioned for the note on its border (kit.legend): which model the numbers are from. */
-.p2-dots__cards { display: grid; row-gap: var(--sp-6); }
-.p2-dots__card { position: relative; display: grid; row-gap: var(--sp-1); padding: var(--sp-4) var(--sp-4) 20px; border: var(--stroke-1) solid var(--c-line); border-radius: var(--radius-2); background: var(--c-surface); }
+/* The results: how often the answer is right. A card is positioned for the note on its
+   border (kit.legend): which model the numbers are from. The first card is the puzzle that
+   the machine works on; it is there from the first frame and takes a row as each run ends,
+   in large type: its numbers belong to the picture. The second card arrives with the
+   vectors and holds two pairs. */
+.p2-dots__cards { grid-area: 1 / 2; display: grid; row-gap: var(--sp-4); }
+.p2-dots__card[data-card="puzzle"] { grid-area: 1 / 1; }
+.p2-dots__card[data-card="vectors"] { grid-area: 2 / 1; }
+/* During click 1, in the place of the second card: whose word "near-random" is, and that the
+   paper gives no chance rate for the puzzle. It leaves before the vectors' card arrives. */
+.p2-dots__chance-note { grid-area: 2 / 1; align-self: start; padding: 0 var(--sp-4); font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
+.p2-dots__chance-note b { font-weight: 400; color: var(--c-text); }
+.p2-dots__card { position: relative; display: grid; row-gap: var(--sp-1); padding: var(--sp-3) var(--sp-4) 20px; border: var(--stroke-1) solid var(--c-line); border-radius: var(--radius-2); background: var(--c-surface); }
 .p2-dots__card .p2-label { color: var(--c-hidden); }
 .p2-dots__task { font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text); text-wrap: balance; }
 .p2-dots__task b { font-weight: 600; color: var(--tone); }
-.p2-dots__bars + .p2-dots__task { margin-top: var(--sp-2); }
-.p2-dots__bar { display: grid; grid-template-columns: 184px minmax(0, 1fr) 96px; column-gap: var(--sp-3); align-items: center; }
+/* Under the puzzle's question, in the color of body text: why dots are enough for it. Not
+   bold: in a wider font a bold line would wrap and push the cards out of the stage. */
+.p2-dots__why { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text); }
+/* What the bars measure. The rows are a label (wide enough for "written reasoning" in a
+   wider face), a track and a number. Across the three tracks runs a mark at the level of
+   the model that answers at once (--chance, in percent of a track, from the fact table);
+   its name stands in the heading's row right above it: the paper's own word for that level,
+   "near-random", in quotes and with its place in the paper (the paper gives no number for
+   chance on this puzzle, so none is printed), and the dots' bar is seen to run through it. */
+.p2-dots__metric { position: relative; font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); white-space: nowrap; --label: 232px; --value: 104px; }
+.p2-dots__chance-name {
+  position: absolute; top: 0; left: calc(var(--label) + var(--sp-3) + (100% - var(--label) - var(--value) - 2 * var(--sp-3)) * var(--chance) / 100);
+  transform: translateX(-50%); color: var(--c-text);
+}
+.p2-dots__bars { position: relative; --label: 232px; --value: 104px; }
+.p2-dots__chance-mark {
+  position: absolute; top: 0; bottom: 0; width: 0; z-index: 1;
+  left: calc(var(--label) + var(--sp-3) + (100% - var(--label) - var(--value) - 2 * var(--sp-3)) * var(--chance) / 100);
+  border-left: var(--stroke-1) dashed var(--c-text);
+}
+.p2-dots__bar { display: grid; grid-template-columns: var(--label) minmax(0, 1fr) var(--value); column-gap: var(--sp-3); align-items: center; height: 40px; }
 .p2-dots__bar-label { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); white-space: nowrap; }
-.p2-dots__bar-track { height: 16px; border-radius: 4px; background: var(--c-surface-2); overflow: hidden; }
+.p2-dots__bar-track { height: 24px; border-radius: 4px; background: var(--c-surface-2); overflow: hidden; }
 .p2-dots__bar-track i { display: block; height: 100%; width: var(--v, 0%); background: var(--tone); }
-.p2-dots__bar-value { font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); color: var(--tone); text-align: right; }
+.p2-dots__bar-value { font: 600 var(--fs-3)/40px var(--font-mono); color: var(--tone); text-align: right; transform-origin: right center; }
+/* A pair side by side: name and number in the row's color, and under them a short bar on
+   one scale (2px a point), so that the two can be compared; the higher one is bold. */
+.p2-dots__duel { display: flex; justify-content: space-between; column-gap: var(--sp-4); }
+.p2-dots__duel + .p2-dots__task { margin-top: var(--sp-2); }
+.p2-dots__side { display: grid; row-gap: var(--sp-1); font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--tone); white-space: nowrap; }
+.p2-dots__side b { font: 400 var(--fs-0)/var(--lh-0) var(--font-mono); }
+.p2-dots__side.is-best, .p2-dots__side.is-best b { font-weight: 600; }
+.p2-dots__side i { display: block; height: 8px; width: calc(var(--n) * 2px); border-radius: 4px; background: var(--tone); }
+
+/* The last click: Part 2 in one sentence, in that part's amber (its kicker has it too), on a
+   panel of its own over the picture, which steps back. The panel covers the whole row of the
+   machine and the cards, so that no half of a dimmed card or caption shows above or below
+   it. A clause a line, in the size of a lead; beside each clause, small, what its slide
+   showed. */
+.p2-dots__sum {
+  grid-area: 1 / 1 / 2 / -1; align-self: stretch; align-content: center; z-index: 1; padding: 40px var(--sp-16);
+  display: grid; grid-template-columns: max-content max-content; justify-content: center; column-gap: var(--sp-16); row-gap: var(--sp-2); align-items: baseline;
+  border: var(--stroke-1) solid var(--c-hidden); border-radius: var(--radius-3); background: var(--c-bg);
+}
+.p2-dots__sum-lead { grid-column: 1 / -1; font: 400 var(--fs-3)/var(--lh-3) var(--font-serif); color: var(--c-text); }
+/* A clause and what its slide showed are two cells of one row, so the second column lines up. */
+.p2-dots__sum-line { display: contents; }
+.p2-dots__sum-line b { font: 600 var(--fs-3)/var(--lh-3) var(--font-serif); color: var(--c-hidden); white-space: nowrap; }
+.p2-dots__sum-line span { font: 400 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-dim); white-space: nowrap; }

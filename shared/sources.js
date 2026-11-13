@@ -40,13 +40,6 @@ Deck.addSources({
     title: 'Training Large Language Models to Reason in a Continuous Latent Space',
     ref: 'arXiv:2412.06769',
   },
-  strathern1997: {
-    short: 'Strathern 1997',
-    authors: 'Strathern',
-    title: '\'Improving ratings\': audit in the British University system',
-    ref: 'Eur. Rev. 5(3)',
-    full: 'European Review 5(3), 305-321, 1997',
-  },
   emmons2025: {
     short: 'Emmons et al. 2025',
     authors: 'Emmons, Jenner, Elson, Saurous, Rajamanoharan, Chen, Shafkat, Shah',

@@ -110,7 +110,9 @@ Deck.addFacts({
   'chen.scope': { text: '6 kinds of hint, on MMLU and GPQA', src: 'chen2025', where: 'Sec. 2.2; Fig. 1' },
 
   // Gazzaniga 1998. The wording is the author's own caption of the figure from this article,
-  // on his page; the article's text is behind a paywall and was not read (SPEC.md, 7.1).
+  // on his page. The article itself was read on 2026-11-12 (SPEC.md, 7.20; until then only the
+  // caption had been, 7.1): it gives the patient's answer in indirect speech only, so the
+  // caption stays the source of the quote.
   'gazzaniga.quote': {
     text: 'Oh the chicken claw goes with the chicken and you need a shovel to clean out the chicken shed.',
     src: 'gazzaniga1998', where: 'interpreter figure, as the author captions it',
@@ -151,9 +153,6 @@ Deck.addFacts({
   'hao.base': { text: 'GPT-2', src: 'hao2024', where: 'Sec. 4.1' },
   'hao.task': { text: 'ProsQA', src: 'hao2024', where: 'Sec. 4.1; Table 1' },
 
-  // Strathern 1997
-  'strathern.quote': { text: 'When a measure becomes a target, it ceases to be a good measure.', src: 'strathern1997', where: 'p. 308' },
-
   // Emmons et al. 2025
   'emmons.simple_hint': { text: '<answer>C</answer>', src: 'emmons2025', where: 'Sec. 3.1' },
   'emmons.complex_hint': {
@@ -173,7 +172,8 @@ Deck.addFacts({
     src: 'emmons2025', where: 'abstract',
   },
   'emmons.defense': { text: 'while not infallible, CoT monitoring offers a substantial layer of defense', src: 'emmons2025', where: 'abstract' },
-  // The rest of that sentence: what the layer of defense needs. Slide 9 prints this part.
+  // The rest of that sentence: what the layer of defense needs. Slide 9 printed this part
+  // until SPEC.md section 7.23-part3 and now prints 'emmons.help'; behind its advice, and for questions.
   'emmons.layer': { text: 'a substantial layer of defense that requires active protection and continued stress-testing', src: 'emmons2025', where: 'abstract' },
   // What the no-hint baseline is: behind slide 9's plain wording of 'emmons.result'.
   'emmons.baseline_def': { text: 'a baseline for how often the hinted letter might be chosen by chance', src: 'emmons2025', where: 'Sec. 3.1' },

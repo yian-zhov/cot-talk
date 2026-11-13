@@ -9,46 +9,50 @@
 .p3-keep__move { font: 600 var(--fs-2)/var(--lh-2) var(--font-sans); }
 
 /* ---- slide 8, p3-twist: the terminal of slide 4, trained against the monitor ---- */
+/* Three areas that keep their place through all five steps: the two panes on the left, the
+   training card and the bars on the right, and a strip under both for the one sentence a
+   step needs. Nothing moves to make room: what arrives later has its place from the start.
+   On the entrance the room of the lower pane, the bars and the strip holds the way in from
+   Part 2 and the fix in one sentence; it leaves at click 1. */
 .p3-tw { position: absolute; inset: 0; }
-.p3-tw__board { position: absolute; inset: 0; }
+/* The second half of the title: the answer to its question. Hidden until the reveal (the
+   timeline fades it in), in the color of what happens out of sight. */
+.p3-tw__punch { color: var(--c-hidden); }
 /* The left column is slide 4's: the trace (kit.trace) sits exactly where that slide left it,
    and under it a pane for the actions, where slide 4 has the pane of the action monitor. */
 .p3-tw__left { position: absolute; left: 0; top: 0; width: 880px; display: grid; row-gap: var(--sp-16); }
 .p3-tw__left .dk-trace .dk-term {
   box-shadow: 0 0 calc(var(--heat, 0) * 64px) color-mix(in srgb, var(--c-hidden) calc(var(--heat, 0) * 55%), transparent);
 }
+/* The verdict chip grows to the right when it lands, into the terminal's own margin, so that
+   it never covers the word "monitor" on its left. */
+.p3-tw .dk-trace__status .dk-flag { transform-origin: 0% 50%; }
 /* Under the trace, in the gap between the two panes and below the note on the trace's border:
-   where this picture comes from. */
+   on the entrance what a thought is (the written reasoning), then whose thoughts these are
+   and that this monitor reads nothing else. One line in any font. */
 .p3-tw__caption {
-  position: absolute; left: var(--sp-12); top: 100%; margin-top: var(--sp-6);
+  position: absolute; left: var(--sp-12); top: 100%; margin-top: var(--sp-6); white-space: nowrap;
   font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-read);
 }
 /* From click 1 the terminal shows this experiment's agent; its label says so, in full text color. */
 .p3-tw .dk-term__label.p3-tw__now { color: var(--c-text); }
+/* The pane of the actions is set tighter than the trace above it, which leaves the strip its room. */
 .p3-tw__pane { position: relative; }
+.p3-tw__pane .dk-term { padding-top: var(--sp-6); padding-bottom: var(--sp-4); }
 
 /* Top right of the actions pane: this monitor reads thoughts only. */
 .p3-tw__mon {
-  position: absolute; right: var(--sp-8); top: var(--sp-6);
+  position: absolute; right: var(--sp-8); top: var(--sp-4);
   font: 400 var(--fs-0)/var(--lh-1) var(--font-sans); color: var(--c-dim);
 }
 
 /* The actions are covered until the reveal: one bar per line of the pane. */
-.p3-tw__veil { position: absolute; left: var(--sp-12); top: 80px; display: grid; }
+.p3-tw__veil { position: absolute; left: var(--sp-12); top: 72px; display: grid; }
 .p3-tw__veil i { display: block; height: 28px; margin: var(--sp-2) 0; border-radius: var(--radius-1); background: var(--c-line); }
 .p3-tw__veil i:nth-child(1) { width: 640px; }
 .p3-tw__veil i:nth-child(2) { width: 252px; }
 .p3-tw__veil i:nth-child(3) { width: 368px; }
-/* Under the actions pane, once the hack is on screen: why this monitor was not shown them. */
-.p3-tw__why {
-  position: absolute; left: var(--sp-12); right: 0; top: 100%; margin-top: var(--sp-6);
-  font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text);
-}
 
-/* The rewrite: old characters keep the line's tone, noise is what happens inside, and a
-   settled character is plain text. */
-.p3-tw__noise { color: var(--c-hidden); font-weight: 400; }
-.p3-tw__new { color: var(--c-text); font-weight: 400; }
 .p3-tw__pass { color: var(--c-ok); }
 /* The monitor read the rewritten thought and found nothing. That is no good news here, so its
    marks and its verdict are neutral and not the green of a trace that is fine (slide 2); once
@@ -57,72 +61,117 @@
 .p3-tw .dk-flag.p3-tw__quiet { border-color: var(--c-dim); color: var(--c-dim); }
 
 /* The right column has the width of slide 4's. Its blocks stack from the top: the training
-   card, the meters under their heading, and the line that says what the bars are. */
+   card, and from click 3 the two bars under their heading with the line that says what the
+   bars are. */
 .p3-tw__side { position: absolute; right: 0; top: 0; width: 784px; display: grid; row-gap: var(--sp-2); }
-.p3-tw__train { display: grid; grid-template-columns: auto minmax(0, 1fr); column-gap: var(--sp-6); align-items: center; padding: var(--sp-6); }
-.p3-tw__train-text { display: grid; row-gap: var(--sp-2); }
+/* The card, from the top: the penalty, the track of the training with it, and under the
+   track the reward and the paper's finding for "early". */
+.p3-tw__train { display: grid; row-gap: var(--sp-2); padding: var(--sp-4) var(--sp-6); }
+.p3-tw__train-text { display: grid; row-gap: var(--sp-3); }
 .p3-tw__train-label { font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--c-faint); }
-.p3-tw__reward { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
-/* From the first step, at the size of body text: which experiment the board shows. It is
-   not the one of the terminal above (the frontier agent, whose monitor also saw the actions). */
-.p3-tw__run { font: 500 var(--fs-2)/var(--lh-2) var(--font-sans); color: var(--c-text); text-wrap: pretty; }
-.p3-tw__fine { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
-/* The dial: how much the training optimizes against the monitor. The needle starts on a
-   neutral tick, "off": the monitor is not in the reward yet. The two zones after it are the
-   paper's two regimes; what it found in the first one stands next to the dial, under the
-   zone's name and in its color. The arc under the needle is neutral: amber is kept for what
-   happens inside the model. */
-.p3-tw__dial { display: block; overflow: visible; }
-.p3-tw__dial-zone { fill: none; stroke: var(--tone); stroke-width: 6; stroke-linecap: round; }
-.p3-tw__dial-off { stroke: var(--c-dim); stroke-width: 6; stroke-linecap: round; }
-.p3-tw__dial-track { fill: none; stroke: var(--c-line); stroke-width: 16; stroke-linecap: round; }
-.p3-tw__dial-fill { fill: none; stroke: var(--c-dim); stroke-width: 16; stroke-linecap: butt; }
-.p3-tw__dial-needle { stroke: var(--c-text); stroke-width: 6; stroke-linecap: round; }
-.p3-tw__dial-hub { fill: var(--c-text); }
-.p3-tw__dial-name { font: 600 var(--fs-0)/1 var(--font-sans); fill: var(--tone, var(--c-dim)); transform-box: fill-box; transform-origin: center; }
-.p3-tw__low { font: italic 400 var(--fs-0)/var(--lh-0) var(--font-serif); color: var(--c-text); }
-.p3-tw__low b { font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-ok); }
+.p3-tw__reward { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-2); }
+/* In front of the chips: what they are. */
+.p3-tw__reward-label { font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
+.p3-tw__reward-new { transform-origin: 0% 50%; }
+/* The track: how far the training with the penalty has gone. A rail with an arrowhead, its
+   caption over where it begins, and a marker that travels along it; the rail is filled
+   behind the marker. Everything on it is neutral: no part of the rail is a zone, and a name
+   takes a color only when the marker has reached its place (green for "early", red for
+   "later"). "None" is a ring of its own, clear of the rail: the agent trained without the
+   penalty, which is no point in the training with it. The marker starts in the ring. */
+.p3-tw__track { display: block; overflow: visible; }
+.p3-tw__track-axis { font: 400 var(--fs-0)/1 var(--font-sans); fill: var(--c-dim); }
+.p3-tw__track-none { fill: none; stroke: var(--c-dim); stroke-width: 3; }
+.p3-tw__track-rail { stroke: var(--c-line); stroke-width: 12; stroke-linecap: round; }
+.p3-tw__track-head { fill: var(--c-line); stroke: var(--c-line); stroke-width: 4; stroke-linejoin: round; }
+.p3-tw__track-fill { stroke: var(--c-dim); stroke-width: 12; stroke-linecap: round; }
+.p3-tw__track-mark { fill: var(--c-text); stroke: var(--c-surface); stroke-width: 3; }
+.p3-tw__track-name { font: 600 var(--fs-0)/1 var(--font-sans); fill: var(--c-dim); transform-box: fill-box; transform-origin: center; }
+.p3-tw__track-name.is-on { fill: var(--tone, var(--c-dim)); }
+/* What the paper found early in that training, in plain words, beginning with that place's
+   name on the track and with a bar in its color. At the last click the bar and the frame take the part's
+   color: this gain is what the advice gives up with the penalty. */
+.p3-tw__gain {
+  padding: var(--sp-1) var(--sp-3); border: var(--stroke-1) solid transparent; border-left: var(--stroke-2) solid var(--c-ok);
+  border-radius: var(--radius-1); font: 500 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text); text-wrap: balance;
+}
+.p3-tw__gain b { font-weight: 600; color: var(--c-ok); }
+.p3-tw__gain.is-price { border-color: var(--c-open); }
+.p3-tw__gain.is-price b { color: var(--c-open); }
 
 /* Meters in the side column: label and words on one row, the track below. Above them, which
-   agent the bars show: the one trained without the monitor in its reward, and after the
-   reveal the one trained too much against it. The low zone has no bars of its own: while
-   the needle is away from "off" and the reveal has not come, the timeline dims the heading
-   and both meters. */
-.p3-tw__meters { display: grid; row-gap: var(--sp-4); }
+   agent the bars show: first the one trained without the penalty, then the one trained with
+   it, further into training; and, right over the bars, that their lengths are ours. */
+.p3-tw__meters { display: grid; row-gap: var(--sp-2); }
+/* The heading begins with a name of the track, in the color that name has there once the
+   marker has reached it: neutral for "none", red for "later". */
 .p3-tw__state { display: grid; margin-bottom: calc(-1 * var(--sp-2)); font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
 .p3-tw__state span { grid-area: 1 / 1; }
 .p3-tw__state [data-state="high"] { color: var(--c-alarm); }
 .p3-tw__meter .dk-meter { grid-template-columns: minmax(0, 1fr) auto; row-gap: var(--sp-2); column-gap: var(--sp-4); }
 .p3-tw__meter .dk-meter__track { grid-column: 1 / -1; grid-row: 2; height: 32px; }
-.p3-tw__meter .dk-meter__value { grid-column: 2; grid-row: 1; min-height: var(--lh-1); font: 600 var(--fs-0)/var(--lh-1) var(--font-sans); }
+.p3-tw__meter .dk-meter__value { grid-column: 2; grid-row: 1; min-height: var(--lh-1); font: 600 var(--fs-0)/var(--lh-1) var(--font-sans); transform-origin: 100% 50%; }
 .p3-tw__meter .dk-meter.is-drained .dk-meter__value { color: var(--c-alarm); font-size: var(--fs-1); }
-.p3-tw__meter { display: grid; row-gap: var(--sp-2); }
+.p3-tw__meter { position: relative; display: grid; row-gap: var(--sp-2); }
+/* Where a bar stood for "none": a thin neutral mark over the track (which starts
+   one label row and one gap below the meter's top and is 32px high) and, to its left, in the
+   emptied part of the track, the words "no penalty": whose reading the mark keeps. Neutral,
+   so that it does not compete with the bar. */
+.p3-tw__ghost { position: absolute; left: 0; right: 0; top: calc(var(--lh-1) + var(--sp-2)); height: 32px; pointer-events: none; }
+.p3-tw__ghost i { position: absolute; left: var(--was); top: -4px; bottom: -4px; width: 2px; margin-left: -2px; background: var(--c-dim); }
+.p3-tw__ghost b { position: absolute; right: calc(100% - var(--was) + var(--sp-3)); top: 0; font: 400 var(--fs-0)/32px var(--font-sans); color: var(--c-dim); }
 .p3-tw__said { font: italic 400 var(--fs-0)/var(--lh-0) var(--font-serif); color: var(--c-dim); }
+.p3-tw__fine { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
+.p3-tw__fine b { font-weight: 600; color: var(--c-text); }
 
-/* Click 2: the board is gone and the sentence stands alone; under it the advice, in the
-   color of the part. */
-.p3-tw__law {
-  position: absolute; inset: 0; display: grid; align-content: center; justify-items: center; row-gap: var(--sp-4);
-  text-align: center; pointer-events: none;
+/* On the entrance, under the terminal and the card: one line in the part's color that leads
+   from Part 2 into Part 3, and under it the fix that the title asks about, at the size of a
+   lead. The block fills the room that the pane of the actions, the bars and the strip take
+   from click 1 on. */
+.p3-tw__open {
+  position: absolute; left: 0; right: 0; top: 344px; bottom: 0; padding: 0 var(--sp-24);
+  display: grid; align-content: center; justify-items: center; row-gap: var(--sp-4); text-align: center;
 }
-.p3-tw__law-quote { max-width: 1360px; font: italic 400 var(--fs-5)/var(--lh-5) var(--font-serif); color: var(--c-text); text-wrap: balance; }
-.p3-tw__law-by { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
-.p3-tw__law .p3-keep { margin-top: var(--sp-8); }
-.p3-tw__law-note { max-width: 1280px; font: 400 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-dim); text-wrap: balance; }
+.p3-tw__bridge { font: 600 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-open); }
+.p3-tw__idea { font: 500 var(--fs-3)/var(--lh-3) var(--font-sans); color: var(--c-text); text-wrap: balance; }
+/* The strip under the board: one text at a time, each centered in the same box. */
+.p3-tw__strip { position: absolute; left: 0; right: 0; bottom: 0; height: 120px; }
+.p3-tw__run, .p3-tw__why, .p3-tw__advice {
+  position: absolute; inset: 0; display: grid; align-content: center; justify-items: center; text-align: center;
+}
+/* From click 1, at the size of body text: which experiment tried the fix. It is not the one
+   of slide 4 (the frontier agent, whose monitor also saw the actions). */
+.p3-tw__run { padding: 0 var(--sp-12); font: 500 var(--fs-2)/var(--lh-2) var(--font-sans); color: var(--c-text); text-wrap: balance; }
+/* From the end of click 2: why this monitor was not shown the actions, and what the finding
+   is all the same. */
+.p3-tw__why { row-gap: var(--sp-1); font: 400 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-text); }
+.p3-tw__why b { font-weight: 600; }
+/* Click 4: the advice in the color of the part and, under it, what the advice costs, in the
+   color of body text. */
+.p3-tw__advice { row-gap: var(--sp-1); }
+.p3-tw__cost { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text); text-wrap: balance; }
 
 /* ---- slide 9, p3-necessity: an easy hint, a hard hint, and the hard hint in the runs that wrote no step ---- */
 .p3-nec {
-  height: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 1152px; column-gap: var(--sp-12); row-gap: var(--sp-6);
+  height: 100%; display: grid; grid-template-columns: minmax(0, 1fr) 1152px; column-gap: var(--sp-12); row-gap: var(--sp-4);
   align-content: center;
 }
-/* Left: the three cases, one card each; the one on the lattice is the bright one. */
-.p3-nec__hints { display: grid; row-gap: var(--sp-4); align-content: start; }
-.p3-nec__hint { display: grid; row-gap: var(--sp-1); padding: var(--sp-4) var(--sp-6); }
+/* Over the picture, from the first frame: the question that the experiment asks, and whose
+   it is. */
+.p3-nec__lead { grid-column: 1 / -1; font: 500 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-text); text-wrap: balance; }
+/* Left: the three cases, one card each; the one on the lattice is the bright one. The cards
+   are set tight: the column is the tall one of the picture, and the closing row under it
+   holds three lines. */
+.p3-nec__hints { display: grid; row-gap: var(--sp-3); align-content: start; }
+.p3-nec__hint { display: grid; row-gap: var(--sp-1); padding: var(--sp-3) var(--sp-6); }
 .p3-nec__hint-label { font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--c-faint); }
 .p3-nec__hint-text { font: 400 var(--fs-0)/var(--lh-0) var(--font-mono); color: var(--c-hidden); }
 .p3-nec__hint-note { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-hidden); }
-/* Under the easy hint: the two earlier slides that were this kind of case. */
-.p3-nec__hint-like { margin-top: var(--sp-1); font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text); }
+/* Under a hint, one line in the body face: under the easy one, the earlier slide that was
+   this kind of case; under the hard one, how its formula is meant (the brackets that the
+   paper's steps imply). No margin of its own: the column is the tall one of the picture,
+   and the two lines take the room that the easy hint's two lines took. */
+.p3-nec__hint-like { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text); }
 .p3-nec__whose { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
 
 .p3-nec__lattice { position: relative; }
@@ -133,14 +182,18 @@
 .p3-nec__lattice .dk-lattice__token text { transform-box: fill-box; transform-origin: center; }
 .p3-nec__lattice .dk-lattice__token.is-hint rect { stroke: var(--c-hidden); }
 .p3-nec__lattice .dk-lattice__token.is-hint text { fill: var(--c-hidden); }
-.p3-nec__lattice .dk-lattice__token.is-answer rect { stroke: var(--c-ok); stroke-width: 4; }
-.p3-nec__lattice .dk-lattice__token.is-answer text { fill: var(--c-ok); font-weight: 600; }
+/* The answer the hint points to is a wrong one: when it comes out, its chip is red. */
+.p3-nec__lattice .dk-lattice__token.is-answer rect { stroke: var(--c-alarm); stroke-width: 4; }
+.p3-nec__lattice .dk-lattice__token.is-answer text { fill: var(--c-alarm); font-weight: 600; }
 /* A step that was not written: an empty chip. Not a dot: on slide 7 a dot is a place where a
    model trained for it computes, and here nothing takes the place of the words. */
 .p3-nec__lattice .dk-lattice__token.p3-nec__blank rect { stroke-dasharray: 8 8; }
+/* Click 2: the hinted answer, an open question from the moment the first written step goes:
+   a dashed frame and no fill, so that it does not read as an answer that was given. */
+.p3-nec__lattice .dk-lattice__token.p3-nec__asked rect { stroke-dasharray: 8 8; }
 /* The hinted answer that no longer comes out. */
 .p3-nec__lattice .dk-lattice__token.is-lost rect { stroke-dasharray: 8 8; }
-.p3-nec__lattice .dk-lattice__token.is-lost text { fill: var(--c-faint); }
+.p3-nec__lattice .dk-lattice__token.is-lost text { fill: var(--c-dim); }
 
 .p3-nec__readout { display: grid; grid-template-columns: auto minmax(0, 1fr) auto; column-gap: var(--sp-8); align-items: center; margin-top: var(--sp-4); }
 .p3-nec__reads { padding-left: var(--sp-3); font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-read); }
@@ -148,31 +201,36 @@
 .p3-nec__count { display: inline-block; min-width: 1ch; font: 600 var(--fs-3)/var(--lh-1) var(--font-mono); color: var(--c-read); vertical-align: baseline; }
 .p3-nec__verdict { display: inline-grid; justify-items: end; }
 .p3-nec__verdict .dk-flag { grid-area: 1 / 1; text-align: center; white-space: nowrap; transform-origin: 100% 50%; }
-/* "Clean" and "not followed" are neutral: the monitor found nothing to read. Only a flag has a color. */
-.p3-nec__verdict .dk-flag:not(.is-flagged) { border-color: var(--c-dim); }
+/* "Clean" is neutral: the monitor found nothing to read, and the wrong answer came out all
+   the same. A flag is red. "Not followed" is green (is-clean): nothing to read, and the wrong
+   answer did not come out. */
+.p3-nec__verdict .dk-flag:not(.is-flagged):not(.is-clean) { border-color: var(--c-dim); }
 /* Under the readout: what the case on the lattice comes to. One line per step. */
 .p3-nec__results { display: grid; margin-top: var(--sp-2); padding-left: var(--sp-3); font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); }
 .p3-nec__results span { grid-area: 1 / 1; color: var(--tone); }
 
-.p3-nec__close { grid-column: 1 / -1; display: grid; row-gap: var(--sp-3); justify-items: center; text-align: center; }
-.p3-nec__quote { font: italic 400 var(--fs-2)/var(--lh-2) var(--font-serif); color: var(--c-text); }
-/* After the quote, on the same line: whose sentence it is. */
+.p3-nec__close { grid-column: 1 / -1; display: grid; row-gap: var(--sp-2); justify-items: center; text-align: center; }
+/* After the lead's question, on the same line: whose question it is. */
 .p3-nec__by { margin-left: var(--sp-3); font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); white-space: nowrap; }
+/* Over the advice: what a stress test is, and what the paper's own came to. */
+.p3-nec__why { font: 400 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-text); text-wrap: balance; }
 
 /* ---- slide 10, p3-track: one training run, and what ships once monitorability counts ---- */
-.p3-trk { height: 100%; display: grid; align-content: center; row-gap: var(--sp-8); }
-/* The lead and the card with the run. The timeline moves them as one. The lead's first line
-   says that the run is a drawing, with a tag in the amber of the footer tags that mark what
-   is ours; its second line explains the two terms. */
+.p3-trk { height: 100%; display: grid; align-content: center; row-gap: var(--sp-4); }
+/* The lead and the card with the run. The lead's first line says that the run is
+   hypothetical, with a tag in the amber of the footer tags that mark what is ours; the two
+   lines under it explain the terms. */
 .p3-trk__main { display: grid; row-gap: var(--sp-4); }
 .p3-trk__lead { display: grid; row-gap: var(--sp-1); }
-.p3-trk__not { display: flex; align-items: baseline; gap: var(--sp-4); font: 500 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-text); }
-.p3-trk__tag {
-  flex: none; padding: 0 var(--sp-3); border: var(--stroke-2) solid var(--c-hidden); border-radius: var(--radius-1);
-  font: 600 var(--fs-1)/var(--lh-1) var(--font-mono); letter-spacing: .06em; text-transform: uppercase; color: var(--c-hidden);
-}
+.p3-trk__not { display: flex; align-items: baseline; gap: var(--sp-2); font: 500 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-text); }
+/* The first word of the lead, in the amber of what is ours. It is a word of the sentence and
+   not a boxed tag: a box in the look of the footer tags read as one of them, and the legend
+   of the tags (slide 2, the sources slide) does not hold it. */
+.p3-trk__tag { flex: none; font: 600 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-hidden); }
 .p3-trk__terms { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); }
-.p3-trk__card { position: relative; padding: var(--sp-6); }
+/* The bottom padding keeps the note on the card's border (kit.legend) clear of the frame
+   around the last checkpoint, which reaches 8px below its row. */
+.p3-trk__card { position: relative; padding: var(--sp-4) var(--sp-6) var(--sp-8); }
 
 /* The run: a row of headings, then one row per checkpoint (--rows of them, set by the slide).
    The column of the reasoning is as wide as the thought; the two bars share what is left. */
@@ -227,8 +285,8 @@
 .p3-trk__scan { position: absolute; grid-column: 3 / 4; grid-row: 2 / -1; inset: 0; pointer-events: none; }
 .p3-trk__scan .dk-lens { left: calc(-1 * var(--sp-2)); top: 0; width: calc(100% + 2 * var(--sp-2)); height: 8px; margin-top: -4px; opacity: 0; }
 
-/* The frame around the checkpoint that ships. It stands on the first row and the timeline
-   moves it down and back. Plain while capability alone decides; the color of what is hidden
+/* The frame around the checkpoint that ships. Its place is the first row; the timeline sets
+   it on the last one, where it arrives, and moves it back at the last click. Plain while capability alone decides; the color of what is hidden
    once the row turns out to be dots; the part's color on the checkpoint that is kept. */
 .p3-trk__ring {
   position: absolute; grid-column: 1 / -1; grid-row: 2 / 3; inset: calc(-1 * var(--sp-2)) calc(-1 * var(--sp-3));
@@ -256,7 +314,7 @@
 .p3-trk__quote { font: italic 400 var(--fs-2)/var(--lh-2) var(--font-serif); color: var(--c-text); }
 .p3-trk__by { margin-left: var(--sp-3); font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); white-space: nowrap; }
 
-/* ---- slide 11, p3-close: three callbacks, three ways to keep it open, two questions ---- */
+/* ---- slide 11, p3-close: three callbacks, three ways to keep it readable, two questions ---- */
 .p3-cl { height: 100%; display: grid; align-content: center; justify-items: center; text-align: center; }
 .p3-cl__recap { display: grid; row-gap: var(--sp-6); justify-items: center; }
 .p3-cl__thesis { font: 400 var(--fs-3)/var(--lh-3) var(--font-serif); color: var(--c-text); }
@@ -298,6 +356,6 @@
 .p3-cl__ask2 { margin-top: var(--sp-8); font: italic 400 var(--fs-4)/var(--lh-4) var(--font-serif); color: var(--c-open); }
 /* The invitation ends the slide. No names under it: the title slide is the one place for them. */
 .p3-cl__questions {
-  margin-top: var(--sp-16); padding: 0 var(--sp-8); border-radius: var(--radius-1);
+  margin-top: var(--sp-12); padding: 0 var(--sp-8); border-radius: var(--radius-1);
   font: 600 var(--fs-3)/var(--lh-4) var(--font-sans); color: var(--c-bg); background: var(--c-read);
 }
