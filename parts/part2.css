@@ -325,24 +325,31 @@
   background: var(--c-hidden); box-shadow: 0 0 12px var(--c-hidden), 0 0 36px var(--c-hidden);
 }
 /* Beside the stack, over the way that leaves it: how often the light goes up through the
-   stack ("one pass per word written", with an arrow that points up), or, in the second
-   row, why no answer comes of it. Either ends 12px or more before the capsule in the
-   widest font set (Verdana). */
+   stack ("one word at a time", with an arrow that points up), or, in the second row, why
+   no answer comes of it. In the first row a second line stands under the way, flush with
+   the first line's arrow: what the light is, "one run through all the layers"
+   (.p2-ph__run; its box starts 4px under the way, which is 6px wide around y 211, and
+   ends 4px over the band's bottom edge). Every line ends 12px or more before the capsule
+   in the widest font set (Verdana): the second line is 402px wide there, which is why
+   the label starts at 884px (888px until 2026-11-15, SPEC.md section 7.34). */
 .p2-ph__pass {
-  position: absolute; left: 888px; top: 166px; display: flex; align-items: center; column-gap: var(--sp-2);
+  position: absolute; left: 884px; top: 166px; display: flex; align-items: center; column-gap: var(--sp-2);
   font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-hidden); white-space: nowrap;
 }
 .p2-ph__pass i { flex: none; width: 14px; height: 22px; background: currentColor; clip-path: polygon(50% 0, 100% 45%, 64% 45%, 64% 100%, 36% 100%, 36% 45%, 0 45%); }
+.p2-ph__run { position: absolute; left: 0; top: 52px; }
 
 /* The answer inside the model, at the right end of the lower lane, where the way out of
    the stack ends: not on the page, so not in a box of the upper lane. A capsule in the
    amber of what happens inside, with the option it holds and what it is; the option stands
    under the place where the threads rise from it (PH.trunk). Its label says "can": the
    capsule is our drawing of what can happen, not a reading of this run. --lit (0 to 1) is
-   how brightly it is alight. The label is set a little closer than a chip's (.02em, not
-   .08em), so that the capsule ends with the row in every font.
-   In the second row the same capsule in the same place, dashed and empty: nothing can be
-   decided there before the reasoning is written. The two capsules stand one above the
+   how brightly it is alight. The label is set closer than a chip's (no letter-spacing,
+   where a chip has .08em; .02em until 2026-11-15, when the label grew from 21 to 22
+   characters, SPEC.md section 7.34), so that the capsule ends with the row in every font:
+   "picked before word one" leaves 9px or more before the capsule's padding.
+   In the second row the same capsule in the same place, dashed and empty: no answer is
+   there before the reasoning is written. The two capsules stand one above the
    other, so that the two rows can be told apart at a glance. */
 .p2-ph__inside {
   position: absolute; left: 1299px; top: 187px; width: 429px; height: 48px; padding: 0 var(--sp-3) 0 var(--sp-4);
@@ -352,7 +359,7 @@
   box-shadow: 0 0 calc(12px + var(--lit, 0) * 36px) color-mix(in srgb, var(--c-hidden) calc(20% + var(--lit, 0) * 50%), transparent);
   color: var(--c-hidden); white-space: nowrap;
 }
-.p2-ph__inside span { font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .02em; text-transform: uppercase; }
+.p2-ph__inside span { font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); text-transform: uppercase; }
 .p2-ph__inside b { font: 600 var(--fs-2)/var(--lh-2) var(--font-mono); text-shadow: 0 0 calc(var(--lit, 0) * 16px) var(--c-hidden); }
 .p2-ph__inside[data-inside="hard"] { padding-left: var(--sp-4); border-style: dashed; background: none; box-shadow: none; transform-origin: left center; }
 
@@ -450,7 +457,7 @@
 .p2-dots__over { position: absolute; left: 0; top: 0; overflow: visible; }
 .p2-dots__out { fill: none; stroke: var(--c-line); stroke-width: 2; stroke-dasharray: 4 6; }
 /* What a column is, in one line over the first columns, in the face and the amber of the
-   label beside slide 6's stack of layers (.p2-ph__pass): the same pass through the same
+   label beside slide 6's stack of layers (.p2-ph__pass): the same run through the same
    layers. (Until 2026-11-15 it ran along the first column, bottom to top, in gray.) */
 .p2-dots__column-note { font: 600 var(--fs-0) var(--font-sans); fill: var(--c-hidden); text-anchor: start; dominant-baseline: central; }
 /* In the place of the text row, where a run writes no reasoning: a dashed band that says so. */

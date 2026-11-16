@@ -32,7 +32,7 @@
   // 'p2.chen_easy', 'p2.chen_no_cot'). Until 2026-11-15 slide 5 said the second in a line
   // of its own, under a wire from the hint around the reasoning to the answer; the wire and
   // the line are gone (SPEC.md section 7.31: slide 5 shows what happened, slide 6 why), and
-  // the two facts stay registered behind the lower lane of slide 6's first row: one pass
+  // the two facts stay registered behind the lower lane of slide 6's first row: one run
   // through the layers is enough for (A) to light up inside the model while the page says
   // "nothing written yet" (a sentence under that row said it in words until SPEC.md section
   // 7.32, "one pass is enough to follow the hint: ... with nothing written"). Each was
@@ -72,7 +72,7 @@
   // 'p2.emmons_confabulate'); that happens where the reasoning is not needed for the answer
   // ('p2.emmons_not_necessary'), and the paper says that the hint experiments of slide 5
   // were such a case ('p2.emmons_simple_hint'). In the second the answer needs more steps
-  // in a row than one pass through the layers holds ('p2.emmons_layers'), so the steps have
+  // in a row than one run through the layers holds ('p2.emmons_layers'), so the steps have
   // to be written ('p2.emmons_externalize') and the reasoning is part of the computation
   // ('p2.emmons_part'; the slide printed its last words under the bottom row until the
   // tenth cold read, 2026-11-13, and the fact stays registered). 'emmons.rationalization' and
@@ -129,7 +129,8 @@
   // parallel before it looks for a third input that matches, 'p2.pfau_third'; the paper
   // does not say that each triple is checked at once, and the slide does not either).
   // The line also says why that is enough here, "This puzzle splits into independent
-  // pieces ... each in one pass": the pieces are the sums of pairs, and a dot computes
+  // pieces ... each in one run" ("each in one pass" until 2026-11-15, SPEC.md section
+  // 7.34): the pieces are the sums of pairs, and a dot computes
   // one of them in one layer ('p2.pfau_one_layer', registered after the eleventh cold
   // read, 2026-11-13, and found once as a whole string that day in the text of the PDF
   // of 2404.15758; a control with one word changed was not found). The tenth cold read
@@ -596,10 +597,14 @@
   // model writes it, the prompt, the written reasoning, the answer. The lower lane is the
   // inside of the model, a band in the amber of what is not written. In it stands a stack
   // of layers (four, slide 3's count), and to its right the place where an answer can be
-  // decided before a word is written. One pass is drawn, not defined in a sentence: the
-  // prompt goes down into the bottom layer, and a light goes up through the stack once,
-  // layer by layer; beside it, with an arrow that points up, stands how often that
-  // happens, "one pass per word written" (PH_TEXT.pass). (Until 2026-11-15 the row had no lanes: a capsule "can be
+  // decided before a word is written. One run through the layers is drawn, not defined in
+  // a sentence: the prompt goes down into the bottom layer, and a light goes up through
+  // the stack once, layer by layer; beside it stands how often that happens and what it
+  // is, on two lines, one over the way out of the stack and one under it: "one word at a
+  // time" (with an arrow that points up), "one run through all the layers"
+  // (PH_TEXT.pass). The deck's word for it was "one pass" until 2026-11-15 (SPEC.md
+  // section 7.34: the user found it hard to follow); slide 3 still says "one pass".
+  // (Until 2026-11-15 the row had no lanes: a capsule "can be
   // decided first" hung under the reasoning box and read as something on the page, one
   // pass was a sentence under it, and both answers said "written last" with nothing that
   // said where "first" was. SPEC.md section 7.32.)
@@ -611,29 +616,32 @@
   // changes to "Replay: in time order", and a rewind mark stands between the two boxes
   // while it lasts. Then the line between the lanes is drawn and the inside of the model
   // opens under the row, and the run plays forward, slowly. The prompt goes down into the
-  // model, the light goes up through the layers once, and at the end of that one pass (A)
-  // lights up inside: decided, and not a written token ('p2.emmons_posthoc': "an answer
+  // model, the light goes up through the layers once, and at the end of that one run (A)
+  // lights up inside: picked, and not a written token ('p2.emmons_posthoc': "an answer
   // the model has already computed internally"). On the page nothing is written yet, and
   // the written answer is still open.
   // At the next click the reasoning is written as a model writes it, line by line and left
   // to right, and each line is tied to the answer that is alight: a thread comes up from
   // it, across the line between the lanes, to the line of reasoning, which is typed toward
   // it, as if a magnet drew it. Last, (A) is written as the answer. Three labels carry the
-  // order and tell deciding from writing: "can be decided inside" on (A) in the lower
-  // lane, "written to reach it" on the reasoning, "written last" on the answer. The first
-  // of them says "can", as the first cue does: what is in the lower lane is our drawing of
-  // what the paper says can happen ("In some cases"), not something observed in this run
-  // (the cold read of the whole deck at the end of SPEC.md section 7.30 took a label
-  // without "can" for a fact). A thread ends in an arrowhead at its line, so that it reads
+  // order and tell picking from writing: "picked before word one" on (A) in the lower
+  // lane, "written to reach it" on the reasoning, "written last" on the answer. Until
+  // 2026-11-15 the first of them read "can be decided inside" (SPEC.md section 7.34), and
+  // it said "can", as the first cue still does: what is in the lower lane is our drawing
+  // of what the paper says can happen ("In some cases"), not something observed in this
+  // run (the cold read of the whole deck at the end of SPEC.md section 7.30 took a label
+  // without "can" for a fact; "can" with "before word one" does not fit the capsule, and
+  // the first cue, which arrives as the capsule lights up, and the title's "Sometimes"
+  // carry it now). A thread ends in an arrowhead at its line, so that it reads
   // from the answer to the reasoning. The click after that brings the paper's sentence,
   // which names it.
   // Bottom row, at the last two clicks, and not on the stage before them: a question that
   // needs its steps, a product of two four-digit numbers (an example of ours), with the
   // same two lanes. The same light goes up through the same stack, and no answer comes
   // out of it: the way from the top layer stops at a cross before an empty dashed capsule,
-  // "cannot be decided inside", and beside the stack stands why, "too many steps for one
-  // pass" ('p2.emmons_layers', and slide 3's first cue: one step per layer, no more). The
-  // light goes through every layer and is not stopped halfway: the pass is whole, and it
+  // "no answer before word one", and beside the stack stands why, "too many steps for one
+  // run" ('p2.emmons_layers', and slide 3's first cue: one step per layer, no more). The
+  // light goes through every layer and is not stopped halfway: the run is whole, and it
   // is not enough. That is one click and one state. At the next click the light goes
   // through the upper lane, in the teal of what is written: each line is typed, and only
   // then does the answer land. Here the answer is worked out on the page, and written
@@ -644,8 +652,9 @@
   // section 7.33; reworded the same day after the seventh cold read of the speaker script).
   // Since the same cold read the stack of the top row is not alight once only: before
   // each line of the reasoning at click 2 a lighter pass goes up through it (`repass`),
-  // and the label beside the stack says how the two go together, "one pass per word
-  // written".
+  // and the label beside the stack says how the two go together ("one pass per word
+  // written" from that cold read until SPEC.md section 7.34; now "one word at a time",
+  // "one run through all the layers").
   const PH_TERM = 'post-hoc rationalization';
   const PH_TEXT = Object.freeze({
     // The name on a row's first box. The top row has two, in one place: `recalled` while
@@ -664,23 +673,39 @@
     // said it in a sentence under the row, "one pass is enough to follow the hint: a
     // single run through the model's layers, with nothing written"; the picture says it
     // now, and the page's own "nothing written yet".
-    // The top row's label says how a pass and a written word go together: the model makes
-    // one pass for each word it writes (slide 3's machine and slide 7's draw it, a column
-    // a token; 'p2.hao_language_mode': "autoregressively generating the next token"). It
-    // read "one pass through the layers" until the cold read of 2026-11-15 (SPEC.md
-    // section 7.33): both readers could say what one pass is, and neither could say from
-    // the screen that a pass is what writes one word. The longer "one pass = all layers,
-    // once per word" does not fit before the capsule (489 px in Verdana, 377 px free), so
-    // "layers" is no longer in this label; slide 7 names them beside its first column.
-    pass: Object.freeze({ easy: 'one pass per word written', hard: 'too many steps for one pass' }),
+    // The top row's label says how a run through the layers and a written word go
+    // together: the model writes one word at a time, and for each word it runs once
+    // through all its layers (slide 3's machine and slide 7's draw it, a column a token;
+    // 'p2.hao_language_mode': "autoregressively generating the next token"). Two short
+    // lines, which the speaker can read out as they stand: `word` over the way out of the
+    // stack, with the arrow that points up, and `run` under it. It read "one pass through
+    // the layers" until the cold read of 2026-11-15 (SPEC.md section 7.33: both readers
+    // could say what one pass is, and neither could say from the screen that a pass is
+    // what writes one word), and "one pass per word written" from then until the user
+    // found "one pass" hard to follow (the same day, SPEC.md section 7.34). The wording
+    // first asked for, in one line, "one word at a time: each word runs once through all the
+    // layers", does not fit before the capsule in any font set (668 px wide in the
+    // default faces, 381 px free beside the arrow), and neither does "each word runs once
+    // through all the layers" on a line of its own (458 px in the default faces, 579 px
+    // in Verdana, 403 px free).
+    // `hard` takes up the noun of `run`: the same run, and it is not enough.
+    pass: Object.freeze({
+      easy: Object.freeze({ word: 'one word at a time', run: 'one run through all the layers' }),
+      hard: 'too many steps for one run',
+    }),
     // What came about where and when. In the lower lane, on the answer that lights up
     // inside the model, and on the empty capsule of the bottom row; then on the reasoning
     // and on the answer of each row. The answer is written last in both rows: the rows
-    // differ in where it was decided, which the lower lane shows: a lit capsule that holds
-    // the answer in the top row, a dashed and empty one in the bottom row.
+    // differ in when it was there, which the lower lane shows: a lit capsule that holds
+    // the answer in the top row, a dashed and empty one in the bottom row. The two
+    // capsules end on the same three words, one above the other: with the hint in the
+    // prompt from the start, (A) can be picked before the first word is written; the
+    // product has no answer by then. (Until 2026-11-15 they read "can be decided inside"
+    // and "cannot be decided inside", SPEC.md section 7.34. "Picked" is said of the top
+    // row only: its question has options to pick from, the product has none.)
     order: Object.freeze({
-      inside: 'can be decided inside',
-      closed: 'cannot be decided inside',
+      inside: 'picked before word one',
+      closed: 'no answer before word one',
       easy: Object.freeze({ reason: 'written to reach it', answer: 'written last' }),
       hard: Object.freeze({ reason: 'worked out in words', answer: 'written last' }),
     }),
@@ -907,10 +932,10 @@
   // rewound.
   // On the line between the lanes: their two names, each with an arrowhead toward its lane.
   // Lower lane: the stack of layers, top layer first, and the light that goes up through
-  // it; beside the stack what that is (top row, with an arrow that points up) or why no
-  // answer comes of it (bottom row); and at the right end the capsule of the answer
-  // decided inside: lit and holding the option in the top row, dashed and empty in the
-  // bottom row.
+  // it; beside the stack what that is (top row: two lines, the first with an arrow that
+  // points up, the second under the way out of the stack) or why no answer comes of it
+  // (bottom row); and at the right end the capsule of the answer picked inside: lit and
+  // holding the option in the top row, dashed and empty in the bottom row.
   const phRowHtml = (key) => {
     const easy = key === 'easy';
     const order = (what) => kit.flag({ key: `ph-${key}-${what}`, text: PH_TEXT.order[key][what] });
@@ -952,7 +977,9 @@
           ${util.range(PH.stack.layers).map((i) => `<i data-layer="${PH.stack.layers - 1 - i}"></i>`).join('')}
           <b class="p2-ph__scan"></b>
         </div>
-        <span class="p2-ph__pass">${easy ? '<i></i>' : ''}${PH_TEXT.pass[key]}</span>
+        <span class="p2-ph__pass">${easy
+    ? `<i></i>${PH_TEXT.pass.easy.word}<span class="p2-ph__run">${PH_TEXT.pass.easy.run}</span>`
+    : PH_TEXT.pass.hard}</span>
         <div class="p2-ph__inside" data-inside="${key}">${easy ? `<b>(${PH_PICK.letter})</b>` : ''}<span>${PH_TEXT.order[easy ? 'inside' : 'closed']}</span></div>
       </div>`;
   };
@@ -1086,11 +1113,11 @@
     // of layers, dark.
     // Then, forward: the hint lights up, and a pulse of light goes from the prompt down
     // across the line into the bottom layer. The light goes up through the stack once,
-    // layer by layer ("one pass per word written" comes up beside it as it starts),
-    // leaves the top layer and reaches the right end of the lane, where (A) lights up:
-    // decided, inside the model. On the page nothing has changed: the slot in the box says
+    // layer by layer ("one word at a time" and "one run through all the layers" come up
+    // beside it as it starts), leaves the top layer and reaches the right end of the lane,
+    // where (A) lights up: picked, inside the model. On the page nothing has changed: the slot in the box says
     // that nothing is written yet, and the answer is still "?".
-    const replay = ctx.step({ label: 'rewound, then replayed in time order: one pass through the layers, and (A) lights up inside the model before a word is written' });
+    const replay = ctx.step({ label: 'rewound, then replayed in time order: one run through the layers, and (A) lights up inside the model before a word is written' });
     const mark = '.p2-ph__rewind';
     const undone = PH_LINES.easy.map((_, i) => PH_AT.unwinds + (PH_LINES.easy.length - 1 - i) * (PH_REWIND.line + PH_REWIND.between));
     replay.cls(row('easy'), 'p2-is-rewinding', { at: 0 });
@@ -1182,15 +1209,15 @@
     // row above: three boxes on the page, and the stack of layers inside the model. The
     // prompt goes down into the stack and the light goes up through every layer, as in
     // the row above; but the way out of the top layer stops at a cross, short of the place
-    // where the row above has its answer: too many steps for one pass (the reason comes up
+    // where the row above has its answer: too many steps for one run (the reason comes up
     // beside the stack), and in that place an empty dashed capsule says what follows:
-    // "cannot be decided inside". The step ends on that: nothing is decided inside, and on
+    // "no answer before word one". The step ends on that: nothing is decided inside, and on
     // the page the box is still empty (until SPEC.md section 7.30 the light went through
     // the box in the same click, 0.7 s later). The paper's sentence stays between the two
-    // rows until the end of the next click: it is what the slide has for "the answer can be decided inside"
+    // rows until the end of the next click: it is what the slide has for "the answer can be decided inside the model"
     // (after the tenth cold read it left as this row arrived, and both readers of the
     // eleventh missed it).
-    const stuck = ctx.step({ label: 'a question that needs its steps: one pass through the layers is not enough, nothing is decided inside' });
+    const stuck = ctx.step({ label: 'a question that needs its steps: one run through the layers is not enough, nothing is decided inside' });
     stuck.tween(`${row('hard')}, ${model('hard')}`, { opacity: [0, 1] }, { at: 0, dur: dur.enter });
     walk(stuck, 'in-hard', PH_AT.tries, PH_PACE.down);
     const through = pass(stuck, 'hard', PH_AT.rises);
@@ -1331,14 +1358,17 @@
     }),
     answer: 'Answer',
     // Over the first columns, under the run's caption: what a column of the machine is.
-    // "One pass through the layers" is slide 3's first cue word for word, and the pass is
-    // the one that slide 6 draws as a light going up through its stack of layers (its
-    // label there: "one pass per word written"): a column here is that stack, one for each
-    // token. Until 2026-11-13 nothing on this slide said it, and the speaker had to; from
-    // then until the cold read of 2026-11-15 (SPEC.md section 7.33) it read "a column is
-    // one pass", set along the first column from the bottom up in gray, which a reader
-    // found hard to read and did not connect with slide 6's layers.
-    column: 'a column = one pass through the layers',
+    // The run is the one that slide 6 draws as a light going up through its stack of
+    // layers (its label there: "one word at a time", "one run through all the layers"): a
+    // column here is that stack, one for each token, so a column is one word's run.
+    // "Through the layers" is what is left of slide 3's first cue ("One pass through the
+    // layers"): the note read "a column = one pass through the layers" until the user
+    // found "one pass" hard to follow (2026-11-15, SPEC.md section 7.34). Until 2026-11-13
+    // nothing on this slide said it, and the speaker had to; from then until the cold read
+    // of 2026-11-15 (SPEC.md section 7.33) it read "a column is one pass", set along the
+    // first column from the bottom up in gray, which a reader found hard to read and did
+    // not connect with slide 6's layers.
+    column: 'a column = one word’s run through the layers',
     // The answer box of the run that feeds its internal state back: a note, in the face of
     // a note, on what this run writes, the answer and nothing else (the band under the
     // machine and the card say the same). No value: this model's numbers are from two
@@ -1391,12 +1421,14 @@
   // The line of the dots' click says what a dot adds, why that is enough for this puzzle,
   // and what the arcs in the picture are. Why it is enough: the puzzle splits into pieces
   // that do not need each other's results ('p2.pfau_parallelizable', 'p2.pfau_pairwise'),
-  // and each piece fits in one pass ('p2.pfau_one_layer'), so more columns side by side
-  // do it, and nothing here is "reasoning longer than one pass" (slide 3's third cue).
+  // and each piece fits in one run through the layers ('p2.pfau_one_layer'), so more
+  // columns side by side do it, and nothing here is "reasoning longer than one pass"
+  // (slide 3's third cue). "Each in one run" is the word of the note over the first
+  // columns; it read "each in one pass" until 2026-11-15 (SPEC.md section 7.34).
   // The tenth cold read (2026-11-13) had the line name the arcs and took the reason out;
   // both readers of the eleventh then set the dots against slide 3.
   const whyHtml = () => `<p class="p2-dots__why-dots">A dot says nothing, but it is <b>one more column to compute in</b>.
-          This puzzle splits into independent pieces: the columns work on them side by side, each in one pass,
+          This puzzle splits into independent pieces: the columns work on them side by side, each in one run,
           and the arcs carry the results to the last one.</p>`;
   // The slide's main line, one sentence shorter since the eleventh cold read: the end
   // state of its click was read as too dense, and what the line went on to say ("That is
