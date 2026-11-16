@@ -13,7 +13,7 @@
 /* ------------------------------------------------------------------ slide 5: the hint */
 /* The box is 8px lower than the stage under a two-line title. The example, two runs of one
    question side by side (412px) with the pill that recalls the last slide under them,
-   stands in the middle of the box for the first five steps (72px from its top: until the
+   stands in the middle of the box for the first four steps (72px from its top: until the
    ninth cold read it stood at the top, over room kept free for the charts); at the last
    click it leaves, and the charts take the whole box. */
 .p2-hint { position: absolute; inset: 0; display: grid; place-items: center; }
@@ -130,21 +130,9 @@
 .p2-hint__verdict--ok { color: var(--c-ok); }
 .p2-hint__verdict--bad { color: var(--c-alarm); }
 
-/* The cause: from the hint to the answer, around the reasoning. Drawn only after the
-   reasoning has been read; --taut (0 to 1) is the moment it arrives. */
-.p2-hint__wire { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
-.p2-hint__wire-path {
-  fill: none; stroke: var(--c-hidden); stroke-width: calc(3px + var(--taut, 0) * 3px); stroke-linecap: round;
-  stroke-dasharray: 1; stroke-dashoffset: var(--draw, 1);
-  filter: drop-shadow(0 0 calc(var(--taut, 0) * 10px) var(--c-hidden));
-}
-.p2-hint__wire-head { fill: var(--c-hidden); }
-/* Under the wire, ending where it turns up into the answer: why the hint could go around
-   the written reasoning. One line in any font. */
-.p2-hint__wire-label {
-  position: absolute; left: 0; top: 380px; width: 1612px; padding-right: var(--sp-6); text-align: right;
-  font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-hidden); white-space: nowrap;
-}
+/* How the hint reached the answer is not drawn here: the wire from the hint around the
+   reasoning, and the line under it, left on 2026-11-15 (SPEC.md section 7.31); the next
+   slide shows it. */
 
 /* The charts, at the last click: alone in the box and centered in it, once the example has
    left. */
@@ -186,7 +174,9 @@
 .p2-ph__row[data-row="easy"] { top: 0; }
 .p2-ph__row[data-row="hard"] { top: 380px; }
 /* A row's three boxes, each 144px high under the name on its top border (slide 5's
-   .p2-hint__name). */
+   .p2-hint__name). The first row's first box has two names in that one place, of which
+   one shows at a time: the name it enters under, and from the rewind on the name of the
+   replay (parts/part2.js, PH_TEXT). */
 .p2-ph__prompt, .p2-ph__reason, .p2-ph__answer { position: absolute; top: 16px; height: 144px; }
 .p2-ph__prompt {
   left: 0; width: 640px; padding: var(--sp-1) var(--sp-4) 0; display: grid; align-content: center;
@@ -236,6 +226,15 @@
    thread reads from the answer inside the model to the line it decided (a round knot
    until the cold read at the end of SPEC.md section 7.30, which gave no direction). */
 .p2-ph__pull::before { content: ""; position: absolute; left: -8px; top: -6px; width: 12px; height: 14px; clip-path: polygon(0 50%, 100% 0, 100% 100%); background: var(--c-hidden); }
+/* The rewind of the first row (the first click): the run that entered as written is taken
+   back before it is replayed. While it lasts, the caret that follows the end of a line as
+   the line goes is plain, in the color of the text and with no glow: nothing inside the
+   model moves it. Between the reasoning and the answer, in the middle of the 104px gap and
+   of the boxes' height, stands the rewind mark: two arrowheads that point back toward the
+   prompt, in the color of the text. It is a mark and holds no text. */
+.p2-ph__row.p2-is-rewinding .p2-ph__caret { background: var(--c-text); box-shadow: none; }
+.p2-ph__rewind { position: absolute; left: 1344px; top: 72px; display: flex; transform-origin: center; }
+.p2-ph__rewind i { width: 28px; height: 32px; background: var(--c-text); clip-path: polygon(0 50%, 100% 0, 100% 100%); }
 /* Until a line is written: a dashed slot that says so, like the empty slot of slide 5's
    first run. It turns up when the answer is alight under it. */
 .p2-ph__empty {
@@ -329,9 +328,10 @@
 .p2-ph__closed span { font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; }
 
 /* Between the rows: the paper's sentence, at the size of a cue, its term upright and in
-   Part 2's amber, our glosses of "CoT" and of the term in the face of a note (as on slide
-   3; the term and its gloss on one line), and where the sentence stands. Two lines at
-   most, and 36px clear of the names of the row under it. */
+   Part 2's amber, our gloss of the term in the face of a note (the term and its gloss on
+   one line), and where the sentence stands. Our words in the place of "the CoT" stand in
+   brackets in the sentence's own face: they are its subject. Two lines at most, and 36px
+   clear of the names of the row under it. */
 .p2-ph__said {
   position: absolute; left: 0; top: 264px; width: 1728px; text-align: center; text-wrap: balance;
   font: italic 400 var(--fs-1)/var(--lh-1) var(--font-serif); color: var(--c-text);
@@ -350,11 +350,18 @@
 .p2-dots__machine { grid-area: 1 / 1; position: relative; width: 1152px; height: 520px; }
 /* Above the machine: what stands between the question and the answer in the run on
    screen, behind a key in the form that the picture gives it: a line (a written token's,
-   or none at all), a dot, the column of cells of an internal state. One caption per run. */
+   or none at all), a token box that holds a period, the column of cells of an internal
+   state. One caption per run. The key of the dots is a written token as the text row
+   draws one (border, surface, the token's face and text color), not a filled circle in
+   the amber of a node of the layers: a dot is written, a node computes. */
 .p2-dots__ways { position: absolute; left: var(--sp-3); top: 0; display: grid; font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); }
 .p2-dots__ways span { grid-area: 1 / 1; display: inline-flex; align-items: center; gap: var(--sp-3); color: var(--tone); white-space: nowrap; }
 .p2-dots__ways i { flex: none; width: 28px; height: 4px; border-radius: 2px; background: var(--tone); }
-.p2-dots__ways i.p2-dots__key-dot { width: 16px; height: 16px; margin: 0 6px; border-radius: 50%; }
+.p2-dots__ways i.p2-dots__key-dot {
+  box-sizing: border-box; width: 48px; height: var(--lh-0); display: grid; place-items: center;
+  border: var(--stroke-1) solid var(--c-line); border-radius: var(--radius-1); background: var(--c-surface);
+  font: normal 400 var(--fs-1)/1 var(--font-mono); color: var(--c-text);
+}
 .p2-dots__key-state { flex: none; overflow: visible; }
 
 /* The answer: open ("?", in the amber of what happens inside) until a run is over, then
@@ -369,10 +376,11 @@
 /* The run that answers at once: its answer, the wrong one, in the red of a wrong answer
    (slides 5 and 6) and with a cross where the right answers have their check. The run that
    feeds its state back: no value of the puzzle's (its numbers are from other tasks), only
-   that what stands here is in words, in the teal of what can be read, with no check and
-   no green: the box does not say that an answer is right. */
+   a note that the answer is all this run writes, in the face of a note and not of an
+   answer, in the teal of what can be read, with no check and no green: the box does not
+   say that an answer is right. */
 .p2-dots__answer .p2-dots__answer-miss { color: var(--c-alarm); white-space: nowrap; }
-.p2-dots__answer .p2-dots__answer-other { color: var(--c-read); white-space: nowrap; }
+.p2-dots__answer .p2-dots__answer-other { font: 500 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-read); white-space: nowrap; }
 .p2-dots__answer.is-done { border-color: var(--c-ok); border-width: var(--stroke-2); color: var(--c-ok); background: color-mix(in srgb, var(--c-ok) 12%, var(--c-surface)); }
 .p2-dots__answer.is-miss { border-color: var(--c-alarm); border-width: var(--stroke-2); background: color-mix(in srgb, var(--c-alarm) 12%, var(--c-surface)); }
 .p2-dots__check { width: 20px; height: 20px; background: var(--c-ok); clip-path: polygon(0% 55%, 15% 40%, 40% 65%, 85% 12%, 100% 27%, 40% 92%); }
@@ -385,7 +393,8 @@
 .p2-dots__lattice .dk-lens.p2-is-off { background: var(--c-line); box-shadow: none; }
 .p2-dots__over { position: absolute; left: 0; top: 0; overflow: visible; }
 .p2-dots__out { fill: none; stroke: var(--c-line); stroke-width: 2; stroke-dasharray: 4 6; }
-.p2-dots__dot { fill: var(--c-hidden); transform-box: fill-box; transform-origin: center; }
+/* What a column is, along the first column and to its left, in the face of a note. */
+.p2-dots__column-note { font: 400 var(--fs-0) var(--font-sans); fill: var(--c-dim); text-anchor: middle; dominant-baseline: central; }
 /* In the place of the text row, where a run writes no reasoning: a dashed band that says so. */
 .p2-dots__band rect { fill: none; stroke: var(--c-line); stroke-width: 2; stroke-dasharray: 10 10; }
 .p2-dots__band text { font: 400 var(--fs-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; text-anchor: middle; fill: var(--c-dim); }
@@ -413,7 +422,8 @@
 .p2-dots__words { flex: 1; display: flex; gap: var(--sp-4); font: 400 var(--fs-1)/var(--lh-1) var(--font-mono); }
 .p2-dots__word { display: grid; justify-items: center; }
 .p2-dots__word b { grid-area: 1 / 1; font-weight: 400; color: var(--c-read); }
-.p2-dots__word i { grid-area: 1 / 1; font-style: normal; font-weight: 700; color: var(--c-hidden); }
+/* A dot as the monitor reads it: the period of the token boxes, in their text color. */
+.p2-dots__word i { grid-area: 1 / 1; font-style: normal; font-weight: 700; color: var(--c-text); }
 /* The monitor's verdict, at the right end of the readout and inside it whatever its length. */
 .p2-dots__verdicts { position: absolute; right: var(--sp-3); top: 0; bottom: 0; display: grid; align-items: center; justify-items: end; }
 .p2-dots__verdicts b {
@@ -422,8 +432,10 @@
   transform-origin: right center;
 }
 /* Under the picture, one line at a time in one place (the cell is as tall as the longest of
-   them, so nothing moves when one gives way to the next): first the way here from the last
-   two slides; from the end of the dots' click what a dot adds, in the amber of what
+   them, so nothing moves when one gives way to the next): nothing at the entrance, under
+   the run that writes its reasoning; from the click of the run that writes nothing in
+   between, the way here from the last two slides ("So far ... Now: ..."); from the end of
+   the dots' click what a dot adds, in the amber of what
    happens inside, why that is enough for this puzzle and what the arcs carry; nothing
    while the fourth model runs
    (its card says what it does); with its second result, at the click before the last, the
