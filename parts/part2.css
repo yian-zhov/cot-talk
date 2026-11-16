@@ -160,24 +160,27 @@
 .p2-hint__caveat { font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-text); white-space: nowrap; }
 
 /* ------------------------------------------------------------------ slide 6: the answer first */
-/* Two rows in a box of 1728 x 624, each the flow of slide 2: the prompt, the written
-   reasoning and the answer, left to right as they stand on the page (PH in parts/part2.js
-   has the same numbers). Under a row is what happens inside the model: the way from the
-   hint, and in the first row the answer that lights up there. Between the rows stands the
-   paper's sentence, and under the second row the line that closes the slide. Every block
-   has its place from the first frame, so nothing moves when the second row arrives (it is
-   not shown until its click). */
+/* Two rows in a box of 1728 x 632, the height of the stage under a two-line title (PH in
+   parts/part2.js has the same numbers; the box was 624px high until 2026-11-15). A row is
+   254px high and has two lanes. The upper lane is the page, the flow of slide 2: the
+   prompt, the written reasoning and the answer, left to right as they stand on the page.
+   The lower lane is the inside of the model: a band in the amber of what is not written,
+   with a stack of layers and, at its right end, the place of the answer that can be decided
+   there. Between the lanes runs a line, 22px under the boxes, and on it stand the names of
+   the two lanes. Between the rows stands the paper's sentence. Every block has its place
+   from the first frame, so nothing moves when the lower lane opens or the second row
+   arrives (neither is shown until its click). */
 .p2-ph { position: absolute; inset: 0; display: grid; place-items: center; }
-.p2-ph__box { position: relative; width: 1728px; height: 624px; }
+.p2-ph__box { position: relative; width: 1728px; height: 632px; }
 .p2-ph__art { position: absolute; left: 0; top: 0; overflow: visible; pointer-events: none; }
-.p2-ph__row { position: absolute; left: 0; width: 1728px; height: 160px; }
+.p2-ph__row { position: absolute; left: 0; width: 1728px; height: 254px; }
 .p2-ph__row[data-row="easy"] { top: 0; }
-.p2-ph__row[data-row="hard"] { top: 380px; }
-/* A row's three boxes, each 144px high under the name on its top border (slide 5's
-   .p2-hint__name). The first row's first box has two names in that one place, of which
-   one shows at a time: the name it enters under, and from the rewind on the name of the
-   replay (parts/part2.js, PH_TEXT). */
-.p2-ph__prompt, .p2-ph__reason, .p2-ph__answer { position: absolute; top: 16px; height: 144px; }
+.p2-ph__row[data-row="hard"] { top: 378px; }
+/* The upper lane: a row's three boxes, each 120px high under the name on its top border
+   (slide 5's .p2-hint__name). The first row's first box has two names in that one place,
+   of which one shows at a time: the name it enters under, and from the rewind on the name
+   of the replay (parts/part2.js, PH_TEXT). */
+.p2-ph__prompt, .p2-ph__reason, .p2-ph__answer { position: absolute; top: 16px; height: 120px; }
 .p2-ph__prompt {
   left: 0; width: 640px; padding: var(--sp-1) var(--sp-4) 0; display: grid; align-content: center;
   border: var(--stroke-1) solid var(--c-line); border-radius: var(--radius-2); background: var(--c-surface);
@@ -197,25 +200,26 @@
 /* Whose a box is, is said in the footer (the tags, and "Table 1 (hint, quoted)" in the
    cite): no box of this slide carries a note on its bottom border. */
 
-/* The written reasoning: three lines at the size of a cue, set close (36px a line) and
-   20px under the top border, so that the first line stays clear of the chip on that border
-   and the last one of the bottom border, in a wider face too. In the row that
-   needs its steps the box and its lines take the teal of what is written once the light is
-   in them. */
+/* The written reasoning: three lines at the size of a label (24px on 32px, as slide 5 sets
+   the same lines; 28px on 36px until 2026-11-15, when the boxes gave 24px of their height
+   to the lower lane), 20px under the top border, so that the first line stays clear of the
+   chip on that border; the three lines fill the box to its bottom border. The lines are in
+   the teal of what is written, in both rows. In the row that needs its steps the box's
+   border takes that teal too, and the lines glow, once the light is in them. */
 .p2-ph__reason { left: 744px; width: 576px; padding: 20px var(--sp-4) 0; }
 .p2-ph__reason.is-lit { border-color: var(--c-read); }
-.p2-ph__line { display: flex; align-items: center; height: 36px; font: 400 var(--fs-1)/36px var(--font-mono); color: var(--c-text); white-space: pre; }
-.p2-ph__reason.is-lit .p2-ph__line { color: var(--c-read); text-shadow: 0 0 calc(var(--glow, 0) * 16px) var(--c-read); }
+.p2-ph__line { display: flex; align-items: center; height: var(--lh-0); font: 400 var(--fs-0)/var(--lh-0) var(--font-mono); color: var(--c-read); white-space: pre; }
+.p2-ph__reason.is-lit .p2-ph__line { text-shadow: 0 0 calc(var(--glow, 0) * 16px) var(--c-read); }
 /* A line of the first row is typed toward the answer that is alight inside the model:
    after its text come a caret and, as far as the box's right edge, the end of the thread
    from that answer (the rest of the thread is drawn between the boxes, .p2-ph__way--thin).
    The thread takes what is left of the line, so it gets shorter as the text grows. --reach
    (0 to 1) is how far it has come in from the edge, --caret whether the caret shows. Both
-   are in the amber of what decided the line. The thread is 2px, a third of the way from
-   the hint to the answer (6px): at the tenth cold read (2026-11-13), at 4px, the two sets
-   of amber arrows could not be told apart. */
+   are in the amber of what decided the line. The thread is 2px, a third of the ways that
+   the light takes inside the model (6px): at the tenth cold read (2026-11-13), at 4px, the
+   two sets of amber arrows could not be told apart. */
 .p2-ph__caret {
-  flex: none; width: 4px; height: 24px; margin-left: var(--sp-1); border-radius: 2px;
+  flex: none; width: 4px; height: 20px; margin-left: var(--sp-1); border-radius: 2px;
   background: var(--c-hidden); box-shadow: 0 0 12px var(--c-hidden); opacity: var(--caret, 0);
 }
 .p2-ph__pull {
@@ -228,12 +232,12 @@
 .p2-ph__pull::before { content: ""; position: absolute; left: -8px; top: -6px; width: 12px; height: 14px; clip-path: polygon(0 50%, 100% 0, 100% 100%); background: var(--c-hidden); }
 /* The rewind of the first row (the first click): the run that entered as written is taken
    back before it is replayed. While it lasts, the caret that follows the end of a line as
-   the line goes is plain, in the color of the text and with no glow: nothing inside the
-   model moves it. Between the reasoning and the answer, in the middle of the 104px gap and
+   the line goes is plain, in the teal of the written line and with no glow: nothing inside
+   the model moves it. Between the reasoning and the answer, in the middle of the 104px gap and
    of the boxes' height, stands the rewind mark: two arrowheads that point back toward the
    prompt, in the color of the text. It is a mark and holds no text. */
-.p2-ph__row.p2-is-rewinding .p2-ph__caret { background: var(--c-text); box-shadow: none; }
-.p2-ph__rewind { position: absolute; left: 1344px; top: 72px; display: flex; transform-origin: center; }
+.p2-ph__row.p2-is-rewinding .p2-ph__caret { background: var(--c-read); box-shadow: none; }
+.p2-ph__rewind { position: absolute; left: 1344px; top: 60px; display: flex; transform-origin: center; }
 .p2-ph__rewind i { width: 28px; height: 32px; background: var(--c-text); clip-path: polygon(0 50%, 100% 0, 100% 100%); }
 /* Until a line is written: a dashed slot that says so, like the empty slot of slide 5's
    first run. It turns up when the answer is alight under it. */
@@ -270,28 +274,89 @@
 .p2-ph__face--right { transform: rotateX(180deg); }
 .p2-ph__verdict { display: grid; font: 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); white-space: nowrap; }
 /* The product has ten characters: its tile takes the width of the box, at the size of body
-   text, and what the answer is worth stands under it. */
-.p2-ph__row[data-row="hard"] .p2-ph__answer { grid-template-columns: minmax(0, 1fr); align-content: start; row-gap: var(--sp-1); padding-top: 20px; }
-.p2-ph__row[data-row="hard"] .p2-hint__tile { width: 100%; height: 56px; }
+   text, and what the answer is worth stands under it, clear of the chip on the bottom
+   border. */
+.p2-ph__row[data-row="hard"] .p2-ph__answer { grid-template-columns: minmax(0, 1fr); align-content: start; row-gap: var(--sp-1); padding-top: var(--sp-4); }
+.p2-ph__row[data-row="hard"] .p2-hint__tile { width: 100%; height: 44px; }
 .p2-ph__row[data-row="hard"] .p2-hint__face { font: 600 var(--fs-2)/var(--lh-2) var(--font-mono); }
 
-/* The answer inside the model, under the first row at the end of the way from the hint:
-   not on the page, so not in a box of the row. A capsule in the amber of what happens
-   inside, with what it is and the option it holds; the option stands under the place where
-   the threads rise from it (PH.trunk). Its label says "can": the capsule is our drawing of
-   what can happen, not a reading of this run. --lit (0 to 1) is how brightly it is alight. */
+/* The lower lane of a row, behind the ways and the row: a band in a faint amber, 96px
+   high, and on its top edge the line between the two lanes (--open, 0 to 1, draws it from
+   the left). The band is the whole width of the row: everything the model does with this
+   prompt happens in it. */
+.p2-ph__model {
+  position: absolute; left: 0; width: 1728px; height: 96px; border-radius: 0 0 var(--radius-2) var(--radius-2);
+  background: color-mix(in srgb, var(--c-hidden) 8%, transparent);
+}
+.p2-ph__model[data-under="easy"] { top: 158px; }
+.p2-ph__model[data-under="hard"] { top: 536px; }
+.p2-ph__seam {
+  position: absolute; left: 0; top: -1px; width: 100%; height: var(--stroke-1); background: var(--c-faint);
+  transform-origin: left center; transform: scaleX(var(--open, 1));
+}
+/* The names of the two lanes, on the line between them, at its left end: what is over the
+   line, in the teal of what is written, with an arrowhead that points up; what is under
+   it, in the amber of what happens inside, with one that points down. They are set like
+   the chips and are a little less high (32px), so that they stand clear of the box over
+   them. */
+.p2-ph__sides { position: absolute; left: var(--sp-4); top: 142px; display: flex; column-gap: var(--sp-3); }
+.p2-ph__side {
+  height: 32px; padding: 0 var(--sp-3); display: flex; align-items: center; column-gap: var(--sp-2);
+  border: var(--stroke-1) solid currentColor; border-radius: var(--radius-1); background: var(--c-bg);
+  font: 600 var(--fs-0)/28px var(--font-mono); letter-spacing: .08em; text-transform: uppercase; white-space: nowrap;
+  transform-origin: left center;
+}
+.p2-ph__side[data-side="page"] { color: var(--c-read); }
+.p2-ph__side[data-side="model"] { color: var(--c-hidden); }
+.p2-ph__side i { flex: none; width: 14px; height: 12px; background: currentColor; clip-path: polygon(50% 0, 100% 100%, 0 100%); }
+.p2-ph__side[data-side="model"] i { clip-path: polygon(0 0, 100% 0, 50% 100%); }
+/* The stack of layers inside the model: four bars of 12px, 22px apart, the middle of the
+   top one 177px under the row's top. --lit (0 to 1) is how brightly a layer is alight. The
+   bar of light that goes up through them (.p2-ph__scan) starts on the bottom layer; the
+   timeline moves it up and shows it only while it travels. */
+.p2-ph__stack { position: absolute; left: 638px; top: 171px; width: 212px; display: grid; row-gap: 10px; }
+.p2-ph__stack i {
+  height: 12px; border-radius: 6px;
+  background: color-mix(in srgb, var(--c-hidden) calc(24% + var(--lit, 0) * 76%), var(--c-bg));
+  box-shadow: 0 0 calc(var(--lit, 0) * 18px) color-mix(in srgb, var(--c-hidden) calc(var(--lit, 0) * 70%), transparent);
+}
+.p2-ph__scan {
+  position: absolute; left: -6px; right: -6px; top: 66px; height: 12px; border-radius: 6px; opacity: 0;
+  background: var(--c-hidden); box-shadow: 0 0 12px var(--c-hidden), 0 0 36px var(--c-hidden);
+}
+/* Beside the stack, over the way that leaves it: how often the light goes up through the
+   stack ("one pass per word written", with an arrow that points up), or, in the second
+   row, why no answer comes of it. Either ends 12px or more before the capsule in the
+   widest font set (Verdana). */
+.p2-ph__pass {
+  position: absolute; left: 888px; top: 166px; display: flex; align-items: center; column-gap: var(--sp-2);
+  font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-hidden); white-space: nowrap;
+}
+.p2-ph__pass i { flex: none; width: 14px; height: 22px; background: currentColor; clip-path: polygon(50% 0, 100% 45%, 64% 45%, 64% 100%, 36% 100%, 36% 45%, 0 45%); }
+
+/* The answer inside the model, at the right end of the lower lane, where the way out of
+   the stack ends: not on the page, so not in a box of the upper lane. A capsule in the
+   amber of what happens inside, with the option it holds and what it is; the option stands
+   under the place where the threads rise from it (PH.trunk). Its label says "can": the
+   capsule is our drawing of what can happen, not a reading of this run. --lit (0 to 1) is
+   how brightly it is alight. The label is set a little closer than a chip's (.02em, not
+   .08em), so that the capsule ends with the row in every font.
+   In the second row the same capsule in the same place, dashed and empty: nothing can be
+   decided there before the reasoning is written. The two capsules stand one above the
+   other, so that the two rows can be told apart at a glance. */
 .p2-ph__inside {
-  position: absolute; left: 984px; top: 176px; width: 432px; height: 48px; padding: 0 var(--sp-3) 0 var(--sp-4);
-  display: flex; align-items: center; justify-content: space-between;
+  position: absolute; left: 1299px; top: 187px; width: 429px; height: 48px; padding: 0 var(--sp-3) 0 var(--sp-4);
+  display: flex; align-items: center; column-gap: var(--sp-3);
   border: var(--stroke-1) solid var(--c-hidden); border-radius: var(--radius-3);
   background: color-mix(in srgb, var(--c-hidden) calc(14% + var(--lit, 0) * 10%), var(--c-bg));
   box-shadow: 0 0 calc(12px + var(--lit, 0) * 36px) color-mix(in srgb, var(--c-hidden) calc(20% + var(--lit, 0) * 50%), transparent);
   color: var(--c-hidden); white-space: nowrap;
 }
-.p2-ph__inside span { font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; }
+.p2-ph__inside span { font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .02em; text-transform: uppercase; }
 .p2-ph__inside b { font: 600 var(--fs-2)/var(--lh-2) var(--font-mono); text-shadow: 0 0 calc(var(--lit, 0) * 16px) var(--c-hidden); }
+.p2-ph__inside[data-inside="hard"] { padding-left: var(--sp-4); border-style: dashed; background: none; box-shadow: none; transform-origin: left center; }
 
-/* A way that the light takes, in the color of its row: its line, drawn behind the pulse
+/* A way that the light takes, in the color of its lane: its line, drawn behind the pulse
    (--draw), the pulse itself, a bright stretch of the line, and its arrowhead. --taut (0 to
    1) lights a way up once more. A thread from the answer inside to a line of reasoning is
    thinner and has no arrowhead. */
@@ -304,42 +369,33 @@
 .p2-ph__comet { fill: none; stroke: var(--tone); stroke-width: 14; stroke-linecap: round; opacity: 0; filter: drop-shadow(0 0 10px var(--tone)) drop-shadow(0 0 28px var(--tone)); }
 .p2-ph__way--thin .p2-ph__way-line { stroke-width: 2px; stroke-linecap: butt; }
 .p2-ph__way--thin .p2-ph__comet { stroke-width: 10; }
-/* The way under the row that needs its steps: what is left of it, dashed, and the mark
-   where it stops. */
+/* The way out of the stack in the row that needs its steps: what there is of it, dashed,
+   and the mark where it stops, a cross just short of the empty capsule. */
 .p2-ph__stub-route { fill: none; stroke: var(--tone); stroke-width: 5; stroke-linecap: round; stroke-dasharray: 10 10; }
-.p2-ph__stop { fill: none; stroke: var(--tone); stroke-width: 7; stroke-linecap: round; transform-box: fill-box; transform-origin: center; }
+.p2-ph__stop { fill: none; stroke: var(--tone); stroke-width: 6; stroke-linecap: round; transform-box: fill-box; transform-origin: center; }
 .p2-ph__ring { fill: none; stroke: var(--tone); stroke-width: 4; }
-/* What a way under a row is: in the first row why it could skip the written reasoning, one
-   line under the way and the answer it leads to, centered in the box; in the second row
-   why it stops, at the height of the way and before it starts, under the question, so
-   that the row reads from the reason along the way to the mark and the empty capsule. */
-.p2-ph__lane { position: absolute; font: 600 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-hidden); white-space: nowrap; }
-.p2-ph__lane[data-lane="easy"] { left: 0; width: 1728px; top: 228px; text-align: center; }
-.p2-ph__lane[data-lane="hard"] { left: 0; width: 640px; top: 552px; text-align: right; }
-/* Under the second row, where the first row has the answer that lights up inside the
-   model: the same capsule, dashed and empty. Nothing can be decided there before the
-   reasoning is written. The two capsules stand one above the other, so that the two rows
-   can be told apart at a glance. */
-.p2-ph__closed {
-  position: absolute; left: 984px; top: 548px; width: 432px; height: 40px; padding: 0 var(--sp-4);
-  display: flex; align-items: center; border: var(--stroke-1) dashed var(--c-hidden); border-radius: var(--radius-3);
-  color: var(--c-hidden); white-space: nowrap; transform-origin: left center;
-}
-.p2-ph__closed span { font: 600 var(--fs-0)/var(--lh-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; }
 
 /* Between the rows: the paper's sentence, at the size of a cue, its term upright and in
    Part 2's amber, our gloss of the term in the face of a note (the term and its gloss on
    one line), and where the sentence stands. Our words in the place of "the CoT" stand in
-   brackets in the sentence's own face: they are its subject. Two lines at most, and 36px
-   clear of the names of the row under it. */
+   brackets in the sentence's own face: they are its subject. Two lines at most, 12px under
+   the first row and 32px clear of the names of the row under it. */
 .p2-ph__said {
-  position: absolute; left: 0; top: 264px; width: 1728px; text-align: center; text-wrap: balance;
+  position: absolute; left: 0; top: 266px; width: 1728px; text-align: center; text-wrap: balance;
   font: italic 400 var(--fs-1)/var(--lh-1) var(--font-serif); color: var(--c-text);
 }
 .p2-ph__said b { display: inline-block; font-style: normal; font-weight: 600; color: var(--c-hidden); }
 .p2-ph__term { white-space: nowrap; }
 .p2-gloss { font: normal 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-faint); white-space: nowrap; }
 .p2-ph__by { font: normal 400 var(--fs-0)/var(--lh-0) var(--font-sans); color: var(--c-dim); white-space: nowrap; }
+/* What the two rows come to, from the end of the last click: one line in the place of the
+   paper's sentence, which has left by then, in the middle of that place's height (32px
+   under the first row, 52px clear of the names of the second), at the size of the
+   sentence and in the teal of the page. */
+.p2-ph__monitor {
+  position: absolute; left: 0; top: 286px; width: 1728px; text-align: center;
+  font: 600 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-read); white-space: nowrap;
+}
 
 /* ------------------------------------------------------------------ slide 7: reasoning without written words */
 .p2-dots { position: absolute; inset: 0; display: grid; place-items: center; }
@@ -393,8 +449,10 @@
 .p2-dots__lattice .dk-lens.p2-is-off { background: var(--c-line); box-shadow: none; }
 .p2-dots__over { position: absolute; left: 0; top: 0; overflow: visible; }
 .p2-dots__out { fill: none; stroke: var(--c-line); stroke-width: 2; stroke-dasharray: 4 6; }
-/* What a column is, along the first column and to its left, in the face of a note. */
-.p2-dots__column-note { font: 400 var(--fs-0) var(--font-sans); fill: var(--c-dim); text-anchor: middle; dominant-baseline: central; }
+/* What a column is, in one line over the first columns, in the face and the amber of the
+   label beside slide 6's stack of layers (.p2-ph__pass): the same pass through the same
+   layers. (Until 2026-11-15 it ran along the first column, bottom to top, in gray.) */
+.p2-dots__column-note { font: 600 var(--fs-0) var(--font-sans); fill: var(--c-hidden); text-anchor: start; dominant-baseline: central; }
 /* In the place of the text row, where a run writes no reasoning: a dashed band that says so. */
 .p2-dots__band rect { fill: none; stroke: var(--c-line); stroke-width: 2; stroke-dasharray: 10 10; }
 .p2-dots__band text { font: 400 var(--fs-0) var(--font-mono); letter-spacing: .08em; text-transform: uppercase; text-anchor: middle; fill: var(--c-dim); }
@@ -447,7 +505,7 @@
 .p2-dots__bridge { font: 500 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-dim); }
 .p2-dots__why-dots, .p2-dots__holds { font: 500 var(--fs-1)/var(--lh-1) var(--font-sans); color: var(--c-text); }
 .p2-dots__why-dots b { font-weight: 600; color: var(--c-hidden); }
-.p2-dots__holds b { font-weight: 600; color: var(--c-read); }
+.p2-dots__holds b { font-weight: 600; color: var(--c-read); white-space: nowrap; }
 
 /* Beside the machine and level with its top, one experiment at a time in one place: the
    puzzle's card while the first three runs play; then the fourth model's, a small card
@@ -509,3 +567,4 @@
 }
 .p2-dots__sum-lead { font: 400 var(--fs-3)/var(--lh-3) var(--font-serif); color: var(--c-text); }
 .p2-dots__sum-line { font: 600 var(--fs-3)/var(--lh-3) var(--font-serif); color: var(--c-hidden); white-space: nowrap; }
+

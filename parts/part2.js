@@ -32,9 +32,11 @@
   // 'p2.chen_easy', 'p2.chen_no_cot'). Until 2026-11-15 slide 5 said the second in a line
   // of its own, under a wire from the hint around the reasoning to the answer; the wire and
   // the line are gone (SPEC.md section 7.31: slide 5 shows what happened, slide 6 why), and
-  // the two facts stay registered behind the line under the way of slide 6's first row
-  // ("one pass is enough to follow the hint: ... with nothing written"). Each was searched
-  // for as a whole string on 2026-11-12 in the copy of the arXiv HTML full text
+  // the two facts stay registered behind the lower lane of slide 6's first row: one pass
+  // through the layers is enough for (A) to light up inside the model while the page says
+  // "nothing written yet" (a sentence under that row said it in words until SPEC.md section
+  // 7.32, "one pass is enough to follow the hint: ... with nothing written"). Each was
+  // searched for as a whole string on 2026-11-12 in the copy of the arXiv HTML full text
   // (2505.05410v1) downloaded on 2026-11-09, and so was 'p2.chen_pattern' once more: the
   // pattern that run 2's reasoning is built after. No slide prints it since slide 6 was
   // rebuilt (SPEC.md, 7.28).
@@ -587,94 +589,100 @@
 
   // ---------------------------------------------------------------- slide 6: the answer first
   // Why the reasoning of slide 5's second run does not mention the hint. Emmons et al. 2025
-  // tell two roles of written reasoning apart, and the picture has one row for each. A row
-  // is the flow of slide 2, left to right as it stands on the page and in the order in
-  // which a model writes it: the prompt, the written reasoning, the answer. What is under a
-  // row, in amber, happens inside the model and is not written.
+  // tell two roles of written reasoning apart, and the picture has one row for each.
+  // A row has two lanes, one over the other, and a line between them that carries their
+  // names, "on the page" (teal, pointing up) and "inside the model" (amber, pointing down).
+  // The upper lane is the page: the flow of slide 2, left to right in the order in which a
+  // model writes it, the prompt, the written reasoning, the answer. The lower lane is the
+  // inside of the model, a band in the amber of what is not written. In it stands a stack
+  // of layers (four, slide 3's count), and to its right the place where an answer can be
+  // decided before a word is written. One pass is drawn, not defined in a sentence: the
+  // prompt goes down into the bottom layer, and a light goes up through the stack once,
+  // layer by layer; beside it, with an arrow that points up, stands how often that
+  // happens, "one pass per word written" (PH_TEXT.pass). (Until 2026-11-15 the row had no lanes: a capsule "can be
+  // decided first" hung under the reasoning box and read as something on the page, one
+  // pass was a sentence under it, and both answers said "written last" with nothing that
+  // said where "first" was. SPEC.md section 7.32.)
   // Top row: the hinted run of slide 5 again (its question, hint, reasoning and answer). It
   // enters as slide 5 left it, the three lines written and the answer (A), wrong, so that
-  // it is known at a glance; nothing else is on the stage, and the step ends there. At the
+  // it is known at a glance; only the page is on the stage, and the step ends there. At the
   // first click the run is rewound, as a tape is: the answer turns back to "?", the three
   // lines are taken back from the last to the first, each from its end, the row's name
   // changes to "Replay: in time order", and a rewind mark stands between the two boxes
-  // while it lasts. Then the run plays forward, slowly. A pulse of light, in the amber of
-  // what happens inside the model, leaves
-  // the hint and runs under the reasoning box, which is empty again, to a place under the
-  // row, where (A) lights up: decided inside the model, and not a written token
-  // ('p2.emmons_posthoc': "an answer the model has already computed internally"). The
-  // written answer is still open. (Until 2026-11-15 the row entered empty and the pulse
-  // ran in the entrance; slide 5 then ended on a wire from the hint around the reasoning,
-  // and this opening sounded like slide 5 told a second time: SPEC.md section 7.31.)
-  // At the next click the reasoning is written as a model
-  // writes it, line by line and left to right, and each line is tied to the answer that
-  // is alight: a thread comes from it to the line, and the line is typed toward it, as if
-  // a magnet drew it. Last, (A) is written as the answer. Three labels carry the order
-  // and tell deciding from writing: "can be decided first" on (A) under the row, "written
-  // to reach it" on the reasoning, "written last" on the answer. The first of them says
-  // "can", as the first cue and the line under the way do: what is under the row is our
-  // drawing of what the paper says can happen ("In some cases"), not something observed in
-  // this run, and until the cold read of the whole deck at the end of SPEC.md section 7.30
-  // the label read "decided first", which a reader took for a fact. A thread ends in an
-  // arrowhead at its line, so that it reads from the answer to the reasoning (it ended in
-  // a knot until then, and had no direction). The click after that brings the paper's
-  // sentence, which names it.
-  // Until the cold read of slides 5 to 7 (SPEC.md, the end of section 7.28) the answer box itself took
-  // (A) at the entrance, with a chip "first", and the lines appeared last line first, each
-  // from its end: a listener who knows how a model generates read that as text produced
-  // from right to left, and a frame halfway showed the tail of a sentence.
+  // while it lasts. Then the line between the lanes is drawn and the inside of the model
+  // opens under the row, and the run plays forward, slowly. The prompt goes down into the
+  // model, the light goes up through the layers once, and at the end of that one pass (A)
+  // lights up inside: decided, and not a written token ('p2.emmons_posthoc': "an answer
+  // the model has already computed internally"). On the page nothing is written yet, and
+  // the written answer is still open.
+  // At the next click the reasoning is written as a model writes it, line by line and left
+  // to right, and each line is tied to the answer that is alight: a thread comes up from
+  // it, across the line between the lanes, to the line of reasoning, which is typed toward
+  // it, as if a magnet drew it. Last, (A) is written as the answer. Three labels carry the
+  // order and tell deciding from writing: "can be decided inside" on (A) in the lower
+  // lane, "written to reach it" on the reasoning, "written last" on the answer. The first
+  // of them says "can", as the first cue does: what is in the lower lane is our drawing of
+  // what the paper says can happen ("In some cases"), not something observed in this run
+  // (the cold read of the whole deck at the end of SPEC.md section 7.30 took a label
+  // without "can" for a fact). A thread ends in an arrowhead at its line, so that it reads
+  // from the answer to the reasoning. The click after that brings the paper's sentence,
+  // which names it.
   // Bottom row, at the last two clicks, and not on the stage before them: a question that
-  // needs its steps, a product of two four-digit numbers (an example of ours; until that
-  // cold read it was the sum of slide 2, which a large model may well answer without a
-  // written step). Until the cold read of the whole deck at the end of SPEC.md section
-  // 7.30 the row stood under the first one from the entrance, dimmed, and drew the eye
-  // from the replay for three steps. The same pulse tries the
-  // way under the box and stops: too many steps for one pass through the layers
-  // ('p2.emmons_layers', and slide 3's first cue). Where the top row has its capsule, lit,
-  // "can be decided first", this row gets an empty dashed one, "cannot be decided first":
-  // the two rows differ in that and in nothing else that a label says (both answers are
-  // "written last"), and the two capsules stand one above the other, so the difference
-  // can be seen at a glance (until the ninth cold read the row had no capsule, and a
-  // reader had to set "written last" against the one capsule of the top row to see what
-  // the labels were for). That is one click and one state. At the
-  // next click the light goes through the box, in
-  // the teal of what is written: each line is typed, and only then does the answer land.
-  // Here the answer is worked out in the words, and written last as in the top row. That
-  // is slide 3's rule again, and slide 9 tries it with a hint.
+  // needs its steps, a product of two four-digit numbers (an example of ours), with the
+  // same two lanes. The same light goes up through the same stack, and no answer comes
+  // out of it: the way from the top layer stops at a cross before an empty dashed capsule,
+  // "cannot be decided inside", and beside the stack stands why, "too many steps for one
+  // pass" ('p2.emmons_layers', and slide 3's first cue: one step per layer, no more). The
+  // light goes through every layer and is not stopped halfway: the pass is whole, and it
+  // is not enough. That is one click and one state. At the next click the light goes
+  // through the upper lane, in the teal of what is written: each line is typed, and only
+  // then does the answer land. Here the answer is worked out on the page, and written
+  // last as in the top row. That is slide 3's rule again, and slide 9 tries it with a hint.
+  // The click ends on what the two rows come to: the paper's sentence leaves, and in its
+  // place between the rows a line comes up, "A monitor sees only the page: in both
+  // rows, reasoning first, answer last." (since the cold read of 2026-11-15, SPEC.md
+  // section 7.33; reworded the same day after the seventh cold read of the speaker script).
+  // Since the same cold read the stack of the top row is not alight once only: before
+  // each line of the reasoning at click 2 a lighter pass goes up through it (`repass`),
+  // and the label beside the stack says how the two go together, "one pass per word
+  // written".
   const PH_TERM = 'post-hoc rationalization';
   const PH_TEXT = Object.freeze({
     // The name on a row's first box. The top row has two, in one place: `recalled` while
     // the run stands as slide 5 left it (the entrance), and `rows.easy` from the rewind
     // on, which says what the replay is: the same run, in the order in which it came
-    // about. Until 2026-11-15 the row had the first name alone, to its last state.
+    // about.
     rows: Object.freeze({ easy: 'Replay: in time order', hard: 'Another question: it needs its steps' }),
     recalled: 'Replay: the hinted run',
     empty: 'nothing written yet',
-    // What came about when, and whether it was decided or written. Under the top row, on
-    // the answer that lights up inside the model; then on the reasoning and on the answer
-    // of each row. The answer is written last in both rows: the rows differ in where it
-    // was decided, which the capsule under each row says: lit and holding the answer in
-    // the top row, dashed and empty in the bottom row.
+    // The two lanes of a row, named on the line between them: what is written, over what
+    // happens in the model and is not written. The same two names stand in both rows.
+    sides: Object.freeze({ page: 'on the page', model: 'inside the model' }),
+    // Beside a row's stack of layers: what the light that goes up through it is, and in
+    // the bottom row why no answer comes out of it ('p2.emmons_layers',
+    // 'p2.emmons_externalize'). The two answer each other. Until 2026-11-15 the top row
+    // said it in a sentence under the row, "one pass is enough to follow the hint: a
+    // single run through the model's layers, with nothing written"; the picture says it
+    // now, and the page's own "nothing written yet".
+    // The top row's label says how a pass and a written word go together: the model makes
+    // one pass for each word it writes (slide 3's machine and slide 7's draw it, a column
+    // a token; 'p2.hao_language_mode': "autoregressively generating the next token"). It
+    // read "one pass through the layers" until the cold read of 2026-11-15 (SPEC.md
+    // section 7.33): both readers could say what one pass is, and neither could say from
+    // the screen that a pass is what writes one word. The longer "one pass = all layers,
+    // once per word" does not fit before the capsule (489 px in Verdana, 377 px free), so
+    // "layers" is no longer in this label; slide 7 names them beside its first column.
+    pass: Object.freeze({ easy: 'one pass per word written', hard: 'too many steps for one pass' }),
+    // What came about where and when. In the lower lane, on the answer that lights up
+    // inside the model, and on the empty capsule of the bottom row; then on the reasoning
+    // and on the answer of each row. The answer is written last in both rows: the rows
+    // differ in where it was decided, which the lower lane shows: a lit capsule that holds
+    // the answer in the top row, a dashed and empty one in the bottom row.
     order: Object.freeze({
-      inside: 'can be decided first',
-      closed: 'cannot be decided first',
+      inside: 'can be decided inside',
+      closed: 'cannot be decided inside',
       easy: Object.freeze({ reason: 'written to reach it', answer: 'written last' }),
       hard: Object.freeze({ reason: 'worked out in words', answer: 'written last' }),
-    }),
-    // Under the top row's way: why the written reasoning could be skipped. Following the
-    // hint is easy ('p2.emmons_simple_hint': "following the simple hint did not require
-    // significant computation"; 'p2.chen_easy': "very easy to exploit"), so the answer can
-    // be decided in one pass, and the label says in place what a pass is: a single run
-    // through the model's layers (slide 3's count of 4), in which nothing is written. "Can":
-    // the paper says "In some cases". Beside the place where the bottom row's way stops:
-    // why it stops there ('p2.emmons_layers', 'p2.emmons_externalize'). The two lines
-    // answer each other, "one pass is enough" and "too many steps for one pass", and are
-    // what the end state says under its rows, with the paper's sentence between them:
-    // until the tenth cold read (2026-11-13) the first one also said "(A) can be decided",
-    // which the capsule over it says, and the end state held a line under the bottom row
-    // as well.
-    lanes: Object.freeze({
-      easy: 'one pass is enough to follow the hint: a single run through the model’s layers, with nothing written',
-      hard: 'too many steps for one pass',
     }),
     // The bottom row's question, of two numbers.
     ask: (a, b) => `What is ${a} × ${b}?`,
@@ -685,6 +693,18 @@
     // skip the abbreviation). `term` is our gloss of the paper's name for this role of the
     // reasoning, in brackets behind it: a reader of the eleventh cold read (2026-11-13)
     // did not know the term.
+    // What the two rows come to, on screen from the end of the last click: a monitor is
+    // shown what is written, the upper lane, and there the two rows have the same form,
+    // a prompt, a reasoning and an answer written last; what tells them apart is under
+    // the line ('korbak.monitor_def': a monitor "reads the CoT"; 'p2.chen_monitor'; slide
+    // 5's cue, "A monitor reading only the reasoning would see nothing wrong"). Until the
+    // cold read of 2026-11-15 (SPEC.md section 7.33) only the speaker said it. One line,
+    // between the rows, in the place that the paper's sentence leaves. The line names
+    // what is the same on the page, the order: until the seventh cold read of the speaker
+    // script (2026-11-15) it ended "both rows look the same.", and both readers set that
+    // against the picture, in which the top row's answer is amber and "wrong" and the
+    // bottom row's teal and "correct".
+    monitor: 'A monitor sees only the page: in both rows, reasoning first, answer last.',
     cot: 'the CoT',
     gloss: 'the written reasoning',
     term: 'made up afterward',
@@ -726,96 +746,137 @@
   const PH_LINES = Object.freeze({ easy: CASE.hinted, hard: PH_HARD.lines });
   // The option that the hint names, and what it stands for.
   const PH_PICK = Object.freeze({ letter: 'A', name: CASE.options.find(([letter]) => letter === 'A')[1] });
+  // Where things stand, in the box of 1728 x 632 (parts/part2.css has the same numbers).
+  // What is given from a row's top is the same in both rows.
   const PH = Object.freeze({
-    tops: Object.freeze({ easy: 0, hard: 380 }),      // where a row starts in the box
-    card: Object.freeze({ dy: 16, h: 144 }),          // a row's three boxes, under the names on their borders
+    tops: Object.freeze({ easy: 0, hard: 378 }),      // where a row starts in the box
+    card: Object.freeze({ dy: 16, h: 120 }),          // the upper lane: a row's three boxes, under the names on their borders
     prompt: Object.freeze({ x: 0, w: 640 }),
     reason: Object.freeze({ x: 744, w: 576 }),
     answer: Object.freeze({ x: 1424, w: 304 }),
-    leaves: Object.freeze({ easy: 88, hard: 112 }),   // where the way under a row leaves the prompt, from the card's top (top row: the middle of the hint)
-    under: Object.freeze({ easy: 40, hard: 28 }),     // how far under the boxes it runs
-    inside: Object.freeze({ x: 984, w: 432, h: 48 }),   // the answer that lights up inside the model, under the top row at the end of its way
-    trunk: 1372,                                      // where the threads rise from it, between the reasoning and the answer
+    enters: 596,                                      // where the prompt goes down into the model, out of the bottom edge of its box
+    // The stack of layers in the lower lane: `top` is the middle of its top layer, from the
+    // row's top; the layers are `pitch` apart. Four layers: slide 3's count for one pass.
+    stack: Object.freeze({ x: 638, w: 212, top: 177, pitch: 22, layers: 4 }),
+    inside: Object.freeze({ x: 1299, y: 187, w: 429, h: 48 }),   // the answer that lights up inside the model, at the right end of the lower lane
+    trunk: 1346,                                      // where the threads rise from it, between the reasoning and the answer; "(A)" stands under it
     lands: 32,                                        // where the pulse from it comes up into the answer box, from that box's left edge
-    line: Object.freeze({ first: 40, pitch: 36 }),    // the middle of the first line of reasoning, from the card's top, and from line to line (parts/part2.css)
-    stops: 282,                                       // how far the way gets in the row that needs its steps, from the prompt's right edge: it stops short of the place where the top row has its capsule
+    line: Object.freeze({ first: 38, pitch: 32 }),    // the middle of the first line of reasoning, from the card's top, and from line to line (parts/part2.css)
+    stops: 1264,                                      // where the way out of the stack stops in the row that needs its steps: short of the capsule
   });
-  const phMid = (row) => PH.tops[row] + PH.card.dy + PH.card.h / 2;
-  const phBottom = (row) => PH.tops[row] + PH.card.dy + PH.card.h;
-  const phLane = (row) => phBottom(row) + PH.under[row];
-  // The way under a row: out of the prompt, down, and along under the boxes as far as `to`.
-  const phUnder = (row, to) => {
-    const x = PH.prompt.x + PH.prompt.w;
-    const y = PH.tops[row] + PH.card.dy + PH.leaves[row];
-    return `M${x} ${y}h12q12 0 12 12V${phLane(row) - 12}q0 12 12 12H${to}`;
+  const phAt = (row, y) => PH.tops[row] + y;
+  const phMid = (row) => phAt(row, PH.card.dy + PH.card.h / 2);
+  const phBottom = (row) => phAt(row, PH.card.dy + PH.card.h);
+  // The middle of a layer of a row's stack; layer 0 is the bottom one, where the prompt comes in.
+  const phLayer = (row, i) => phAt(row, PH.stack.top + (PH.stack.layers - 1 - i) * PH.stack.pitch);
+  const phTopLayer = (row) => phLayer(row, PH.stack.layers - 1);
+  // The middle of the capsule at the right end of a row's lower lane.
+  const phDecided = (row) => phAt(row, PH.inside.y + PH.inside.h / 2);
+  // The way out of a row's stack: out of its top layer, down beside the stack to the height
+  // of the capsule, and along the lane as far as `to`.
+  const phOut = (row, to) => {
+    const drop = phDecided(row) - phTopLayer(row);
+    if (drop < 24) throw new Error('slide 6: the capsule in the lower lane must stand at least 24px under the top layer of the stack');
+    return `M${PH.stack.x + PH.stack.w + 6} ${phTopLayer(row)}h4q12 0 12 12v${drop - 24}q0 12 12 12H${to}`;
   };
   // The ways that a pulse walks to its end, each with how much of it the pulse of light
   // covers (a way's length is 1) and, where it ends in an arrow, the tip and how it is
-  // turned. Top row: from the hint under the reasoning to the answer inside the model;
-  // from that answer one thread to each line of reasoning (up between the two boxes and
-  // into the reasoning box at the line's height; inside the box the thread is the line's
-  // own, parts/part2.css); and from its right end up into the written answer, apart from
-  // the threads, so that no line of reasoning seems to run on into the answer. Bottom
-  // row: from the prompt into the reasoning, and from it to the answer.
+  // turned. In both rows: from the prompt down, across the line between the lanes, into
+  // the bottom layer of the stack. Top row: out of the top layer to the answer inside the
+  // model; from that answer one thread to each line of reasoning (up across the line
+  // between the lanes, between the two boxes, and into the reasoning box at the line's
+  // height; inside the box the thread is the line's own, parts/part2.css); and from it up
+  // into the written answer, apart from the threads, so that no line of reasoning seems
+  // to run on into the answer. Bottom row, in the upper lane: from the prompt into the
+  // reasoning, and from it to the answer.
   const PH_WAYS = (() => {
     const gap = (from, to, y) => `M${from + 6} ${y}H${to - 22}`;
+    const down = (row) => Object.freeze({
+      tone: 'hidden', pulse: 0.3,
+      d: `M${PH.enters} ${phBottom(row)}V${phLayer(row, 0) - 12}q0 12 12 12H${PH.stack.x - 22}`,
+      tip: [PH.stack.x - 6, phLayer(row, 0), 0],
+    });
     const up = PH.answer.x + PH.lands;
-    const rises = `M${PH.trunk} ${phLane('easy') - PH.inside.h / 2}`;
-    const lineAt = (i) => PH.tops.easy + PH.card.dy + PH.line.first + i * PH.line.pitch;
+    const lineAt = (i) => phAt('easy', PH.card.dy + PH.line.first + i * PH.line.pitch);
     const pulls = Object.fromEntries(PH_LINES.easy.map((_, i) => [`pull-${i}`, Object.freeze({
-      tone: 'hidden', pulse: 0.4, thin: true, d: `${rises}V${lineAt(i) + 12}q0 -12 -12 -12H${PH.reason.x + PH.reason.w}`,
+      tone: 'hidden', pulse: 0.4, thin: true, d: `M${PH.trunk} ${phAt('easy', PH.inside.y)}V${lineAt(i) + 12}q0 -12 -12 -12H${PH.reason.x + PH.reason.w}`,
     })]));
     return Object.freeze({
-      around: Object.freeze({ tone: 'hidden', pulse: 0.12, d: phUnder('easy', PH.inside.x - 22), tip: [PH.inside.x - 6, phLane('easy'), 0] }),
+      'in-easy': down('easy'),
+      decides: Object.freeze({
+        tone: 'hidden', pulse: 0.2,
+        d: phOut('easy', PH.inside.x - 22),
+        tip: [PH.inside.x - 6, phDecided('easy'), 0],
+      }),
       ...pulls,
-      says: Object.freeze({ tone: 'hidden', pulse: 0.5, d: `M${PH.inside.x + PH.inside.w} ${phLane('easy')}H${up - 12}q12 0 12 -12V${phBottom('easy') + 18}`, tip: [up, phBottom('easy') + 2, -90] }),
+      says: Object.freeze({ tone: 'hidden', pulse: 0.5, d: `M${up} ${phAt('easy', PH.inside.y)}V${phBottom('easy') + 18}`, tip: [up, phBottom('easy') + 2, -90] }),
+      'in-hard': down('hard'),
       into: Object.freeze({ tone: 'read', pulse: 0.5, d: gap(PH.prompt.x + PH.prompt.w, PH.reason.x, phMid('hard')), tip: [PH.reason.x - 6, phMid('hard'), 0] }),
       out: Object.freeze({ tone: 'read', pulse: 0.5, d: gap(PH.reason.x + PH.reason.w, PH.answer.x, phMid('hard')), tip: [PH.answer.x - 6, phMid('hard'), 0] }),
     });
   })();
-  // The way under the bottom row: as far as it gets, and the mark where it stops.
-  const PH_STUB = (() => {
-    const end = PH.prompt.x + PH.prompt.w + PH.stops;
-    return Object.freeze({ d: phUnder('hard', end), pulse: 0.3, x: end + 28, y: phLane('hard') });
-  })();
-  // How long a pulse takes for the way under the row, for a hop between two boxes and for
-  // the way that stops; how long a thread takes from the answer inside to its line; how
-  // long a line takes to be typed, and the pause before the next one in the bottom row (in
-  // the top row the next line's thread fills the pause). A line takes a fixed time, not a
-  // time by its length, so that the steps are as long in a translation.
-  const PH_PACE = Object.freeze({ around: 1300, hop: 400, stub: 700, pull: 250, line: 650, between: 150 });
+  // The way out of the stack in the bottom row: as far as it gets, and the mark where it
+  // stops.
+  const PH_STUB = Object.freeze({ d: phOut('hard', PH.stops - 22), pulse: 0.3, x: PH.stops, y: phDecided('hard') });
+  // How long a pulse takes from the prompt down into the stack; how long the light takes
+  // from one layer to the next; how long a pulse takes from the top layer to the answer
+  // inside, for a hop between two boxes and for the way that stops; how long a thread
+  // takes from the answer inside to its line; how long a line takes to be typed, and the
+  // pause before the next one in the bottom row (in the top row the next line's thread
+  // fills the pause). A line takes a fixed time, not a time by its length, so that the
+  // steps are as long in a translation.
+  // `again` is the same hop from layer to layer in the lighter pass that goes before each
+  // line of the top row's reasoning (click 2): the whole stack in 210 ms, a quarter of the
+  // first pass. The first line waits for it (60 ms more than the step had before its
+  // first thread); the passes of the two other lines run while the line above them is
+  // still being typed.
+  const PH_PACE = Object.freeze({ down: 500, layer: 280, again: 70, decides: 450, hop: 400, stub: 600, pull: 250, line: 650, between: 150 });
   // The rewind of the top row, at the first click: when the answer starts to turn back and
   // how long it takes; when the last line starts to be taken back (the answer is still
   // turning, so the rewind is one motion); how long a line takes to go, from its end, and
-  // the pause before the line above it; how long the empty slot takes to come back; and
-  // the pause before the run plays forward. A line goes in less than two thirds of the
-  // time it takes to be typed: a tape runs back faster than it plays.
-  const PH_REWIND = Object.freeze({ answerAt: 100, answer: 450, linesAt: 450, line: 380, between: 60, settle: 200, pause: 400 });
-  // How much of its light the answer inside the model keeps between two flashes.
+  // the pause before the line above it; how long the empty slot takes to come back; how
+  // long the lower lane takes to open under the row; and the pause before the run plays
+  // forward. A line goes in less than two thirds of the time it takes to be typed: a tape
+  // runs back faster than it plays.
+  const PH_REWIND = Object.freeze({ answerAt: 100, answer: 450, linesAt: 450, line: 380, between: 60, settle: 200, opens: 600, pause: 300 });
+  // How much of its light the answer inside the model keeps between two flashes, and a
+  // layer once the light has gone through it.
   const PH_GLOWS = 0.35;
+  const PH_PASSED = 0.5;
+  // The lighter pass that goes before each line of the top row's reasoning: how brightly a
+  // layer lights up in it (it comes from PH_PASSED and goes back to it), how much of the
+  // bar of light shows, and how far the way out of the stack lights up toward the answer
+  // inside. Each is well under the first pass, which is the one to be read.
+  const PH_AGAIN = Object.freeze({ layer: 0.85, scan: 0.5, way: 0.5 });
   // The beats that a cue or the title waits for, in ms from the start of their step. Click
   // 1: when the lines start to be taken back, when the last of them is gone, when the row
-  // is empty again, when the pulse leaves the hint and when the answer lights up inside.
-  // Click 2: when the first line starts to be typed, when all three stand, and when (A) is
-  // written. Click 4: when the pulse tries the way under the row and where it stops. Click
-  // 5: when the light enters the reasoning, when the first line is typed, when the last one
-  // stands, and when the answer lands.
+  // is empty again and the lower lane starts to open, when the pulse leaves the prompt,
+  // when the light starts up through the layers and when the answer lights up inside.
+  // Click 2: how long the lighter pass before a line takes, when the first line starts to
+  // be typed, when all three stand, and when (A) is written. Click 4: when the pulse leaves the prompt, when the light starts up through
+  // the layers, and where the way out of them stops. Click 5: when the light enters the
+  // reasoning, when the first line is typed, when the last one stands, and when the answer
+  // lands.
   const PH_AT = (() => {
+    const climbs = (PH.stack.layers - 1) * PH_PACE.layer + 160;   // from the bottom layer alight to the top one alight
     const unwinds = PH_REWIND.linesAt;
     const erased = unwinds + PH_LINES.easy.length * (PH_REWIND.line + PH_REWIND.between) - PH_REWIND.between;
     const rewound = erased + PH_REWIND.settle;
-    const leaves = rewound + PH_REWIND.pause;
-    const writes = 150 + PH_PACE.pull;
+    const leaves = rewound + PH_REWIND.opens + PH_REWIND.pause;
+    const passes = leaves + PH_PACE.down;
+    const repasses = (PH.stack.layers - 1) * PH_PACE.again;   // the lighter pass before a line: from the bottom layer to the top one
+    const writes = repasses + PH_PACE.pull;
     const fits = writes + PH_LINES.easy.length * (PH_PACE.line + PH_PACE.pull) - PH_PACE.pull;
     const tries = 700;
-    const stops = tries + PH_PACE.stub;
+    const rises = tries + PH_PACE.down;
     const enters = 200;
     const types = enters + PH_PACE.hop;
     const written = types + PH_LINES.hard.length * (PH_PACE.line + PH_PACE.between);
     return Object.freeze({
-      unwinds, erased, rewound, leaves, decided: leaves + PH_PACE.around,
-      writes, fits, said: fits + 250 + PH_PACE.hop,
-      tries, stops, enters, types, written, answered: written + 100 + PH_PACE.hop,
+      unwinds, erased, rewound, leaves, passes, decided: passes + climbs + PH_PACE.decides,
+      repasses, writes, fits, said: fits + 250 + PH_PACE.hop,
+      tries, rises, stops: rises + climbs + PH_PACE.stub,
+      enters, types, written, answered: written + 100 + PH_PACE.hop,
     });
   })();
 
@@ -828,21 +889,32 @@
           ${tip ? `<path class="p2-ph__way-head" d="M0 0L-16 -9L-16 9Z" transform="translate(${tip[0]} ${tip[1]}) rotate(${tip[2]})"/>` : ''}
         </g>`;
   };
-  // One row: the prompt, the written reasoning, the answer, each with its name on its top
-  // border. `key` is 'easy' (the hinted run) or 'hard' (the product). The reasoning box
-  // holds a slot that says that nothing is written yet, and one line per sentence, typed
-  // left to right. In the top row a line also has a caret and, from the caret to the
-  // box's right edge, the end of the thread that ties it to the answer inside the model:
-  // the thread fills what is left of the line, so it gets shorter as the line is typed, in
-  // any font. The answer tile is slide 5's: an open face, "?", and the answer behind it.
-  // On the top border of the reasoning and on the bottom border of the answer, a chip
-  // says what happened there and when. The top row's first box has two names in one
-  // place, of which one shows at a time (PH_TEXT.recalled, then PH_TEXT.rows.easy), and
-  // between its reasoning and its answer a rewind mark, two arrowheads that point back
-  // toward the prompt, which shows only while the run is rewound.
+  // The lower lane of a row, behind everything else: the band of what happens inside the
+  // model, and on its top edge the line between the two lanes.
+  const phModelHtml = (key) => `<div class="p2-ph__model" data-under="${key}"><i class="p2-ph__seam"></i></div>`;
+  // One row. `key` is 'easy' (the hinted run) or 'hard' (the product).
+  // Upper lane: the prompt, the written reasoning, the answer, each with its name on its
+  // top border. The reasoning box holds a slot that says that nothing is written yet, and
+  // one line per sentence, typed left to right. In the top row a line also has a caret
+  // and, from the caret to the box's right edge, the end of the thread that ties it to the
+  // answer inside the model: the thread fills what is left of the line, so it gets shorter
+  // as the line is typed, in any font. The answer tile is slide 5's: an open face, "?",
+  // and the answer behind it. On the top border of the reasoning and on the bottom border
+  // of the answer, a chip says what happened there and when. The top row's first box has
+  // two names in one place, of which one shows at a time (PH_TEXT.recalled, then
+  // PH_TEXT.rows.easy), and between its reasoning and its answer a rewind mark, two
+  // arrowheads that point back toward the prompt, which shows only while the run is
+  // rewound.
+  // On the line between the lanes: their two names, each with an arrowhead toward its lane.
+  // Lower lane: the stack of layers, top layer first, and the light that goes up through
+  // it; beside the stack what that is (top row, with an arrow that points up) or why no
+  // answer comes of it (bottom row); and at the right end the capsule of the answer
+  // decided inside: lit and holding the option in the top row, dashed and empty in the
+  // bottom row.
   const phRowHtml = (key) => {
     const easy = key === 'easy';
     const order = (what) => kit.flag({ key: `ph-${key}-${what}`, text: PH_TEXT.order[key][what] });
+    const side = (which) => `<span class="p2-ph__side" data-side="${which}"><i></i>${PH_TEXT.sides[which]}</span>`;
     return `
       <div class="p2-ph__row" data-row="${key}" data-tone="${easy ? 'hidden' : 'read'}">
         <div class="p2-ph__prompt">
@@ -875,33 +947,42 @@
     : `<span class="p2-hint__verdict p2-hint__verdict--ok">${HINT_TEXT.verdicts.ok}</span>`}
           </div>
         </div>
+        <div class="p2-ph__sides">${side('page')}${side('model')}</div>
+        <div class="p2-ph__stack">
+          ${util.range(PH.stack.layers).map((i) => `<i data-layer="${PH.stack.layers - 1 - i}"></i>`).join('')}
+          <b class="p2-ph__scan"></b>
+        </div>
+        <span class="p2-ph__pass">${easy ? '<i></i>' : ''}${PH_TEXT.pass[key]}</span>
+        <div class="p2-ph__inside" data-inside="${key}">${easy ? `<b>(${PH_PICK.letter})</b>` : ''}<span>${PH_TEXT.order[easy ? 'inside' : 'closed']}</span></div>
       </div>`;
   };
 
   const phHtml = () => `
     <div class="p2-ph"><div class="p2-ph__box">
-      <svg class="p2-ph__art" viewBox="0 0 1728 624" width="1728" height="624" aria-hidden="true">
+      ${phModelHtml('easy')}
+      ${phModelHtml('hard')}
+      <svg class="p2-ph__art" viewBox="0 0 1728 632" width="1728" height="632" aria-hidden="true">
         ${Object.keys(PH_WAYS).map(phWay).join('')}
         <g class="p2-ph__stub" data-tone="hidden">
           <path class="p2-ph__stub-route" d="${PH_STUB.d}"/>
           <path class="p2-ph__comet" pathLength="1" stroke-dasharray="${PH_STUB.pulse} 2" d="${PH_STUB.d}"/>
-          <path class="p2-ph__stop" d="M${PH_STUB.x - 12} ${PH_STUB.y - 12}l24 24m0 -24l-24 24"/>
+          <path class="p2-ph__stop" d="M${PH_STUB.x - 9} ${PH_STUB.y - 9}l18 18m0 -18l-18 18"/>
           <circle class="p2-ph__ring" cx="${PH_STUB.x}" cy="${PH_STUB.y}" r="6" opacity="0"/>
         </g>
       </svg>
       ${phRowHtml('easy')}
-      <div class="p2-ph__inside"><span>${PH_TEXT.order.inside}</span><b>(${PH_PICK.letter})</b></div>
-      <p class="p2-ph__lane" data-lane="easy">${PH_TEXT.lanes.easy}</p>
       <p class="p2-ph__said">“${phQuote()}” <span class="p2-ph__by">${PH_TEXT.by}</span></p>
+      <p class="p2-ph__monitor">${PH_TEXT.monitor}</p>
       ${phRowHtml('hard')}
-      <p class="p2-ph__lane" data-lane="hard">${PH_TEXT.lanes.hard}</p>
-      <div class="p2-ph__closed"><span>${PH_TEXT.order.closed}</span></div>
     </div></div>`;
 
   const phSetup = (ctx) => {
     const { dur } = ctx;
     const row = (key) => `[data-row="${key}"]`;
     const way = (key) => `[data-way="${key}"]`;
+    const model = (key) => `[data-under="${key}"]`;
+    const layer = (key, i) => `${row(key)} [data-layer="${i}"]`;
+    const inside = (key) => `[data-inside="${key}"]`;
     // A pulse of light runs along a path once.
     const run = (step, comet, pulse, at, ms, how = 'inOut') => {
       step.tween(comet, { opacity: [0, 1] }, { at, dur: 60 });
@@ -916,10 +997,50 @@
       if (PH_WAYS[key].tip) step.tween(`${way(key)} .p2-ph__way-head`, { opacity: [0, 1] }, { at: at + ms - 80, dur: dur.micro });
       return at + ms;
     };
+    // One pass: a light goes up through a row's stack of layers once, from the bottom
+    // layer to the top one. A bar of light travels up at an even pace, and each layer
+    // lights up as the bar reaches it and keeps half of its light afterward: the pass has
+    // been through it. Returns when the top layer is alight.
+    const pass = (step, key, at) => {
+      const scan = `${row(key)} .p2-ph__scan`;
+      const climb = (PH.stack.layers - 1) * PH_PACE.layer;
+      step.tween(scan, { opacity: [0, 1] }, { at, dur: 80 });
+      step.tween(scan, { y: [0, -(PH.stack.layers - 1) * PH.stack.pitch] }, { at, dur: climb, ease: 'linear' });
+      step.tween(scan, { opacity: [1, 0] }, { at: at + climb + 60, dur: dur.micro });
+      util.range(PH.stack.layers).forEach((i) => {
+        const lit = at + i * PH_PACE.layer;
+        step.tween(layer(key, i), { '--lit': [0, 1] }, { at: lit, dur: 160 });
+        step.tween(layer(key, i), { '--lit': [1, PH_PASSED] }, { at: lit + 400, dur: dur.move });
+      });
+      return at + climb + 160;
+    };
+    // One more pass, a lighter one: the light goes up through the top row's stack again,
+    // quickly and at half strength, each layer lights up a little as it is reached and
+    // falls back to the light it kept, and the way out of the stack lights up toward the
+    // answer inside. It goes before each line of the reasoning at click 2: the pass of
+    // click 1 is not the only one, the model makes a pass for every word it writes, and
+    // each of them still ends at (A). A line stands for its words: one pass a line is
+    // drawn, not one a word, so that the stack does not flicker. Returns when the top
+    // layer is reached.
+    const repass = (step, at) => {
+      const scan = `${row('easy')} .p2-ph__scan`;
+      const climb = (PH.stack.layers - 1) * PH_PACE.again;
+      step.tween(scan, { y: [0, -(PH.stack.layers - 1) * PH.stack.pitch] }, { at, dur: climb, ease: 'linear' });
+      step.tween(scan, { opacity: [0, PH_AGAIN.scan] }, { at, dur: 60 });
+      step.tween(scan, { opacity: [PH_AGAIN.scan, 0] }, { at: at + climb, dur: 120 });
+      util.range(PH.stack.layers).forEach((i) => {
+        const lit = at + i * PH_PACE.again;
+        step.tween(layer('easy', i), { '--lit': [PH_PASSED, PH_AGAIN.layer] }, { at: lit, dur: 80 });
+        step.tween(layer('easy', i), { '--lit': [PH_AGAIN.layer, PH_PASSED] }, { at: lit + 120, dur: 300 });
+      });
+      step.tween(way('decides'), { '--taut': [0, PH_AGAIN.way] }, { at: at + climb, dur: 80 });
+      step.tween(way('decides'), { '--taut': [PH_AGAIN.way, 0] }, { at: at + climb + 120, dur: 300 });
+      return at + climb;
+    };
     // The answer inside the model flashes and keeps a little of its light.
     const flash = (step, at) => {
-      step.tween('.p2-ph__inside', { '--lit': [PH_GLOWS, 1] }, { at, dur: 120 });
-      step.tween('.p2-ph__inside', { '--lit': [1, PH_GLOWS] }, { at: at + 200, dur: dur.enter });
+      step.tween(inside('easy'), { '--lit': [PH_GLOWS, 1] }, { at, dur: 120 });
+      step.tween(inside('easy'), { '--lit': [1, PH_GLOWS] }, { at: at + 200, dur: dur.enter });
     };
     // The answer is written: its box lights up in the color of the light that reached it,
     // the tile turns over from "?" to the answer and takes the hit, and what the answer is
@@ -937,19 +1058,21 @@
 
     // Enter: the hinted run of the last slide, as that slide left it: its prompt, the three
     // lines of its reasoning, written, and its answer, (A), wrong, under the name "Replay:
-    // the hinted run". Nothing moves and nothing is new: the step is there for the run to
-    // be known again (the last slide ended on its charts), and it stops on it. The second
-    // question is not shown yet: its place under this row is kept free, so nothing moves
-    // when its turn comes (click 4). The lines and the answer need no track here: the
-    // first value of the tracks that take them back at click 1 holds from the first frame.
+    // the hinted run". Only the page is there: the lower lane of the row is not open yet.
+    // Nothing moves and nothing is new: the step is there for the run to be known again
+    // (the last slide ended on its charts), and it stops on it. The second question is not
+    // shown yet: its place under this row is kept free, so nothing moves when its turn
+    // comes (click 4). The lines and the answer need no track here: the first value of the
+    // tracks that take them back at click 1 holds from the first frame.
     const enter = ctx.step({ label: 'the hinted run as the last slide left it: the reasoning written, the answer (A), wrong' });
     enter.show(`${row('easy')} .p2-ph__prompt`, { at: 150 });
     enter.show(`${row('easy')} .p2-ph__reason`, { at: 270 });
     enter.show(`${row('easy')} .p2-ph__answer`, { at: 390 });
 
-    // Click 1: the run is rewound, then replayed in the order in which it came about. One
-    // motion and one state at its end: the rewind says nothing by itself, it is the way
-    // from the run as written to the run as it happened.
+    // Click 1: the run is rewound, then replayed in the order in which it came about, with
+    // the inside of the model in view. One motion and one state at its end: the rewind
+    // says nothing by itself, it is the way from the run as written to the run as it
+    // happened.
     // The rewind, about 1.9 s, undoes the run in the reverse of the order in which a model
     // writes it. A rewind mark comes up between the reasoning and the answer, two
     // arrowheads that point back toward the prompt, and gives a push to the left with each
@@ -958,12 +1081,16 @@
     // start behind a plain caret (what is left of a line is always its beginning, never
     // its tail). The row's name changes to "Replay: in time order". When the last line is
     // gone the empty slot is back, "nothing written yet", and the mark leaves.
-    // Then, forward: the hint lights up, and a pulse of light runs from it under the
-    // empty box to the place under the row where (A) lights up: decided, inside the model.
-    // On the page nothing has changed: the slot in the box says that nothing is written
-    // yet, and the answer is still "?". Under the way, why it could go like this.
-    // (Until 2026-11-15 the row entered empty and the pulse ran in the entrance.)
-    const replay = ctx.step({ label: 'rewound, then replayed in time order: (A) lights up inside the model before a word is written' });
+    // Then the row opens downward: the line between the lanes is drawn from the left, its
+    // two names land on it, and under it the inside of the model comes up with its stack
+    // of layers, dark.
+    // Then, forward: the hint lights up, and a pulse of light goes from the prompt down
+    // across the line into the bottom layer. The light goes up through the stack once,
+    // layer by layer ("one pass per word written" comes up beside it as it starts),
+    // leaves the top layer and reaches the right end of the lane, where (A) lights up:
+    // decided, inside the model. On the page nothing has changed: the slot in the box says
+    // that nothing is written yet, and the answer is still "?".
+    const replay = ctx.step({ label: 'rewound, then replayed in time order: one pass through the layers, and (A) lights up inside the model before a word is written' });
     const mark = '.p2-ph__rewind';
     const undone = PH_LINES.easy.map((_, i) => PH_AT.unwinds + (PH_LINES.easy.length - 1 - i) * (PH_REWIND.line + PH_REWIND.between));
     replay.cls(row('easy'), 'p2-is-rewinding', { at: 0 });
@@ -987,31 +1114,41 @@
     replay.tween(`${row('easy')} .p2-ph__empty`, { opacity: [0, 1] }, { at: PH_AT.erased, dur: PH_REWIND.settle });
     replay.tween(mark, { opacity: [1, 0] }, { at: PH_AT.erased, dur: PH_REWIND.settle });
     replay.cls(row('easy'), 'p2-is-rewinding', { at: PH_AT.rewound, on: false });
+    // The lower lane opens.
+    replay.tween(model('easy'), { opacity: [0, 1] }, { at: PH_AT.rewound, dur: dur.enter });
+    replay.tween(`${model('easy')} .p2-ph__seam`, { '--open': [0, 1] }, { at: PH_AT.rewound, dur: PH_REWIND.opens - 100, ease: 'inOut' });
+    replay.tween(`${row('easy')} .p2-ph__side`, { opacity: [0, 1], scale: [0.8, 1] }, { at: PH_AT.rewound + 100, dur: dur.enter, ease: 'back', stagger: 120 });
+    replay.tween(`${row('easy')} .p2-ph__stack`, { opacity: [0, 1] }, { at: PH_AT.rewound + 200, dur: dur.enter });
+    // One pass, and the answer at its end.
     replay.tween('.p2-ph__hint', { '--glow': [0.3, 1] }, { at: PH_AT.leaves - 300, dur: 300 });
-    walk(replay, 'around', PH_AT.leaves, PH_PACE.around);
-    replay.tween('.p2-ph__inside', { opacity: [0, 1], scale: [0.7, 1] }, { at: PH_AT.decided - 60, dur: dur.enter, ease: 'back' });
-    replay.tween('.p2-ph__inside', { '--lit': [0, 1] }, { at: PH_AT.decided - 60, dur: 160 });
-    replay.tween('.p2-ph__inside', { '--lit': [1, PH_GLOWS] }, { at: PH_AT.decided + 400, dur: dur.move });
+    walk(replay, 'in-easy', PH_AT.leaves, PH_PACE.down);
+    replay.tween(`${row('easy')} .p2-ph__pass`, { opacity: [0, 1] }, { at: PH_AT.passes, dur: dur.micro });
+    walk(replay, 'decides', pass(replay, 'easy', PH_AT.passes), PH_PACE.decides);
+    replay.tween(inside('easy'), { opacity: [0, 1], scale: [0.85, 1] }, { at: PH_AT.decided - 60, dur: dur.enter, ease: 'back' });
+    replay.tween(inside('easy'), { '--lit': [0, 1] }, { at: PH_AT.decided - 60, dur: 160 });
+    replay.tween(inside('easy'), { '--lit': [1, PH_GLOWS] }, { at: PH_AT.decided + 400, dur: dur.move });
     replay.tween('.p2-ph__hint', { '--glow': [1, 0.45] }, { at: PH_AT.decided + 300, dur: dur.enter });
     replay.cls(`${row('easy')} .p2-ph__empty`, 'is-loud', { at: PH_AT.decided + 300 });
     replay.tween(`${row('easy')} .p2-ph__empty`, { scale: [1, 1.06] }, { at: PH_AT.decided + 300, dur: 140 });
     replay.tween(`${row('easy')} .p2-ph__empty`, { scale: [1.06, 1] }, { at: PH_AT.decided + 440, dur: 260 });
-    replay.show('[data-lane="easy"]', { at: PH_AT.decided + 700, rise: 0 });
     replay.hold(300);
 
     // Click 2: now the reasoning is written, as a model writes it: top to bottom, left to
-    // right. Before a line, a thread comes from the answer inside the model, up between
-    // the two boxes and along the line's place to where the line starts; the line is typed
-    // toward it and the thread gets shorter. When the three lines stand, the reasoning
-    // gets its chip and the title its second half; then a pulse goes from the answer
-    // inside into the answer box, and (A) is written, last. One state: the run's output in
-    // the order in which a model writes it, the reasoning and then the answer.
+    // right. Before a line, the light goes up through the stack once more, lightly (see
+    // `repass`: writing takes passes too, and they still end at (A)); the answer inside
+    // flashes, and a thread comes from it, up across the
+    // line between the lanes, between the two boxes and along the line's place to where
+    // the line starts; the line is typed toward it and the thread gets shorter. When the
+    // three lines stand, the reasoning gets its chip and the title its second half; then a
+    // pulse goes from the answer inside up into the answer box, and (A) is written, last.
+    // One state: the run's output in the order in which a model writes it, the reasoning
+    // and then the answer.
     const write = ctx.step({ label: 'the reasoning is written line by line, each line drawn to the answer inside; then (A) is written' });
     write.tween(`${row('easy')} .p2-ph__empty`, { opacity: [1, 0] }, { at: 0, dur: dur.micro });
     PH_LINES.easy.forEach((text, i) => {
       const at = PH_AT.writes + i * (PH_PACE.line + PH_PACE.pull);
       const line = `[data-line="easy-${i}"]`;
-      flash(write, at - PH_PACE.pull);
+      flash(write, repass(write, at - PH_PACE.pull - PH_AT.repasses));
       walk(write, `pull-${i}`, at - PH_PACE.pull, 150);
       write.tween(`${line} .p2-ph__pull`, { '--reach': [0, 1] }, { at: at - 100, dur: 100, ease: 'linear' });
       write.tween(`${line} .p2-ph__caret`, { '--caret': [0, 1] }, { at: at - 60, dur: 60 });
@@ -1026,47 +1163,60 @@
     placed(write, 'easy', 'answer', PH_AT.said + 500);
 
     // Click 3: the paper's name for it, in the paper's sentence, under the row. Its term
-    // lands with a pop; the way that the hint took and the answer it led to light up once
-    // more, so that the eye goes from the name to what it names.
+    // lands with a pop; the layers, the way out of them and the answer it led to light up
+    // once more, from the bottom up, so that the eye goes from the name to what it names.
     const name = ctx.step({ label: 'the paper’s name for it: a post-hoc rationalization' });
     name.show('.p2-ph__said', { at: 100, rise: 0 });
     name.tween('.p2-ph__said b', { scale: [1.2, 1] }, { at: 300, dur: dur.enter, ease: 'back' });
-    name.tween(way('around'), { '--taut': [0, 1] }, { at: 500, dur: dur.micro });
-    name.tween(way('around'), { '--taut': [1, 0] }, { at: 900, dur: dur.move });
-    name.tween('.p2-ph__inside', { '--lit': [PH_GLOWS, 1] }, { at: 500, dur: dur.micro });
-    name.tween('.p2-ph__inside', { '--lit': [1, PH_GLOWS] }, { at: 900, dur: dur.move });
+    util.range(PH.stack.layers).forEach((i) => {
+      name.tween(layer('easy', i), { '--lit': [PH_PASSED, 1] }, { at: 500 + i * 60, dur: dur.micro });
+      name.tween(layer('easy', i), { '--lit': [1, PH_PASSED] }, { at: 900 + i * 60, dur: dur.move });
+    });
+    name.tween(way('decides'), { '--taut': [0, 1] }, { at: 600, dur: dur.micro });
+    name.tween(way('decides'), { '--taut': [1, 0] }, { at: 1000, dur: dur.move });
+    name.tween(inside('easy'), { '--lit': [PH_GLOWS, 1] }, { at: 700, dur: dur.micro });
+    name.tween(inside('easy'), { '--lit': [1, PH_GLOWS] }, { at: 1100, dur: dur.move });
     name.hold(200);
 
-    // Click 4: the question that needs its steps arrives, with the same three boxes as the
-    // row above. The pulse tries the way under the
-    // row once more and stops under the empty box: too many steps for one pass (the reason
-    // stands where the way starts, under the question), and where the top row's capsule
-    // is, an empty dashed one says what follows: "cannot be decided first". The step
-    // ends on that: the way around the words is closed, and the box is still empty (until
-    // SPEC.md section 7.30 the light went through the box in the same click, 0.7 s later).
-    // The paper's sentence stays between the two rows until the end: it is what the slide
-    // has for "the answer can be decided first" (after the tenth cold read it left as this
-    // row arrived, and both readers of the eleventh missed it).
-    const stuck = ctx.step({ label: 'a question that needs its steps: the way around the words stops' });
-    stuck.tween(row('hard'), { opacity: [0, 1] }, { at: 0, dur: dur.enter });
-    stuck.tween('.p2-ph__stub-route', { opacity: [0, 1] }, { at: PH_AT.tries + 150, dur: PH_PACE.stub - 150 });
-    run(stuck, '.p2-ph__stub .p2-ph__comet', PH_STUB.pulse, PH_AT.tries, PH_PACE.stub, 'out');
+    // Click 4: the question that needs its steps arrives, with the same two lanes as the
+    // row above: three boxes on the page, and the stack of layers inside the model. The
+    // prompt goes down into the stack and the light goes up through every layer, as in
+    // the row above; but the way out of the top layer stops at a cross, short of the place
+    // where the row above has its answer: too many steps for one pass (the reason comes up
+    // beside the stack), and in that place an empty dashed capsule says what follows:
+    // "cannot be decided inside". The step ends on that: nothing is decided inside, and on
+    // the page the box is still empty (until SPEC.md section 7.30 the light went through
+    // the box in the same click, 0.7 s later). The paper's sentence stays between the two
+    // rows until the end of the next click: it is what the slide has for "the answer can be decided inside"
+    // (after the tenth cold read it left as this row arrived, and both readers of the
+    // eleventh missed it).
+    const stuck = ctx.step({ label: 'a question that needs its steps: one pass through the layers is not enough, nothing is decided inside' });
+    stuck.tween(`${row('hard')}, ${model('hard')}`, { opacity: [0, 1] }, { at: 0, dur: dur.enter });
+    walk(stuck, 'in-hard', PH_AT.tries, PH_PACE.down);
+    const through = pass(stuck, 'hard', PH_AT.rises);
+    stuck.tween('.p2-ph__stub-route', { opacity: [0, 1] }, { at: through + 150, dur: PH_PACE.stub - 150 });
+    run(stuck, '.p2-ph__stub .p2-ph__comet', PH_STUB.pulse, through, PH_PACE.stub, 'out');
     stuck.tween('.p2-ph__ring', { opacity: [0, 1] }, { at: PH_AT.stops - 40, dur: 40 });
     stuck.tween('.p2-ph__ring', { 'attr:r': [6, 36] }, { at: PH_AT.stops - 40, dur: 500 });
     stuck.tween('.p2-ph__ring', { opacity: [1, 0] }, { at: PH_AT.stops + 60, dur: 400 });
     stuck.tween('.p2-ph__stop', { opacity: [0, 1] }, { at: PH_AT.stops, dur: 80 });
     stuck.tween('.p2-ph__stop', { scale: [1, 1.5] }, { at: PH_AT.stops, dur: 120 });
     stuck.tween('.p2-ph__stop', { scale: [1.5, 1] }, { at: PH_AT.stops + 120, dur: 300 });
-    stuck.show('[data-lane="hard"]', { at: PH_AT.stops + 100, rise: 0 });
-    stuck.tween('.p2-ph__closed', { opacity: [0, 1], scale: [0.9, 1] }, { at: PH_AT.stops + 250, dur: dur.enter, ease: 'back' });
+    stuck.tween(`${row('hard')} .p2-ph__pass`, { opacity: [0, 1] }, { at: PH_AT.stops + 100, dur: dur.enter });
+    stuck.tween(inside('hard'), { opacity: [0, 1], scale: [0.9, 1] }, { at: PH_AT.stops + 250, dur: dur.enter, ease: 'back' });
     stuck.hold(300);
 
-    // Click 5: the light goes through the box. It enters the reasoning, each line is typed
-    // and lights up, and only when the last one stands does the answer land. The
+    // Click 5: the light goes through the page. It enters the reasoning, each line is
+    // typed and lights up, and only when the last one stands does the answer land. The
     // reasoning's chip says that the answer was worked out there, the answer's that it was
     // written last, as in the top row. No line under the row: the chip and the last cue
     // say it (until the tenth cold read a line under the row said it a third time).
-    const need = ctx.step({ label: 'the light goes through the words: the answer is worked out in them' });
+    // When the answer has landed, the slide's point about the two rows takes the place of
+    // the paper's sentence between the rows: the sentence leaves, and "A monitor sees
+    // only the page: in both rows, reasoning first, answer last." (PH_TEXT.monitor) comes
+    // up there, in the teal of the page. (The coordinator's ruling of 2026-11-15: not in a
+    // lower lane, where everything is inside the model. SPEC.md section 7.33.)
+    const need = ctx.step({ label: 'the light goes through the words on the page: the answer is worked out in them' });
     need.tween(`${row('hard')} .p2-ph__empty`, { opacity: [1, 0] }, { at: PH_AT.enters, dur: dur.micro });
     walk(need, 'into', PH_AT.enters, PH_PACE.hop);
     need.cls(`${row('hard')} .p2-ph__reason`, 'is-lit', { at: PH_AT.types });
@@ -1079,6 +1229,12 @@
     walk(need, 'out', PH_AT.written + 100, PH_PACE.hop);
     lands(need, 'hard', PH_AT.answered);
     placed(need, 'hard', 'answer', PH_AT.answered + 500);
+    // Last, what the two rows come to: the paper's sentence leaves (it has been read since
+    // click 3), and when it is gone the note on the monitor comes up in its place between
+    // the rows, in the teal of the page: no frame has both to read. Both are over before
+    // the answer box has settled, so the step is as long as it was.
+    need.tween('.p2-ph__said', { opacity: [1, 0] }, { at: PH_AT.answered + 500, dur: dur.micro });
+    need.tween('.p2-ph__monitor', { opacity: [0, 1] }, { at: PH_AT.answered + 500 + dur.micro, dur: dur.enter });
     need.hold(300);
   };
 
@@ -1088,7 +1244,8 @@
     // The first half stands from the first frame and is what the replay of click 1 shows; the
     // second half arrives when the reasoning has been written, at click 2 (phSetup), and the
     // comma with it: until then the title is a whole sentence, "Sometimes the answer comes
-    // first" (it ended in the comma until the ninth cold read, and looked cut off).
+    // first" (it ended in the comma until the ninth cold read, and looked cut off). Where
+    // "first" is, the picture says: in the lower lane, "inside the model".
     title: 'Sometimes the answer comes first<span class="p2-late">, and the reasoning is written to fit it</span>',
     cues: [
       // When (A) lights up inside the model, under a box that is empty again: at click 1,
@@ -1096,10 +1253,10 @@
       { text: 'The hint can decide the answer before a word is written', step: 1, at: PH_AT.decided },
       // As the first line starts to be typed.
       { text: 'The reasoning is then written to reach that answer', step: 2, at: PH_AT.writes },
-      // When the way under the row that needs its steps has stopped. Said of today's large
-      // models, in the words of slide 7's main line ("Today’s large models still need
-      // written reasoning for hard problems"): until 2026-11-13 it read "today’s models
-      // have no way around the words", which a listener set against slide 7's title,
+      // When the way out of the layers has stopped in the row that needs its steps. Said of
+      // today's large models, in the words of slide 7's main line ("Today’s large models
+      // still need written reasoning for hard problems"): until 2026-11-13 it read "today’s
+      // models have no way around the words", which a listener set against slide 7's title,
       // "Small models can learn to reason without words".
       { text: 'Many steps: today’s large models still have to write them out', step: 4, at: PH_AT.stops },
     ],
@@ -1173,12 +1330,15 @@
       state: 'Internal state: a list of numbers, not a word, fed back in',
     }),
     answer: 'Answer',
-    // Beside the first column, along it: what a column of the machine is. "One pass" is
-    // slide 3's term (its first cue: "One pass through the layers") and slide 6's ("a
-    // single run through the model’s layers"). Until 2026-11-13 nothing on this slide said
-    // it, and the speaker had to. Short enough to stay within the column's height in the
-    // widest font set ("each column is one pass" runs 16 px past either end in Verdana).
-    column: 'a column is one pass',
+    // Over the first columns, under the run's caption: what a column of the machine is.
+    // "One pass through the layers" is slide 3's first cue word for word, and the pass is
+    // the one that slide 6 draws as a light going up through its stack of layers (its
+    // label there: "one pass per word written"): a column here is that stack, one for each
+    // token. Until 2026-11-13 nothing on this slide said it, and the speaker had to; from
+    // then until the cold read of 2026-11-15 (SPEC.md section 7.33) it read "a column is
+    // one pass", set along the first column from the bottom up in gray, which a reader
+    // found hard to read and did not connect with slide 6's layers.
+    column: 'a column = one pass through the layers',
     // The answer box of the run that feeds its internal state back: a note, in the face of
     // a note, on what this run writes, the answer and nothing else (the band under the
     // machine and the card say the same). No value: this model's numbers are from two
@@ -1241,8 +1401,12 @@
   // The slide's main line, one sentence shorter since the eleventh cold read: the end
   // state of its click was read as too dense, and what the line went on to say ("That is
   // what makes monitoring fragile.") is the last clause of Part 2's conclusion, one click on.
+  // Its last clause names its subject, "a large model built like this": it read "one built
+  // like this" until the cold read of 2026-11-15 (SPEC.md section 7.33), and a listener
+  // could not tell what "one" stood for. The facts behind it are the same ('korbak.latent',
+  // 'korbak.future').
   const holdsHtml = () => `<p class="p2-dots__holds">These are small models, trained for it. Today’s large models still
-          <b>need written reasoning</b> for hard problems; one built like this might not.</p>`;
+          <b>need written reasoning</b> for hard problems; a large model built like this might not.</p>`;
   const DOTS = Object.freeze({
     shape: Object.freeze({ cols: 8, rows: 4 }),
     tokens: Object.freeze(['Q', 'first', 'sum', 'each', 'pair', 'then', 'check', 'so']),
@@ -1260,7 +1424,7 @@
     lanes: Object.freeze({ top: 56, step: 8 }),   // where the gathering arcs run, between the two top layers
     skip: 12,      // the run that answers at once: how high its way from the question to the answer runs, above the top nodes (at 40)
     ghost: 0.15,   // what is left of a column that the run on screen does not have
-    note: 42,      // the note on what a column is: how far left of the first column's middle its own middle runs
+    note: Object.freeze({ left: 12, up: 42 }),   // the note on what a column is: where it starts, left of the first column's middle, and how far above the top nodes' middle its own middle runs
     glyph: Object.freeze({ w: 24, h: 72, cell: Object.freeze({ w: 14, h: 11, pitch: 16 }), cells: 4 }),   // the internal state: a column of cells
   });
   const dotPoint = (col, row) => kit.latticePoint(DOTS.shape, col, row);
@@ -1411,12 +1575,14 @@
     ]),
   });
 
-  // What a column is, written along the first one, to its left, where no way of any run
-  // passes: it reads from the bottom up, as the label of an axis does.
+  // What a column is, in one line that starts over the first column, between the run's
+  // caption and the top nodes, in the face and the amber of the label beside slide 6's
+  // stack of layers. The one way that passes there is the line of the run that answers at
+  // once, from the question's column over the others to the answer (click 1): the note is
+  // not shown in that run (dotsSetup).
   const columnNoteHtml = () => {
-    const low = dotPoint(0, 0);
-    const high = dotPoint(0, DOTS.shape.rows - 1);
-    return `<text class="p2-dots__column-note" transform="translate(${low.x - DOTS.note} ${(low.y + high.y) / 2}) rotate(-90)">${DOTS_TEXT.column}</text>`;
+    const top = dotPoint(0, DOTS.shape.rows - 1);
+    return `<text class="p2-dots__column-note" x="${top.x - DOTS.note.left}" y="${top.y - DOTS.note.up}">${DOTS_TEXT.column}</text>`;
   };
 
   const dotsHtml = () => {
@@ -1642,6 +1808,8 @@
       base.tween(`[data-token="${col}"]`, { opacity: [1, 0] }, { at: 200, dur: dur.enter });
     });
     base.tween('.p2-dots__out', { opacity: [1, DOTS.ghost] }, { at: 200, dur: dur.enter });
+    // The note on what a column is gives its place to this run's line to the answer.
+    base.tween('.p2-dots__column-note', { opacity: [1, 0] }, { at: 200, dur: dur.micro });
     base.tween('.p2-dots__readout', { opacity: [1, 0.3] }, { at: 200, dur: dur.enter });
     base.tween('[data-band="none"]', { opacity: [0, 1] }, { at: 500, dur: dur.enter });
     rise(base, 0, DOTS_AT.alone);
@@ -1665,6 +1833,7 @@
     fill.tween('.p2-dots__skip', { opacity: [1, 0] }, { at: 0, dur: dur.micro });
     fill.tween('[data-band="none"]', { opacity: [1, 0] }, { at: 0, dur: dur.micro });
     fill.tween('.p2-dots__out', { opacity: [DOTS.ghost, 1] }, { at: 300, dur: dur.enter });
+    fill.tween('.p2-dots__column-note', { opacity: [0, 1] }, { at: 300, dur: dur.enter });
     fill.tween('.p2-dots__readout', { opacity: [0.3, 1] }, { at: 300, dur: dur.enter });
     way(fill, 'none', 'dots', 200);
     thinking.forEach((col, k) => {
