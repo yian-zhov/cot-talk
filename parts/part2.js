@@ -791,8 +791,12 @@
     // Under that line, from the same moment: what follows from it, the slide's last
     // sentence, which the speaker said from memory until 2026-11-16 (SPEC.md section 7.35).
     // It is said of the page alone ('p2.emmons_confabulate': the reason given "may or may
-    // not be an accurate description of the steps it actually took").
-    cannot: 'It can’t tell which reasoning did the work.',
+    // not be an accurate description of the steps it actually took"). It takes up the
+    // title, "Sometimes the answer can come first": with the same order on the page in
+    // both rows, the monitor cannot tell whether that happened. Until the user's ruling of
+    // 2026-11-16 (SPEC.md section 7.41) it read "It can’t tell which reasoning did the
+    // work.", which the user found vague.
+    cannot: 'It can’t tell if the answer came first.',
     // In the same place between the rows, from the entrance until the paper's sentence
     // takes it at click 3: the question that the replay answers, in the words the speaker
     // opens the slide with (2026-11-16, SPEC.md section 7.35). It began "Same run." until
@@ -1342,8 +1346,8 @@
     // the paper's sentence between the rows: the sentence leaves, and after a beat "A
     // monitor reading only the reasoning: in both rows, reasoning first, answer last."
     // (PH_TEXT.monitor) comes up there, in the teal of what a monitor reads, and 0.7 s
-    // later what follows from it on a second line, "It can’t tell which reasoning did the
-    // work." (PH_TEXT.cannot, since 2026-11-16). (The coordinator's ruling of 2026-11-15:
+    // later what follows from it on a second line, "It can’t tell if the answer came
+    // first." (PH_TEXT.cannot, since 2026-11-16). (The coordinator's ruling of 2026-11-15:
     // not in a lower lane, where everything is inside the model. SPEC.md section 7.33.)
     const need = ctx.step({ label: 'the light goes through the words on the page: the answer is worked out in them' });
     need.tween(`${row('hard')} .p2-ph__empty`, { opacity: [1, 0] }, { at: PH_AT.enters, dur: dur.micro });
